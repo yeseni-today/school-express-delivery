@@ -1,6 +1,8 @@
 package com.delivery.event;
 
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,13 +10,15 @@ import java.util.List;
 /**
  * Created by finderlo on 15/04/2017.
  * 事件发布系统
+ * @author finderlo
  */
-public class EventPublishSystem implements EventRegister, EventPublisher {
+@Component
+public class EventManagerImpl implements EventManager {
 
     private HashMap<Event, List<EventExecutor>> events = new HashMap<>();
 
 
-    public EventPublishSystem() {
+    public EventManagerImpl() {
         initEvent();
     }
 
@@ -29,6 +33,7 @@ public class EventPublishSystem implements EventRegister, EventPublisher {
      *
      * @param event    事件
      * @param executor 事件发生时的执行器
+     *                 @author finderlo
      */
     @Override
     public void register(Event event, EventExecutor executor) {
@@ -41,6 +46,7 @@ public class EventPublishSystem implements EventRegister, EventPublisher {
      *
      * @param event   事件
      * @param context 事件相关的上下文信息
+     *                @author finderlo
      */
     @Override
     public void publish(Event event, EventContext context) {

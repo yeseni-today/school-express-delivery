@@ -12,4 +12,6 @@ public class UserConstant {
     public static final String USER_PASSWORD = "user_password";
 
     public static final String USER_ACTION_TYPE = "user_action_type";
+
+    public static final String EVENT_USER_REGISTER_USERENTITY = "event_user_register_user_entity";
 }

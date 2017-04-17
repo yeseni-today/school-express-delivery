@@ -5,15 +5,27 @@ package com.delivery.common.response;
  */
 public class Response {
 
-
+    /**
+     * 错误码
+     */
     private int error_code;
 
+    /**
+     * 描述
+     */
     private String message;
 
+    /**
+     * 返回信息
+     */
     private Object content;
 
+    /**
+     * @author finderlo
+     * @date 17/04/2017
+     */
     private Response(ErrorCode errorCode) {
-        this(errorCode,null);
+        this(errorCode, null);
     }
 
     private Response(ErrorCode errorCode, Object content) {
@@ -49,7 +61,7 @@ public class Response {
         return new Response(ErrorCode.DEFAULT_ERROR);
     }
 
-    public static Response error(ErrorCode errorCode){
+    public static Response error(ErrorCode errorCode) {
         return new Response(errorCode);
     }
 

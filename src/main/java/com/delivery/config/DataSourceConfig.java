@@ -14,13 +14,14 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+/**
+ * @author finderlo
+ * @date 17/04/2017
+ */
 @Configuration
 @PropertySource(value = "classpath:/finderlo_jdbc.properties")
 @Profile({"default", "finderlo"})
 @EnableTransactionManagement
-/**
- * Created by finderlo on 2017/4/7.
- */
 public class DataSourceConfig {
 
 
@@ -79,4 +80,4 @@ public class DataSourceConfig {
     //</editor-fold>
 //    }
 
-} // class DatabaseConfig
+}

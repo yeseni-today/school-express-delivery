@@ -6,5 +6,10 @@ package com.delivery.user;
 public enum UserActionType {
     REGISTER,
     CHECK_LOGIN,
-    UNKNOWN, LOGIN
+    LOGIN,
+    DEGRADE,
+    UPGRADE,
+    FIND,
+    UNKNOWN
+
 }

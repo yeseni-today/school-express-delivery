@@ -34,6 +34,7 @@ public abstract class AbstractReadDao<T>  {
         return T;
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> findAll() {
         Session session = sessionFactory.getCurrentSession();
         List<T> tList = session.createQuery("from " + bindClassName()).list();
@@ -57,6 +58,7 @@ public abstract class AbstractReadDao<T>  {
         return findBy(new String[]{key}, new String[]{value}, isLikeQuery);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> findBy(String[] keys, String[] values, boolean isLikeQuery) {
 
         if (keys == null || values == null || keys.length == 0 || values.length == 0) {
@@ -111,7 +113,7 @@ public abstract class AbstractReadDao<T>  {
         return tList.get(0);
     }
 
-    protected String jointLikeQuery(String[] keys, String[] values, boolean isLikeQuery) {
+    private String jointLikeQuery(String[] keys, String[] values, boolean isLikeQuery) {
 //        String hql = " from UsersEntity e where e.usersName like 'xiao%' and e.usersPassword like 'psd%'";
         String head = "from " + bindClassName();
 
@@ -148,7 +150,7 @@ public abstract class AbstractReadDao<T>  {
         return hqlbuilder.toString();
     }
 
-    protected String jointHqlByIdsQuery(Map<String, String> idAndValues) {
+    private String jointHqlByIdsQuery(Map<String, String> idAndValues) {
 
         String hql = " from " + bindClassName() + " e where ";
         StringBuilder hqlbuilder = new StringBuilder();
@@ -166,11 +168,11 @@ public abstract class AbstractReadDao<T>  {
         return hql + hqlbuilder.toString();
     }
 
-    protected String bindClassName() {
+    private String bindClassName() {
         return bindClass().getSimpleName();
     }
 
-    protected List<String> getIds() {
+    private List<String> getIds() {
         if (ids.isEmpty()) {
             findIds();
         }
@@ -184,7 +186,7 @@ public abstract class AbstractReadDao<T>  {
         return id;
     }
 
-    protected void findIds() {
+    private void findIds() {
         ids.clear();
         Method[] methods = bindClass().getDeclaredMethods();
         for (Method method : methods) {
@@ -202,7 +204,7 @@ public abstract class AbstractReadDao<T>  {
         }
     }
 
-    protected List<String> bindKeys() {
+    private List<String> bindKeys() {
         List<String> results = new ArrayList<>();
         for (Field field : bindClass().getDeclaredFields()) {
             results.add(field.getName());
@@ -210,7 +212,7 @@ public abstract class AbstractReadDao<T>  {
         return results;
     }
 
-    protected boolean isMoreId() {
+    private boolean isMoreId() {
         if (getIds().size() > 1) {
             return true;
         } else {
@@ -218,7 +220,8 @@ public abstract class AbstractReadDao<T>  {
         }
     }
 
-    protected Class bindClass() {
+    @SuppressWarnings("unchecked")
+    private Class bindClass() {
         Type sType = getClass().getGenericSuperclass();
         Type[] generics = ((ParameterizedType) sType).getActualTypeArguments();
         Class<T> mTClass = (Class<T>) (generics[0]);

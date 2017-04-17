@@ -12,29 +12,35 @@ import java.util.Map;
 @Component
 public class TokenHandler {
 
-    private Map<String,UsersEntity> tokens = new HashMap<>();
+    private Map<String, UsersEntity> tokens = new HashMap<>();
 
     /**
      * 判断Token是否正确，可以判断这个Token是否已经登陆
+     *
+     * @author finderlo
      */
-    public boolean isRight(String token){
+    public boolean isRight(String token) {
         return tokens.containsKey(token);
     }
 
     /**
      * 根据Token，来获得用户信息
+     *
+     * @author finderlo
      */
-    public UsersEntity getUser(String token){
+    public UsersEntity getUser(String token) {
         return tokens.get(token);
     }
 
     /**
      * 根据用户生成Token，并将Token保存起来（判断是否登陆）
+     *
+     * @author finderlo
      */
     public String getTokenAndLogin(UsersEntity usersEntity) {
         StringBuilder builder = new StringBuilder();
         builder.append(usersEntity.getUserId()).append("%%").append(usersEntity.getUserName());
-        tokens.put(builder.toString(),usersEntity);
+        tokens.put(builder.toString(), usersEntity);
         return builder.toString();
     }
 

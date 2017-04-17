@@ -19,7 +19,8 @@ public enum ErrorCode {
     USER_TOKEN_EXPIRY(90002, "Token已过期"),
     USER_ID_ISNULL(90003, "没有用户账号"),
     USER_INCORRECT_ID_OR_PSD(90004, "用户名或者密码不正确"),
-    USER_REGISTER_INCORRECT_INFO(90005, "注册信息不完全"), USER_UNKNOWN_TYPE(90006, "模块不支持这个操作");
+    USER_REGISTER_INCORRECT_INFO(90005, "注册信息不完全"),
+    USER_UNKNOWN_TYPE(90006, "模块不支持这个操作");
 
     String description;
     int code;

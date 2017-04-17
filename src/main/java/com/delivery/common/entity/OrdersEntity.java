@@ -1,5 +1,7 @@
 package com.delivery.common.entity;
 
+import com.delivery.order.OrderState;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -15,7 +17,9 @@ public class OrdersEntity {
     private String ordersGrade;
     private Double ordersCost;
     private String ordersRemark;
-    private String ordersState;
+
+    private OrderState ordersState;
+
     private String recipientId;
     private String replacementId;
     private String expressName;
@@ -88,11 +92,11 @@ public class OrdersEntity {
 
     @Basic
     @Column(name = "orders_state")
-    public String getOrdersState() {
+    public OrderState getOrdersState() {
         return ordersState;
     }
 
-    public void setOrdersState(String ordersState) {
+    public void setOrdersState(OrderState ordersState) {
         this.ordersState = ordersState;
     }
 
