@@ -3,6 +3,11 @@ package com.delivery.order;
 import com.delivery.common.action.Action;
 import com.delivery.common.action.ActionHandler;
 import com.delivery.common.action.ActionType;
+import com.delivery.common.dao.OrdersDao;
+import com.delivery.common.dao.OrdersLogDao;
+import com.delivery.common.entity.OrdersEntity;
+import com.delivery.common.entity.OrdersOperationLogEntity;
+import com.delivery.common.entity.UsersEntity;
 import com.delivery.common.response.Response;
 import com.delivery.dispatch.Dispatcher;
 import com.delivery.event.Event;
@@ -10,6 +15,14 @@ import com.delivery.event.EventContext;
 import com.delivery.event.EventPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
+
+import static com.delivery.common.response.ErrorCode.*;
+import static com.delivery.order.OrderUtil.*;
+import static com.delivery.order.OrderUtil.pushlishOrdersLog;
 
 /**
  * Created by finderlo on 17/04/2017.
@@ -20,6 +33,15 @@ public class OrderService implements ActionHandler, EventPublisher {
     @Autowired
     Dispatcher dispatcher;
 
+    @Autowired
+    OrdersDao ordersDao;
+
+    @Autowired
+    OrdersLogDao ordersLogDao;
+
+    @Autowired
+    TimelineMatcher timelineMatcher;
+
     /**
      * 能否执行Action
      *
@@ -27,7 +49,6 @@ public class OrderService implements ActionHandler, EventPublisher {
      */
     @Override
     public boolean canHandleAction(Action action) {
-        //todo
         return action.getType() == ActionType.ORDER;
     }
 
@@ -43,16 +64,36 @@ public class OrderService implements ActionHandler, EventPublisher {
     }
 
     /**
-     * 创建一个订单
+     * 能否创建一个订单:
+     * 1,检测信用值大于60
+     * 2,检查未完成订单数小于10
+     * 3,不存在申诉中的订单
      *
      * @param action 订单信息结构体
      *               订单类型
-     * @return success 返回订单信息；error 失败信息
+     * @return success 能；error 失败信息
      * @author finderlo
      */
-    public Response create(Action action) {
+    public Response check_create(Action action) {
         //todo
-        return null;
+        String userID = getUserID(action);
+
+        if (OrderUtil.getCredit(action, dispatcher) < 60) return Response.error(SYSTEM_LOWCREDIT);
+        if (getOrderCount(userID, 0) > 10) return Response.error(ORDER_CREATE_FAILED_MAX_ORDER_COUNT);
+        int count = ordersDao.findByIdAndState(userID, OrderState.COMPLAINING).size();
+        if (count != 0) return Response.error(ORDER_CREATE_EXIST_COMPLAINING_ORDER);
+
+        return Response.success();
+    }
+
+    public Response create(Action action) {
+        OrdersEntity order = getOrders(action, dispatcher);
+        ordersDao.save(order);
+        OrderUtil.pushlishOrdersLog(order.getOrdersId(), OrderState.WAIT_ACCEPT, ordersLogDao);
+        //todo 创建定时任务1 到达取件时间 没有接单 取消订单 设置状态为取消
+        //
+        //todo 发布创建成功事件
+        return Response.success();
     }
 
     /**
@@ -63,8 +104,7 @@ public class OrderService implements ActionHandler, EventPublisher {
      * @date 17/04/2017
      */
     public Response publish(Action action) {
-        //todo
-        //TODO 发布订单发布事件
+//         发布订单发布事件
         return null;
     }
 
@@ -72,12 +112,28 @@ public class OrderService implements ActionHandler, EventPublisher {
      * 查找订单
      *
      * @param action 查询条件，返回列表
+     *               管理员
      * @author finderlo
      * @date 17/04/2017
      */
     public Response find(Action action) {
-        //todo
-        return null;
+        Map<String, String> attr = getAttr(action);
+        List<OrdersEntity> orders = ordersDao.findBy(attr, true);
+        return Response.success(orders);
+    }
+
+    /**
+     * 查找当前用户当前订单
+     *
+     * @param action 查询条件，返回列表
+     *               用户
+     * @author finderlo
+     * @date 17/04/2017
+     */
+    public Response findByUsers(Action action) {
+        String userId = getUserID(action);
+        int state = getState(action);
+        return Response.success(getOyders(userId, state));
     }
 
     /**
@@ -88,9 +144,14 @@ public class OrderService implements ActionHandler, EventPublisher {
      * @date 17/04/2017
      */
     public Response timeline(Action action) {
-        //todo
-        //todo 使用TimelineMatcher来获取匹配的规则
-        return null;
+        if (getCredit(action, dispatcher) < 60) {
+            return Response.error(SYSTEM_LOWCREDIT);
+        }
+
+        UsersEntity user = getUser(action, dispatcher);
+        Map<String, String> attr = timelineMatcher.timelineCondition(user);
+        List<OrdersEntity> orders = ordersDao.findBy(attr, false);
+        return Response.success(orders);
     }
 
 
@@ -106,8 +167,27 @@ public class OrderService implements ActionHandler, EventPublisher {
         //todo
         //todo 使用OrderAccepter来判断代取人能否接单
 
+        //代取人ID
+        String replacementId = getUserID(action);
+
+        if (getOrderCount(replacementId, 0) > 10) return Response.error(ORDER_CREATE_FAILED_MAX_ORDER_COUNT);
+        int count = ordersDao.findByIdAndState(replacementId, OrderState.COMPLAINING).size();
+        if (count != 0) return Response.error(ORDER_CREATE_EXIST_COMPLAINING_ORDER);
+
+        OrdersEntity orders = ordersDao.findById(getOrdersId(action));
+
+        if (orders.getOrdersState().equals(OrderState.WAIT_ACCEPT)) {
+            synchronized (orders) {
+                if (orders.getOrdersState().equals(OrderState.WAIT_ACCEPT)) {
+                    orders.setOrdersState(OrderState.ACCEPTED);
+                    orders.setReplacementId(replacementId);
+                    pushlishOrdersLog(orders.getOrdersId(), OrderState.ACCEPTED, ordersLogDao);
+                } else return Response.error(ORDER_ALEADY_ACCEPTED);
+            }
+        } else return Response.error(ORDER_ALEADY_ACCEPTED);
         //TODO 发布订单接收事件
-        return null;
+        //TODO 创建时间事件 达到取件时间12小时后，取消订单，设置订单状态为取消
+        return Response.success();
     }
 
     /**
@@ -125,7 +205,13 @@ public class OrderService implements ActionHandler, EventPublisher {
      */
     public Response delivery(Action action) {
         //todo
-        return null;
+        OrdersEntity order = getOrders(action,dispatcher);
+        order.setOrdersState(OrderState.TAKE_PARCEL_WAIT_DELIVERY);
+        ordersDao.update(order);
+        OrderUtil.pushlishOrdersLog(order.getOrdersId(),OrderState.TAKE_PARCEL_WAIT_DELIVERY,ordersLogDao);
+        //todo 创建订单时间事件 到达预约时间24小时后  设置订单状态为已完成
+        // 预约时间
+        return Response.success();
     }
 
     /**
@@ -141,6 +227,16 @@ public class OrderService implements ActionHandler, EventPublisher {
         return null;
     }
 
+    /**
+     * @author lx
+     * 收件人确认订单
+     * @date 21/04/2017
+     */
+    public Response affirm(Action action){
+         //todo 收件人确认
+        //todo 创建时间事件 确认后12小时 设置订单状态为已完成 默认完美评价
+        return null;
+    }
 
     /**
      * 评价订单，订单必须处于待评价状态

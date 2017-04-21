@@ -8,6 +8,8 @@ package com.delivery.order;
  */
 public enum OrderState {
 
+    // -1 代表完成订单
+
     //等待接单
     WAIT_ACCEPT,
 
@@ -20,10 +22,10 @@ public enum OrderState {
     //已确认
     AFFIRMATIVE,
 
-    //待评价
+    //待评价 -1
     WAIT_COMMENT,
 
-    //已完成
+    //已完成 -1
     COMPLETED,
 
     //以取消
@@ -32,6 +34,6 @@ public enum OrderState {
     //申诉中
     COMPLAINING,
 
-    //已赔偿
+    //已赔偿 -1
     COMPENSATION
 }

@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.delivery.common.response.ErrorCode.*;
 import static com.delivery.user.UserUtils.*;
@@ -95,14 +97,20 @@ public class UserService implements ActionHandler, EventPublisher {
      * 查找用户，返回一个或多个用户
      *
      * @param action 查询条件
-     *               如果查询条件仅为一个主键，则返回一个对象，其他返回多个对象
+     *               手机号
+     *               返回多个对象List
      * @author finderlo
      * @date 17/04/2017
      * @see UserConstant#USER_ID
      */
     public Response find(Action action) {
-        //todo
-        return null;
+        String phone = getUserPhone(action);
+        if (phone.equals("")) return error(USER_NOT_EXIST_FIND_ARRT);
+
+        List<UsersEntity> users = usersDao.findByUserPhone(phone);
+        Map<String,Object> res = new HashMap<>();
+        res.put(USER_RES_USERS,users);
+        return success(res);
     }
 
     /**
@@ -136,8 +144,9 @@ public class UserService implements ActionHandler, EventPublisher {
         if (!validUser(userID, userpsd, user)) return error(USER_INCORRECT_ID_OR_PSD);
         //返回信息
         String token = tokenHandler.getTokenAndLogin(user);
-        HashMap<String, String> returnContent = new HashMap<>();
-        returnContent.put(USER_ID, userID);
+        HashMap<String, Object> returnContent = new HashMap<>();
+        user.setUserPassword(null);
+        returnContent.put(USER_RES_USERS, user);
         returnContent.put(USER_TOKEN, token);
         return success(returnContent);
     }

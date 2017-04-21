@@ -50,6 +50,10 @@ public class UserUtils {
         return (String) action.getOrDefault(USER_ID, "");
     }
 
+    @NotNull
+    static String getUserPhone(Action action){
+        return (String) action.getOrDefault(USER_PHONE,"");
+    }
     /**
      * 校验密码的正确性
      * @author finderlo

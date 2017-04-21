@@ -14,9 +14,12 @@ public interface Dispatcher {
 
     /**
      * @author finderlo
+     *
      */
     Response execute(Action action);
 
+    //todo 建立信用体系
+    //TODO TOKEN检查
     EventManager getEventManager();
 
 }

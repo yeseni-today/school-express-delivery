@@ -1,5 +1,6 @@
 package com.delivery.common.dao;
 
+import com.delivery.common.SedException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.delivery.common.response.ErrorCode.SYSTEM_PERSISTENT_INCORRECT_KEY;
 
 /**
  * Created by finderlo on 16-12-17.
@@ -68,7 +71,7 @@ public abstract class AbstractReadDao<T>  {
         int enableCount = 0;
         for (int i = 0; i < length; i++) {
             if (!bindKeys().contains(keys[i])) {
-                //todo 空值判定
+                throw new SedException(SYSTEM_PERSISTENT_INCORRECT_KEY);
             }
         }
 
@@ -228,4 +231,5 @@ public abstract class AbstractReadDao<T>  {
         return mTClass;
     }
 
+    public abstract List<T> findBy(Map<String, String> attr, boolean likeQuery);
 }
