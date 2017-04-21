@@ -2,6 +2,8 @@ package com.delivery.dispatch;
 
 import com.delivery.common.action.Action;
 import com.delivery.common.response.Response;
+import com.delivery.common.util.Task;
+import com.delivery.common.util.Timer;
 import com.delivery.event.EventManager;
 import org.springframework.stereotype.Component;
 
@@ -21,5 +23,9 @@ public interface Dispatcher {
     //todo 建立信用体系
     //TODO TOKEN检查
     EventManager getEventManager();
+
+    Timer getTimer();
+
+    void handTimerException(Task task);
 
 }

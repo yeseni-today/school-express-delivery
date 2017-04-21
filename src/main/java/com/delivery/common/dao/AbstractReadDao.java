@@ -231,5 +231,15 @@ public abstract class AbstractReadDao<T>  {
         return mTClass;
     }
 
-    public abstract List<T> findBy(Map<String, String> attr, boolean likeQuery);
+    public  List<T> findBy(Map<String, String> attr, boolean likeQuery){
+        String[] key = new String[attr.size()];
+        String[] val = new String[attr.size()];
+        int i = 0;
+        for (Map.Entry<String, String> entry : attr.entrySet()) {
+            key[i] = entry.getKey();
+            val[i] = entry.getValue();
+            i++;
+        }
+        return findBy(key,val,likeQuery);
+    }
 }
