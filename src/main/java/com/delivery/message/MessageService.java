@@ -37,8 +37,8 @@ public class MessageService implements ActionHandler,EventPublisher {
     /**
      * 发送一条消息
      *
-     * @param action 发送者ID
-     *               接受者ID
+     * @param action 发送者ID（系统或管理员）
+     *               接受者ID（所有用户或者一类用户）
      *               消息内容结构体
      * @return success ； error 权限不足等造成失败
      * @author finderlo
@@ -51,7 +51,7 @@ public class MessageService implements ActionHandler,EventPublisher {
     /**
      * 获取用户的消息
      *
-     * @param action 用户ID
+     * @param action 用户ID及用户身份（用于获取群发的消息）
      *               消息类型（可选）
      * @author finderlo
      */
@@ -62,7 +62,7 @@ public class MessageService implements ActionHandler,EventPublisher {
     }
 
     /**
-     * 将消息设为已读
+     * 将消息设为已读状态
      *
      * @param action 消息ID
      * @author finderlo

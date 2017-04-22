@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 @Table(name = "complaint", schema = "sed", catalog = "")
 public class ComplaintEntity {
     private String complaintId;
+    private String orders_ID;
     private String userId;
     private String managerId;
     private String complaintType;
@@ -26,6 +27,16 @@ public class ComplaintEntity {
 
     public void setComplaintId(String complaintId) {
         this.complaintId = complaintId;
+    }
+
+    @Basic
+    @Column(name = "orders_ID")
+    public String getOrders_ID() {
+        return orders_ID;
+    }
+
+    public void setOrders_ID(String orders_ID) {
+        this.orders_ID = orders_ID;
     }
 
     @Basic
@@ -106,6 +117,7 @@ public class ComplaintEntity {
         ComplaintEntity that = (ComplaintEntity) o;
 
         if (complaintId != null ? !complaintId.equals(that.complaintId) : that.complaintId != null) return false;
+        if (orders_ID != null ? !orders_ID.equals(that.orders_ID) : that.orders_ID != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (managerId != null ? !managerId.equals(that.managerId) : that.managerId != null) return false;
         if (complaintType != null ? !complaintType.equals(that.complaintType) : that.complaintType != null)
@@ -126,6 +138,7 @@ public class ComplaintEntity {
     public int hashCode() {
         int result = complaintId != null ? complaintId.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (orders_ID != null ? orders_ID.hashCode() : 0);
         result = 31 * result + (managerId != null ? managerId.hashCode() : 0);
         result = 31 * result + (complaintType != null ? complaintType.hashCode() : 0);
         result = 31 * result + (complaintTime != null ? complaintTime.hashCode() : 0);
