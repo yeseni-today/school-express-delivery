@@ -10,6 +10,8 @@ public enum OrderState {
 
     // -1 代表完成订单
 
+    WAIT_PAY,
+
     //等待接单
     WAIT_ACCEPT,
 
@@ -35,5 +37,16 @@ public enum OrderState {
     COMPLAINING,
 
     //已赔偿 -1
-    COMPENSATION
+    COMPENSATION;
+
+    public boolean isComplete() {
+        switch (this) {
+            case WAIT_COMMENT:
+            case COMPLETED:
+            case COMPENSATION:
+                return true;
+            default:
+                return false;
+        }
+    }
 }

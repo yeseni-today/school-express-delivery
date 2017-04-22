@@ -24,4 +24,14 @@ public class OrdersDao extends AbstractDao<OrdersEntity> {
         return super.findBy(key,new String[]{id,state.toString()},false);
     }
 
+    public List<OrdersEntity> findByReplacementId(String id){
+        String[] key = new String[]{"replacementId"};
+        return findBy(key,new String[]{id},false);
+    }
+
+    public List<OrdersEntity> findByRecipientId(String id){
+        String[] key = new String[]{"recipientId"};
+        return findBy(key,new String[]{id},false);
+    }
+
 }

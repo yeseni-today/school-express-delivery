@@ -30,7 +30,13 @@ public enum ErrorCode {
     ORDER_CREATE_FAILED_MAX_ORDER_COUNT(20002, "达到最大未完成订单数量"),
 
     SYSTEM_LOWCREDIT(00002, "信用值不足"),
-    SYSTEM_PERSISTENT_INCORRECT_KEY(00001, "持久化层查询键错误/编程错误"), ORDER_CREATE_EXIST_COMPLAINING_ORDER(20003, "用户存在正在申诉的订单"), ORDER_ALEADY_ACCEPTED(20004, "订单已被接单了");
+    SYSTEM_PERSISTENT_INCORRECT_KEY(00001, "持久化层查询键错误/编程错误"),
+    ORDER_CREATE_EXIST_COMPLAINING_ORDER(20003, "用户存在正在申诉的订单"),
+    ORDER_ALEADY_ACCEPTED(20004, "订单已被接单了"),
+    ORDER_UNKNOWN_CANCEL_TYPE(20005, "未知订单取消类型"),
+    ORDER_CANCEL_CANNOT(20006, "此时无法取消订单"),
+    SYSTEM_NULL_OBJECT(00003, "为空的对象"),
+    ORDER_UNKNOWN_ACTION_TYPE(20007, "未知action类型");
 
     String description;
     int code;

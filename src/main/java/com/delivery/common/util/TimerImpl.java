@@ -24,9 +24,16 @@ public class TimerImpl implements Timer, Runnable {
 
     Map<Long, List<Task>> tasks = new HashMap<>(1000);
 
+    ExceptionHandler exceptionHandler;
 
     public TimerImpl(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
+        this.exceptionHandler = new ExceptionHandler() {
+            @Override
+            public void handle(Throwable e, Task task) {
+                TimerImpl.this.dispatcher.handTimerException(e,task);
+            }
+        };
         service = Executors.newSingleThreadScheduledExecutor();
         // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间
         // 每秒执行一次run()方法,非阻塞
@@ -54,18 +61,17 @@ public class TimerImpl implements Timer, Runnable {
     public void run() {
         long time = System.currentTimeMillis() / 1000;
         List<Task> task = tasks.remove(time);
-        new Thread(new Executor(task,dispatcher)).run();
+        new Thread(new Executor(task,exceptionHandler)).run();
     }
 
 
     private static class Executor implements Runnable {
 
         List<Task> tasks;
+        ExceptionHandler handler;
 
-        Dispatcher dispatcher;
-
-        Executor(List<Task> tasks,Dispatcher dispatcher) {
-            this.dispatcher = dispatcher;
+        Executor(List<Task> tasks,ExceptionHandler handler) {
+            this.handler = handler;
             this.tasks = tasks;
         }
 
@@ -77,10 +83,14 @@ public class TimerImpl implements Timer, Runnable {
                 } catch (Exception e) {
                     //do nothing
                     //定时任务出现异常
-                    dispatcher.handTimerException(task);
+                    handler.handle(e,task);
                 }
             }
         }
 
+    }
+
+    public interface ExceptionHandler{
+        void handle(Throwable e,Task task);
     }
 }

@@ -1,6 +1,7 @@
 package com.delivery.user;
 
 import com.delivery.common.action.ActionHandler;
+import com.delivery.common.constant.Constant;
 import com.delivery.common.dao.UsersDao;
 import com.delivery.common.entity.UsersEntity;
 import com.delivery.common.response.Response;
@@ -18,9 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 import static com.delivery.common.response.ErrorCode.*;
-import static com.delivery.user.UserUtils.*;
+import static com.delivery.user.UserUtil.*;
 import static com.delivery.common.response.Response.*;
 import static com.delivery.user.UserConstant.*;
+import static com.delivery.common.util.Util.*;
 
 /**
  * Created by finderlo on 2017/4/7.
@@ -177,6 +179,7 @@ public class UserService implements ActionHandler, EventPublisher {
      */
     public Response upgrade(Action action) {
         action.setType(ActionType.MANUAL);
+        action.put(Constant.ACTION_SUB_TYPE,Constant.MANUAL_UPGRADE);
         return dispatcher.execute(action);
     }
 
@@ -188,6 +191,7 @@ public class UserService implements ActionHandler, EventPublisher {
      */
     public Response degrade(Action action) {
         action.setType(ActionType.MANUAL);
+        action.put(Constant.ACTION_SUB_TYPE,Constant.MANUAL_DEGRADE);
         return dispatcher.execute(action);
     }
 

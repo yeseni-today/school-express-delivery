@@ -12,7 +12,7 @@ public class UsersEntity {
     private String userName;
     private String userPhone;
     private String userPassword;
-    private String userIdentity;
+    private UserType userIdentity;
     private String userSchoolcard;
     private String userIdcard;
     private String userPhoto;
@@ -20,6 +20,10 @@ public class UsersEntity {
     private String userSex;
     private String userSchoolname;
     private String userSchooladdress;
+
+    public enum UserType{
+        SYSTEM,RECIPIENT,REPLACEMENT,ADMINSTARTE
+    }
 
     @Id
     @Column(name = "user_ID")
@@ -63,11 +67,11 @@ public class UsersEntity {
 
     @Basic
     @Column(name = "user_identity")
-    public String getUserIdentity() {
+    public UserType getUserIdentity() {
         return userIdentity;
     }
 
-    public void setUserIdentity(String userIdentity) {
+    public void setUserIdentity(UserType userIdentity) {
         this.userIdentity = userIdentity;
     }
 

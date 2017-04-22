@@ -26,6 +26,6 @@ public interface Dispatcher {
 
     Timer getTimer();
 
-    void handTimerException(Task task);
+    void handTimerException(Throwable throwable,Task task);
 
 }
