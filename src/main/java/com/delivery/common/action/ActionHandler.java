@@ -1,6 +1,6 @@
 package com.delivery.common.action;
 
-import com.delivery.common.response.Response;
+import com.delivery.common.Response;
 
 /**
  * Created by finderlo on 2017/4/7.

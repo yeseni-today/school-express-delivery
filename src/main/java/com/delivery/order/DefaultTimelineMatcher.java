@@ -2,6 +2,7 @@ package com.delivery.order;
 
 import com.delivery.common.entity.UsersEntity;
 import com.sun.corba.se.spi.servicecontext.UEInfoServiceContext;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
  * @author finderlo
  * @date 20/04/2017
  */
+@Component
 public class DefaultTimelineMatcher implements TimelineMatcher {
 
 

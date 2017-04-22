@@ -1,4 +1,4 @@
-package com.delivery.common.response;
+package com.delivery.common;
 
 /**
  * Created by finderlo on 2017/4/7.

@@ -1,4 +1,6 @@
-package com.delivery.common;
+package com.delivery.common.util;
+
+import com.delivery.common.NullObject;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;

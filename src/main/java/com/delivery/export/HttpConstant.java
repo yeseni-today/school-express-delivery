@@ -20,9 +20,13 @@ public class HttpConstant {
 
     public static final String ORDER_CREATE_DEPOSIT = "/order/create/deposit";
 
-    public static final String ORDER_CREATE_NORMAL = "/order/create/normal";
+    public static final String ORDER_CHECK_CREATE ="/order/check_create";
+
+    public static final String ORDER_CREATE_NORMAL = "/order/create";
 
     public static final String ORDER_FIND = "/order/find";
+
+    public static final String ORDER_FIND_BY_USER = "/order/find_by_user";
 
     public static final String ORDER_TIMELINE = "/order/timeline";
 
@@ -30,8 +34,9 @@ public class HttpConstant {
 
     public static final String ORDER_DELIVERY = "/order/delivery";
 
+    public static final String ORDER_UPDATE = "/order/update";
 
-    public static final String ORDER_CONFIRM = "/order/confirm";
+    public static final String ORDER_AFFITM = "/order/confirm";
 
     public static final String ORDER_COMMENT = "/order/comment";
 

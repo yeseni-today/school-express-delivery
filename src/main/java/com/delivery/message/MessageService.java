@@ -3,7 +3,7 @@ package com.delivery.message;
 import com.delivery.common.action.Action;
 import com.delivery.common.action.ActionHandler;
 import com.delivery.common.action.ActionType;
-import com.delivery.common.response.Response;
+import com.delivery.common.Response;
 import com.delivery.event.EventPublisher;
 import org.springframework.stereotype.Component;
 

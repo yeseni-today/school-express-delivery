@@ -1,16 +1,17 @@
 package com.delivery.dispatch;
 
 import com.delivery.common.SedException;
+import com.delivery.common.constant.Constant;
 import com.delivery.common.entity.UsersEntity;
-import com.delivery.common.response.ErrorCode;
+import com.delivery.common.ErrorCode;
 import com.delivery.common.action.Action;
-import com.delivery.common.response.Response;
+import com.delivery.common.Response;
 import com.delivery.common.action.ActionHandler;
 import com.delivery.common.util.Task;
 import com.delivery.common.util.Timer;
 import com.delivery.event.EventManager;
+import com.delivery.order.OrderService;
 import com.delivery.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -29,14 +30,17 @@ public class DispatcherImpl implements Dispatcher {
 
     private final List<ActionHandler> handlers = new ArrayList<>();
 
-    @Autowired
     private EventManager eventManager;
 
-    @Autowired
-    UserService userService;
+    private UserService userService;
 
-    @Autowired
+    private OrderService orderService;
+
     private Timer timer;
+
+
+    public DispatcherImpl() {
+    }
 
 
     @Override
@@ -51,7 +55,13 @@ public class DispatcherImpl implements Dispatcher {
     }
 
     private void preExecute(Action action) {
+        //如果不需要登陆，设置不需要登陆状态
+        String bool = (String) action.getOrDefault(Constant.ACTION_NEED_LOGIN,"true");
+        boolean needLogin = !bool.equals("false");
         //如果存在token，则添加用户名和类型
+        if (!needLogin){
+            return;
+        }
         String token = getToken(action);
         if (!token.equals("")) {
             Response response = userService.checkLogin(action);
@@ -83,4 +93,23 @@ public class DispatcherImpl implements Dispatcher {
     }
 
 
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    public void setEventManager(EventManager eventManager) {
+        this.eventManager = eventManager;
+    }
+
+    public void setHandlers(List<ActionHandler> handlers) {
+        this.handlers.addAll(handlers);
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
 }

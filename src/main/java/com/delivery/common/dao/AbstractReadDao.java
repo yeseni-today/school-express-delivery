@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.delivery.common.response.ErrorCode.SYSTEM_PERSISTENT_INCORRECT_KEY;
+import static com.delivery.common.ErrorCode.SYSTEM_PERSISTENT_INCORRECT_KEY;
 
 /**
  * Created by finderlo on 16-12-17.

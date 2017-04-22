@@ -1,6 +1,7 @@
 package com.delivery.common.constant;
 
 import com.delivery.common.entity.OrdersEntity;
+import com.delivery.common.entity.UsersEntity;
 
 /**
  * @author finderlo
@@ -8,11 +9,28 @@ import com.delivery.common.entity.OrdersEntity;
  */
 public class Constant {
 
-    private static final OrdersEntity defaultOrdersEntity = new OrdersEntity();
+    private static OrdersEntity defaultOrdersEntity;
 
-    public static final OrdersEntity getDefaultOrdersEntity() {
-        defaultOrdersEntity.setOrdersGrade("5");
+    public static String ACTION_NEED_LOGIN = "action_need_login";
+
+    public static OrdersEntity getDefaultOrdersEntity() {
+        if (defaultOrdersEntity == null) {
+            defaultOrdersEntity = new OrdersEntity();
+            defaultOrdersEntity.setOrdersGrade("5");
+        }
         return defaultOrdersEntity;
+    }
+
+    private static UsersEntity defaultUsersEntity;
+
+    public static UsersEntity getDefaultUsersEntity() {
+        if (defaultUsersEntity == null) {
+            defaultUsersEntity = new UsersEntity();
+            defaultUsersEntity.setUserIdentity(UsersEntity.UserType.RECIPIENT);
+            defaultUsersEntity.setUserIdcard(null);
+
+        }
+        return defaultUsersEntity;
     }
 
     public static final String EVENT_ORDER_CANCEL_TYPE = "event_order_cancel_type";
@@ -24,9 +42,11 @@ public class Constant {
 
     public static final String USER_TYPE = "user_type";
 
+    public static final String USER_PHONE = "user_phone";
+
 
     public static final String USER_ENTITY = "user_entity_object";
-
+    public static final String ORDER_ENTITY = "order_entity_object";
     public static final String ORDER_ID = "order_id";
     public static final String ORDER_CANCEL_TYPE = "order_cancel_type";
     public static final String ORDER_CANCEL_TYPE_RECEIVER = "order_cancel_type_rec";

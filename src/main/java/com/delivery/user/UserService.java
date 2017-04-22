@@ -4,7 +4,7 @@ import com.delivery.common.action.ActionHandler;
 import com.delivery.common.constant.Constant;
 import com.delivery.common.dao.UsersDao;
 import com.delivery.common.entity.UsersEntity;
-import com.delivery.common.response.Response;
+import com.delivery.common.Response;
 import com.delivery.common.action.Action;
 import com.delivery.common.action.ActionType;
 import com.delivery.dispatch.Dispatcher;
@@ -15,12 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static com.delivery.common.response.ErrorCode.*;
+import static com.delivery.common.ErrorCode.*;
 import static com.delivery.user.UserUtil.*;
-import static com.delivery.common.response.Response.*;
+import static com.delivery.common.Response.*;
 import static com.delivery.user.UserConstant.*;
 import static com.delivery.common.util.Util.*;
 
@@ -43,7 +42,7 @@ public class UserService implements ActionHandler, EventPublisher {
     @Autowired
     TokenHandler tokenHandler;
 
-    public UserService(Dispatcher dispatcher) {
+    public void setDispatcher(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
 
@@ -72,6 +71,12 @@ public class UserService implements ActionHandler, EventPublisher {
                 return register(action);
             case CHECK_LOGIN:
                 return checkLogin(action);
+            case FIND:
+                return find(action);
+            case DEGRADE:
+                return degrade(action);
+            case UPGRADE:
+                return upgrade(action);
             default:
                 return error(USER_UNKNOWN_TYPE);
         }
@@ -79,7 +84,7 @@ public class UserService implements ActionHandler, EventPublisher {
 
 
     /**
-     * 用户注册，Action中应该含有全面的用户信息
+     * 用户注册，Action中应该含有全面的用户信息,前端参数正确
      *
      * @param action
      * @return error 不完整的信息或者用户名ID重复；success 用户信息
@@ -88,9 +93,7 @@ public class UserService implements ActionHandler, EventPublisher {
      * @see UserConstant#USER_PASSWORD
      */
     public Response register(Action action) {
-        UsersEntity user = getUser(action);
-        if (!isRightRegisterUserInfo(user, usersDao)) return error(USER_REGISTER_INCORRECT_INFO);
-        usersDao.save(user);
+        UsersEntity user = getUserAndSave(action,usersDao);
         publishRegisterSuccess(user);
         return success(user);
     }
@@ -109,9 +112,9 @@ public class UserService implements ActionHandler, EventPublisher {
         String phone = getUserPhone(action);
         if (phone.equals("")) return error(USER_NOT_EXIST_FIND_ARRT);
 
-        List<UsersEntity> users = usersDao.findByUserPhone(phone);
-        Map<String,Object> res = new HashMap<>();
-        res.put(USER_RES_USERS,users);
+        UsersEntity users = usersDao.findByUserPhone(phone);
+        Map<String, Object> res = new HashMap<>();
+        res.put(USER_RES_USERS, users);
         return success(res);
     }
 
@@ -130,20 +133,22 @@ public class UserService implements ActionHandler, EventPublisher {
      *
      * @param action 用户名
      *               用户密码
-     * @return response token、user_id
+     * @return response token、user
      * @author finderlo
      * @see UserConstant#USER_ID
      * @see UserConstant#USER_PASSWORD
      */
     public Response login(Action action) {
         //获取用户名密码
-        String userID = getUserId(action);
+        String phone = getUserPhone(action);
         String userpsd = getUserPsd(action);
         //空检查
-        if ("".equals(userID)) return error(USER_ID_ISNULL);
+        if ("".equals(phone)) return error(USER_ID_ISNULL);
         //用户名密码检查
-        UsersEntity user = usersDao.findById(userID);
-        if (!validUser(userID, userpsd, user)) return error(USER_INCORRECT_ID_OR_PSD);
+        UsersEntity user = usersDao.findByUserPhone(phone);
+        if (user == null) return error(USER_NO_EXIST_PHONE);
+
+        if (!validUser(phone, userpsd, user)) return error(USER_INCORRECT_ID_OR_PSD);
         //返回信息
         String token = tokenHandler.getTokenAndLogin(user);
         HashMap<String, Object> returnContent = new HashMap<>();
@@ -179,7 +184,7 @@ public class UserService implements ActionHandler, EventPublisher {
      */
     public Response upgrade(Action action) {
         action.setType(ActionType.MANUAL);
-        action.put(Constant.ACTION_SUB_TYPE,Constant.MANUAL_UPGRADE);
+        action.put(Constant.ACTION_SUB_TYPE, Constant.MANUAL_UPGRADE);
         return dispatcher.execute(action);
     }
 
@@ -191,7 +196,7 @@ public class UserService implements ActionHandler, EventPublisher {
      */
     public Response degrade(Action action) {
         action.setType(ActionType.MANUAL);
-        action.put(Constant.ACTION_SUB_TYPE,Constant.MANUAL_DEGRADE);
+        action.put(Constant.ACTION_SUB_TYPE, Constant.MANUAL_DEGRADE);
         return dispatcher.execute(action);
     }
 

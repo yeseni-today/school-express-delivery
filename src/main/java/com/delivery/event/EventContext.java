@@ -1,13 +1,6 @@
 package com.delivery.event;
 
-import com.delivery.common.Context;
-import com.delivery.common.NullObject;
-import com.delivery.common.action.Action;
-import com.delivery.common.action.ActionType;
-
-import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.Map;
+import com.delivery.common.util.Context;
 
 /**
  * Created by finderlo on 15/04/2017.
