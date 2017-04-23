@@ -173,7 +173,8 @@ public class UserService implements ActionHandler, EventPublisher {
         //判断Token是否正确
         if (!tokenHandler.isRight(token)) return Response.error(USER_TOKEN_EXPIRY);
         //正确则返回Response
-        return Response.success(tokenHandler.getUser(token));
+        UsersEntity user = tokenHandler.getUser(token);
+        return success(user);
     }
 
     /**

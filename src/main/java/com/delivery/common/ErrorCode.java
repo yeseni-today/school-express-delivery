@@ -16,7 +16,7 @@ public enum ErrorCode {
 
 
     DISPATCHER_UNKNOWN_ACTION_TYPE(10001, "未知的Action类型"),
-
+    DISPATCHER_AUTO_LOGIN_CHECK_ERROR(10002, "token不存在"),
 
     USER_TOKEN_NOEXIST(90001, "Token不存在"),
     USER_TOKEN_EXPIRY(90002, "Token已过期"),
@@ -49,15 +49,26 @@ public enum ErrorCode {
     SYSTEM_USER_NO_EXIST(5, "用户不存在"),
     SYSTEM_NO_ENOUGH_PERMISSION(6, "用户权限不足"),
     SYSTEM_TIME_FORMAT_ERROR(7, "传入时间参数格式不正确"),
-    SYSTEM_ORDER_NO_EXIST(8, "订单不存在");
+    SYSTEM_ORDER_NO_EXIST(8, "订单不存在"), ORDER_OPERATION_LOG_PUBLISH_ERROR(20014, "订单操作表创建异常", false), ORDER_UNABLE_DELIVERY(20015, "订单无法设置递送状态，前置状态不是已接收");
 
 
     String description;
     int code;
+    boolean returnError = true;
 
     ErrorCode(int code, String description) {
         this.code = code;
         this.description = description;
+    }
+
+    ErrorCode(int code, String description, boolean returnError) {
+        this.code = code;
+        this.description = description;
+    }
+
+
+    public boolean isReturnError() {
+        return returnError;
     }
 
     public int getCode() {

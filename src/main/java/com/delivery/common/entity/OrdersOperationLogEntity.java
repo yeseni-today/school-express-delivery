@@ -1,5 +1,7 @@
 package com.delivery.common.entity;
 
+import com.delivery.order.OrderState;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -10,7 +12,7 @@ import java.sql.Timestamp;
 @Table(name = "orders_operation_log", schema = "sed", catalog = "")
 public class OrdersOperationLogEntity {
     private String ordersId;
-    private String stateType;
+    private OrderState stateType;
     private Timestamp stateChangeTime;
     private int ordersLogId;
 
@@ -26,11 +28,11 @@ public class OrdersOperationLogEntity {
 
     @Basic
     @Column(name = "state_type")
-    public String getStateType() {
+    public OrderState getStateType() {
         return stateType;
     }
 
-    public void setStateType(String stateType) {
+    public void setStateType(OrderState stateType) {
         this.stateType = stateType;
     }
 

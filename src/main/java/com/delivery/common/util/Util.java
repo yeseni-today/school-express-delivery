@@ -16,10 +16,7 @@ import com.delivery.order.OrderState;
 import javax.validation.constraints.NotNull;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.delivery.common.constant.Constant.USER_ID;
@@ -64,16 +61,22 @@ public class Util {
         }
     }
 
-    public static void checkAdmin(Action action){
-        checkRightType(action, UsersEntity.UserType.SYSTEM);
-        checkRightType(action, UsersEntity.UserType.ADMINSTARTE);
+    public static void checkAdmin(Action action) {
+        if (checkRightType(action, UsersEntity.UserType.SYSTEM)) {
+            if (checkRightType(action, UsersEntity.UserType.ADMINSTARTE)) {
+                return;
+            } else throw new SedException(SYSTEM_NO_ENOUGH_PERMISSION);
+
+        }
+
     }
 
-    public static void checkRightType(Action action,UsersEntity.UserType userType){
+    public static boolean checkRightType(Action action, UsersEntity.UserType userType) {
         UsersEntity.UserType userType1 = (UsersEntity.UserType) action.get(USER_TYPE);
-        if (!userType1.equals(userType)){
-            throw new SedException(SYSTEM_NO_ENOUGH_PERMISSION);
+        if (!userType1.equals(userType)) {
+            return false;
         }
+        return false;
     }
 
     /**
@@ -84,7 +87,9 @@ public class Util {
      */
     @NotNull
     public static String getToken(Action action) {
-        return (String) action.getOrDefault(USER_TOKEN, "");
+        String ls = (String) action.getOrDefault(USER_TOKEN, "");
+//        System.out.println(ls);
+        return ls;
     }
 
     @NotNull
@@ -134,23 +139,26 @@ public class Util {
 
     /**
      * 取出action中用户，没有则抛出异常
+     *
+     * @throws SedException
      * @author finderlo
      * @date 22/04/2017
-     * @throws SedException
      */
     public static UsersEntity getUser(Action action) {
-        UsersEntity user =  (UsersEntity) action.getOrDefault(USER_ENTITY, null);
-        checkNull(user,SYSTEM_USER_NO_EXIST);
+        UsersEntity user = (UsersEntity) action.getOrDefault(USER_ENTITY, null);
+        checkNull(user, SYSTEM_USER_NO_EXIST);
         return user;
     }
+
     public static OrdersEntity getOrder(Action action) {
-        OrdersEntity order =  (OrdersEntity) action.getOrDefault(ORDER_ENTITY, null);
-        checkNull(order,SYSTEM_ORDER_NO_EXIST);
+        OrdersEntity order = (OrdersEntity) action.getOrDefault(ORDER_ENTITY, null);
+        checkNull(order, SYSTEM_ORDER_NO_EXIST);
         return order;
     }
 
     /**
      * 管理员查询订单
+     *
      * @author finderlo
      * @date 22/04/2017
      */
@@ -158,18 +166,18 @@ public class Util {
         //返回action中order查询条件
 
         //action.get*() 中的key,是网页或手机中传来中请求的参数
-        Map<String,String> attr = new HashMap<>();
-        String recipient = (String) action.getOrDefault("recipient_ID","");
-        if (!recipient.equals("")) attr.put("recipientId",recipient);
+        Map<String, String> attr = new HashMap<>();
+        String recipient = (String) action.getOrDefault("recipient_ID", "");
+        if (!recipient.equals("")) attr.put("recipientId", recipient);
 
-        String replacement = (String) action.getOrDefault("replacement_ID","");
+        String replacement = (String) action.getOrDefault("replacement_ID", "");
 
         if (!replacement.equals(""))
-            attr.put("replacementId",recipient);
+            attr.put("replacementId", recipient);
 
-        String orderid = (String) action.getOrDefault("orders_ID","");
+        String orderid = (String) action.getOrDefault("orders_ID", "");
         if (!orderid.equals(""))
-        attr.put("ordersId",orderid);
+            attr.put("ordersId", orderid);
 
         return attr;
     }
@@ -182,6 +190,7 @@ public class Util {
 
     /**
      * 获取订单完成状态 0时未完成 1时已完成
+     *
      * @author finderlo
      * @date 23/04/2017
      */
@@ -209,11 +218,18 @@ public class Util {
     }
 
     public static void pushlishOrdersLog(String logId, OrderState state, OrdersLogDao ordersLogDao) {
-        OrdersOperationLogEntity log = new OrdersOperationLogEntity();
-        log.setOrdersId(logId);
-        log.setStateChangeTime(new Timestamp(System.currentTimeMillis()));
-        log.setStateType(state.name());
-        ordersLogDao.save(log);
+        try {
+
+
+            OrdersOperationLogEntity log = new OrdersOperationLogEntity();
+            log.setOrdersId(logId);
+            log.setStateChangeTime(new Timestamp(System.currentTimeMillis()));
+            log.setStateType(state);
+            ordersLogDao.save(log);
+
+        } catch (Exception e) {
+            throw new SedException(ORDER_OPERATION_LOG_PUBLISH_ERROR);
+        }
     }
 
     /**
@@ -224,17 +240,28 @@ public class Util {
      */
     public static int getCredit(Action action, Dispatcher dispatcher) {
         //todo 通过用户ID，向信用请求计算并返回信用值
-        return 0;
+        return 100;
     }
 
     public static int getOrderCountByReplace(String userID, int state, OrdersDao ordersDao) {
-        return getOrdersByReplace(userID, state, ordersDao).size();
+        return getOrdersByUser(userID, state, ordersDao).size();
     }
 
-    public static List<OrdersEntity> getOrdersByReplace(String userId, int state, OrdersDao ordersDao) {
+    public static List<OrdersEntity> getOrdersByUser(String userId, int state, OrdersDao ordersDao) {
         boolean tar = state != 0;
-        List<OrdersEntity> orders = ordersDao.findByReplacementId(userId);
-        return orders.stream().filter(e -> !e.getOrdersState().isComplete() ^ tar).collect(Collectors.toList());
+        List<OrdersEntity> orders = new ArrayList<>();
+        List<OrdersEntity> ordersRepl = ordersDao.findByReplacementId(userId);
+        orders.addAll(ordersRepl.stream().filter(e -> !e.getOrdersState().isComplete() ^ tar).collect(Collectors.toList()));
+
+
+        List<OrdersEntity> ordersReci = ordersDao.findByRecipientId(userId);
+        orders.addAll(ordersReci.stream().filter(e -> !e.getOrdersState().isComplete() ^ tar).collect(Collectors.toList()));
+
+//        System.out.println("状态：" + state);
+//        System.out.println("总数:"+ordersRepl.size() + ordersReci.size());
+//        System.out.println("tar:"+tar);
+//        System.out.println(!OrderState.WAIT_ACCEPT.isComplete() ^ tar);
+        return orders;
     }
 
     public static Response handleException(Exception e) {

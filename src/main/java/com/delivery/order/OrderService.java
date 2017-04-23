@@ -1,6 +1,5 @@
 package com.delivery.order;
 
-import com.delivery.common.ErrorCode;
 import com.delivery.common.SedException;
 import com.delivery.common.action.Action;
 import com.delivery.common.action.ActionHandler;
@@ -21,6 +20,7 @@ import com.delivery.order.ordertask.OrderAutoComfirmTask;
 import com.delivery.order.ordertask.OrderAutoCommentTask;
 import com.delivery.order.ordertask.OrderOvertimeTask;
 import com.delivery.order.ordertask.OrdersAcceptOverTimeTask;
+import jdk.nashorn.internal.ir.ReturnNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -93,9 +93,9 @@ public class OrderService implements ActionHandler, EventPublisher {
             case unknown:
                 return Response.error(ORDER_UNKNOWN_ACTION_TYPE);
             case complain:
-                complain(action);
+                return complain(action);
             case delivery:
-                delivery(action);
+                return delivery(action);
             default:
                 Response.error(ORDER_UNKNOWN_ACTION_TYPE);
         }
@@ -109,9 +109,8 @@ public class OrderService implements ActionHandler, EventPublisher {
         if (!orderId.equals("")) {
             OrdersEntity order = ordersDao.findById(orderId);
             action.put(ORDER_ENTITY, order);
-        } else {
-            throw new SedException(ErrorCode.USER_TOKEN_NOEXIST);
         }
+
     }
 
 
@@ -121,8 +120,7 @@ public class OrderService implements ActionHandler, EventPublisher {
      * 2,检查未完成订单数小于10
      * 3,不存在申诉中的订单
      *
-     * @param action 订单信息结构体
-     *               订单类型
+     * @param action 订单类型
      * @return success 能；error 失败信息
      * @author finderlo
      */
@@ -140,23 +138,33 @@ public class OrderService implements ActionHandler, EventPublisher {
         return Response.success();
     }
 
+
     public Response create(Action action) {
         OrdersEntity order = getOrderAndSave(action, ordersDao);
 
-        //订单操作日志
-        pushlishOrdersLog(order.getOrdersId(), OrderState.WAIT_ACCEPT, ordersLogDao);
-        //发布定时任务
-        dispatcher.getTimer().submit(
-                new OrderOvertimeTask(order.getOrdersId(), ordersDao),
-                12, TimeUnit.HOURS
-        );
+        try {
 
-        //发布事件
-        EventContext eventContext = new EventContext();
-        eventContext.put(Constant.ORDER_ID, order.getOrdersId());
-        publish(Event.OrderPublishedEvent, eventContext);
+            //订单操作日志
+            pushlishOrdersLog(order.getOrdersId(), OrderState.WAIT_ACCEPT, ordersLogDao);
+            //发布定时任务
+            dispatcher.getTimer().submit(
+                    new OrderOvertimeTask(order.getOrdersId(), ordersDao),
+                    12, TimeUnit.HOURS
+            );
 
-        return Response.success();
+            //发布事件
+            EventContext eventContext = new EventContext();
+            eventContext.put(Constant.ORDER_ID, order.getOrdersId());
+            publish(Event.OrderPublishedEvent, eventContext);
+
+            return Response.success(order);
+        } catch (SedException e) {
+            //rollback
+            ordersDao.delete(order);
+            return Response.error(e.getErrorCode());
+        } catch (Exception e) {
+            return Response.error(ORDER_CREATE_FAILED_UNKNOW_ERROR);
+        }
     }
 
 
@@ -188,7 +196,7 @@ public class OrderService implements ActionHandler, EventPublisher {
         UsersEntity userId = getUser(action);
         checkNull(userId);
         int state = getOrderCompleteState(action);
-        return Response.success(getOrdersByReplace(userId.getUserId(), state, ordersDao));
+        return Response.success(getOrdersByUser(userId.getUserId(), state, ordersDao));
     }
 
 
@@ -200,13 +208,14 @@ public class OrderService implements ActionHandler, EventPublisher {
      * @date 17/04/2017
      */
     public Response timeline(Action action) {
+        System.out.println("timeline------------");
         if (getCredit(action, dispatcher) < 60) {
             return Response.error(SYSTEM_LOWCREDIT);
         }
 
         UsersEntity user = getUser(action);
-        Map<String, String> attr = timelineMatcher.timelineCondition(user);
-        List<OrdersEntity> orders = ordersDao.findBy(attr, false);
+//        Map<String, String> attr = timelineMatcher.timelineCondition(user);
+        List<OrdersEntity> orders = ordersDao.findByUserMatch(user);
         return Response.success(orders);
     }
 
@@ -238,6 +247,7 @@ public class OrderService implements ActionHandler, EventPublisher {
                 if (orders.getOrdersState().equals(OrderState.WAIT_ACCEPT)) {
                     orders.setOrdersState(OrderState.ACCEPTED);
                     orders.setReplacementId(replacementId);
+                    ordersDao.update(orders);
                     pushlishOrdersLog(orders.getOrdersId(), OrderState.ACCEPTED, ordersLogDao);
                 } else return Response.error(ORDER_ALEADY_ACCEPTED);
             }
@@ -252,7 +262,7 @@ public class OrderService implements ActionHandler, EventPublisher {
                 12, TimeUnit.HOURS
         );
 
-        return Response.success();
+        return Response.success(orders);
     }
 
     /**
@@ -271,6 +281,9 @@ public class OrderService implements ActionHandler, EventPublisher {
     public Response delivery(Action action) {
         OrdersEntity order = getOrder(action);
         checkNull(order);
+        if (!order.getOrdersState().equals(OrderState.ACCEPTED)) {
+            return Response.error(ORDER_UNABLE_DELIVERY);
+        }
         order.setOrdersState(OrderState.TAKE_PARCEL_WAIT_DELIVERY);
         ordersDao.update(order);
         pushlishOrdersLog(order.getOrdersId(), OrderState.TAKE_PARCEL_WAIT_DELIVERY, ordersLogDao);
@@ -280,7 +293,7 @@ public class OrderService implements ActionHandler, EventPublisher {
                 24, TimeUnit.HOURS
         );
 
-        return Response.success();
+        return Response.success(order);
     }
 
     /**

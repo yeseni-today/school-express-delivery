@@ -10,7 +10,7 @@ import org.hibernate.secure.internal.JaccSecurityListener;
 public class SimpleTest {
 
     public static void main(String[] args) {
-        String s = "{\"error_code\":200,\"message\":\"success\",\"content\":{\"users\":{\"userId\":\"213124124\",\"userName\":\"fin\",\"userPhone\":\"12345678901\",\"userPassword\":null,\"userIdentity\":\"RECIPIENT\",\"userSchoolcard\":\"1\",\"userIdcard\":\"12\",\"userPhoto\":\"1\",\"userAlipay\":\"1332\",\"userSex\":\"7\",\"userSchoolname\":\"6687\",\"userSchooladdress\":\"686\"},\"token\":\"213124124%%fin\"}}";
+        String s = "{\"error_code\":200,\"message\":\"success\",\"content\":{\"users\":{\"userId\":\"213124124\",\"userName\":\"fin\",\"userPhone\":\"12345678901\",\"userPassword\":null,\"userIdentity\":\"RECIPIENT\",\"userSchoolcard\":\"1\",\"userIdcard\":\"12\",\"userPhoto\":\"1\",\"userAlipay\":\"1332\",\"userSex\":\"7\",\"userSchoolname\":\"6687\",\"userSchooladdress\":\"686\"},\"recpiaToken\":\"213124124%%fin\"}}";
         System.out.println(getToken(s));
     }
 
@@ -19,7 +19,7 @@ public class SimpleTest {
         LinkedTreeMap content = (LinkedTreeMap) result.getContent();
         for (Object key : content.keySet()) {
             System.out.println(key);
-            if ("token".equals(key.toString())) {
+            if ("recpiaToken".equals(key.toString())) {
                 System.out.println("111");
                 return (String) content.get(key);
             }

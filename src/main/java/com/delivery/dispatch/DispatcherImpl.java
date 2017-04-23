@@ -72,7 +72,7 @@ public class DispatcherImpl implements Dispatcher {
                 action.put(USER_ID, user.getUserId());
                 action.put(USER_TYPE, user.getUserIdentity());
             } else {
-                throw new SedException(ErrorCode.USER_TOKEN_NOEXIST);
+                throw new SedException(ErrorCode.DISPATCHER_AUTO_LOGIN_CHECK_ERROR);
             }
         }
     }

@@ -4,16 +4,14 @@ import com.delivery.common.dao.AbstractDao;
 import com.delivery.common.entity.OrdersEntity;
 import com.delivery.common.entity.UsersEntity;
 import com.delivery.order.OrderState;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.internal.CriteriaImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author finderlo
@@ -55,16 +53,29 @@ public class OrdersDao extends AbstractDao<OrdersEntity> {
                 .toString();
         SQLQuery l = session.createSQLQuery(sql);
         List list = l.list();
-        if (list == null || list.size() == 0) {
+        String id = (String) list.get(0);
+        if (id == null || "null".equals(id)) {
             //当天没有，生成新的订单号
-            String id = prefix + "00000";
+            id = prefix + "00000";
             return id;
         } else {
-            String id = (String) l.list().get(0);
-            Integer idd = Integer.valueOf(id);
+            long idd = Long.valueOf(id);
             String newid = String.valueOf(idd + 1);
+            System.out.println(newid);
             return newid;
         }
+    }
+
+    //todo 在lx下测试
+    public List<OrdersEntity> findByUserMatch(UsersEntity user) {
+        List<OrdersEntity> res = new ArrayList<>();
+        Session session = sessionFactory.getCurrentSession();
+        int state = OrderState.WAIT_ACCEPT.ordinal();
+        SQLQuery query = session.createSQLQuery("select *  from orders where orders_state='" + state + "' and recipient_ID in(SELECT user_ID FROM users WHERE user_sex=(select user_sex from users where user_ID='" + user.getUserId() + "'))");
+        res.addAll(query.addEntity(OrdersEntity.class).list());
+
+        System.out.println(res.size());
+        return res;
     }
 
     public enum IdType {

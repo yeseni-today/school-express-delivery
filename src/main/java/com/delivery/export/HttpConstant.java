@@ -26,7 +26,10 @@ public class HttpConstant {
 
     public static final String ORDER_FIND = "/order/find";
 
-    public static final String ORDER_FIND_BY_USER = "/order/find_by_user";
+    public static final String ORDER_FIND_BY_USER_COMPLETE = "/order/find_by_user_complete";
+
+  public static final String  ORDER_FIND_BY_USER_UNCOMPLETE =
+          "/order/find_by_user_uncomplete";
 
     public static final String ORDER_TIMELINE = "/order/timeline";
 

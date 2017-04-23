@@ -1,6 +1,7 @@
 package com.delivery.common.action;
 
 import com.delivery.common.NullObject;
+import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
@@ -55,5 +56,9 @@ public class Action {
         Action action = new Action();
         request.getParameterMap().forEach((key, value) -> action.put(key, value.length == 0 ? null : value[0]));
         return action;
+    }
+
+    public String toString(){
+        return new Gson().toJson(this);
     }
 }

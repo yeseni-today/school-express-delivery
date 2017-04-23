@@ -1,0 +1,62 @@
+[
+	{
+		"url": "/user/login",
+		"method": "post",
+		"param": {
+			"user_phone": "12345678901",
+			"user_password": "123456"
+		},
+		"return": {
+			"error_code": 200,
+			"message": "success",
+			"content": {
+				"users": {
+					"userId": "213124124",
+					"userName": "fin",
+					"userPhone": "12345678901",
+					"userPassword": null,
+					"userIdentity": "RECIPIENT",
+					"userSchoolcard": "1",
+					"userIdcard": "12",
+					"userPhoto": "1",
+					"userAlipay": "1332",
+					"userSex": "7",
+					"userSchoolname": "6687",
+					"userSchooladdress": "686"
+				},
+				"token": "213124124%%fin"
+			}
+		}
+	},
+	{
+		"url": "/user/register",
+		"method": "post",
+		"param": {
+			"user_name": "finderlo",
+			"user_phone": "18217699893",
+			"user_password": "123456",
+			"user_schoolcard": "123456789",
+			"user_sex": "男",
+			"user_schoolname": "上海下师大",
+			"user_schooladdress": "默认地址100号"
+		},
+		"return": {
+			"error_code": 200,
+			"message": "success",
+			"content": {
+				"userId": "213124125",
+				"userName": "finderlo",
+				"userPhone": "18217699893",
+				"userPassword": "123456",
+				"userIdentity": "RECIPIENT",
+				"userSchoolcard": "123456789",
+				"userIdcard": null,
+				"userPhoto": null,
+				"userAlipay": null,
+				"userSex": "男",
+				"userSchoolname": "上海下师大",
+				"userSchooladdress": "默认地址100号"
+			}
+		}
+	}
+]

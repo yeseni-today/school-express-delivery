@@ -1,5 +1,7 @@
 package com.delivery.common.entity;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 
 /**
@@ -186,5 +188,10 @@ public class UsersEntity {
         result = 31 * result + (userSchoolname != null ? userSchoolname.hashCode() : 0);
         result = 31 * result + (userSchooladdress != null ? userSchooladdress.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

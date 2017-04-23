@@ -7,6 +7,7 @@ import com.delivery.common.constant.Constant;
 import com.delivery.dispatch.Dispatcher;
 import com.delivery.order.OrderActionType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class OrderController {
         this.dispatcher = dispatcher;
     }
 
-    @PostMapping(ORDER_CHECK_CREATE)
+    @GetMapping(ORDER_CHECK_CREATE)
     public Response check_create(HttpServletRequest httpRequest){
         try {
             Action action = valueOfRequestAndType(httpRequest,OrderActionType.check_create);
@@ -44,11 +45,12 @@ public class OrderController {
             Action action = valueOfRequestAndType(httpRequest,OrderActionType.create);
             return dispatcher.execute(action);
         }catch (Exception e){
+            e.printStackTrace();
             return handleException(e);
         }
     }
 
-    @PostMapping(ORDER_FIND)
+    @GetMapping(ORDER_FIND)
     public Response find(HttpServletRequest httpRequest){
         try {
             Action action = valueOfRequestAndType(httpRequest,OrderActionType.find);
@@ -58,16 +60,27 @@ public class OrderController {
         }
     }
 
-    @PostMapping(ORDER_FIND_BY_USER)
+    @GetMapping(ORDER_FIND_BY_USER_UNCOMPLETE)
     public Response findUserOrder(HttpServletRequest httpRequest){
         try {
             Action action = valueOfRequestAndType(httpRequest,OrderActionType.findUserOrder);
+            action.put(Constant.ORDER_ATTR_COMPLETE_STATE,0+"");
             return dispatcher.execute(action);
         }catch (Exception e){
             return handleException(e);
         }
     }
 
+    @GetMapping(ORDER_FIND_BY_USER_COMPLETE)
+    public Response findUserOrde1r(HttpServletRequest httpRequest){
+        try {
+            Action action = valueOfRequestAndType(httpRequest,OrderActionType.findUserOrder);
+            action.put(Constant.ORDER_ATTR_COMPLETE_STATE,1+"");
+            return dispatcher.execute(action);
+        }catch (Exception e){
+            return handleException(e);
+        }
+    }
     @PostMapping(ORDER_TIMELINE)
     public Response timeline(HttpServletRequest httpRequest){
         try {

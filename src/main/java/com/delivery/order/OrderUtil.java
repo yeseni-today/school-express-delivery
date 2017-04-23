@@ -86,9 +86,14 @@ public class OrderUtil {
             order.setPickupCode(pickup_code);
             order.setOrdersRemark(remark);
 
+            //默认值
+            order.setOrdersCreatetime(new Timestamp(System.currentTimeMillis()));
+            order.setOrdersState(OrderState.WAIT_ACCEPT);
+
             String ordersId = ordersDao.newOrderId(OrdersDao.IdType.ORDER);
             order.setOrdersId(ordersId);
             ordersDao.save(order);
+            System.out.println("订单创建完成");
             return order;
         } catch (IllegalArgumentException e) {
             throw new SedException(SYSTEM_TIME_FORMAT_ERROR);
@@ -96,14 +101,16 @@ public class OrderUtil {
             throw e1;
         } catch (Exception e) {
             if (order == null) {
-                throw new SedException(SYSTEM_UNKNOWN_ERROR);
+                throw new SedException(ORDER_CREATE_FAILED_UNKNOW_ERROR);
             } else if (order.getOrdersId() == null) {
+                e.printStackTrace();
                 throw new SedException(ORDER_CREATE_FAILED_UNKNOW_ERROR);
             } else {
                 String id = order.getOrdersId();
                 OrdersEntity e1 = ordersDao.findById(id);
                 ordersDao.delete(e1);
-                throw new SedException(SYSTEM_UNKNOWN_ERROR);
+                e.printStackTrace();
+                throw new SedException(ORDER_CREATE_FAILED_UNKNOW_ERROR);
             }
         }
     }
