@@ -117,7 +117,7 @@ public abstract class AbstractReadDao<T>  {
     }
 
     private String jointLikeQuery(String[] keys, String[] values, boolean isLikeQuery) {
-//        String hql = " from UsersEntity e where e.usersName like 'xiao%' and e.usersPassword like 'psd%'";
+//        String hql = " from UserEntity e where e.usersName like 'xiao%' and e.usersPassword like 'psd%'";
         String head = "from " + bindClassName();
 
         int length = keys.length <= values.length ? keys.length : values.length;

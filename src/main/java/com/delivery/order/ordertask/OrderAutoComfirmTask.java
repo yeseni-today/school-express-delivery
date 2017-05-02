@@ -1,7 +1,7 @@
 package com.delivery.order.ordertask;
 
-import com.delivery.common.dao.OrdersDao;
-import com.delivery.common.entity.OrdersEntity;
+import com.delivery.common.dao.OrderDao;
+import com.delivery.common.entity.OrderEntity;
 import com.delivery.common.util.Task;
 import com.delivery.common.util.TimeUnit;
 import com.delivery.dispatch.Dispatcher;
@@ -19,20 +19,20 @@ public class OrderAutoComfirmTask extends Task {
 
     String orderId;
 
-    OrdersDao dao;
+    OrderDao dao;
 
     Dispatcher dispatcher;
 
-    public OrderAutoComfirmTask(String orderId, Dispatcher dispatcher, OrdersDao ordersDao) {
+    public OrderAutoComfirmTask(String orderId, Dispatcher dispatcher, OrderDao orderDao) {
         this.orderId = orderId;
-        this.dao = ordersDao;
+        this.dao = orderDao;
         this.dispatcher = dispatcher;
     }
 
     @Override
     public void run() {
         super.run();
-        OrdersEntity orders = dao.findById(orderId);
+        OrderEntity orders = dao.findById(orderId);
         if (orders.getOrdersState().equals(OrderState.TAKE_PARCEL_WAIT_DELIVERY)) {
             synchronized (orders) {
                 if (orders.getOrdersState().equals(OrderState.TAKE_PARCEL_WAIT_DELIVERY)) {

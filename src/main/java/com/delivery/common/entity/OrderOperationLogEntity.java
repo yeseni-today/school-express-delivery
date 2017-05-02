@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "orders_operation_log", schema = "sed", catalog = "")
-public class OrdersOperationLogEntity {
+public class OrderOperationLogEntity {
     private String ordersId;
     private OrderState stateType;
     private Timestamp stateChangeTime;
@@ -61,7 +61,7 @@ public class OrdersOperationLogEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        OrdersOperationLogEntity that = (OrdersOperationLogEntity) o;
+        OrderOperationLogEntity that = (OrderOperationLogEntity) o;
 
         if (ordersLogId != that.ordersLogId) return false;
         if (ordersId != null ? !ordersId.equals(that.ordersId) : that.ordersId != null) return false;

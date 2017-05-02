@@ -1,7 +1,7 @@
 package com.delivery.common.constant;
 
-import com.delivery.common.entity.OrdersEntity;
-import com.delivery.common.entity.UsersEntity;
+import com.delivery.common.entity.OrderEntity;
+import com.delivery.common.entity.UserEntity;
 
 /**
  * @author finderlo
@@ -9,43 +9,36 @@ import com.delivery.common.entity.UsersEntity;
  */
 public class Constant {
 
-    private static OrdersEntity defaultOrdersEntity;
+    private static OrderEntity defaultOrderEntity;
 
     public static String ACTION_NEED_LOGIN = "action_need_login";
 
-    public static OrdersEntity getDefaultOrdersEntity() {
-        if (defaultOrdersEntity == null) {
-            defaultOrdersEntity = new OrdersEntity();
-            defaultOrdersEntity.setOrdersGrade("5");
+    public static OrderEntity getDefaultOrderEntity() {
+        if (defaultOrderEntity == null) {
+            defaultOrderEntity = new OrderEntity();
+            defaultOrderEntity.setOrdersGrade("5");
         }
-        return defaultOrdersEntity;
+        return defaultOrderEntity;
     }
 
-    private static UsersEntity defaultUsersEntity;
+    private static UserEntity defaultUserEntity;
 
-    public static UsersEntity getDefaultUsersEntity() {
-        if (defaultUsersEntity == null) {
-            defaultUsersEntity = new UsersEntity();
-            defaultUsersEntity.setUserIdentity(UsersEntity.UserType.RECIPIENT);
-            defaultUsersEntity.setUserIdcard(null);
+    public static UserEntity getDefaultUserEntity() {
+        if (defaultUserEntity == null) {
+            defaultUserEntity = new UserEntity();
+            defaultUserEntity.setUserIdentity(UserEntity.UserType.RECIPIENT);
+            defaultUserEntity.setUserIdcard(null);
 
         }
-        return defaultUsersEntity;
+        return defaultUserEntity;
     }
-
-    public static final String EVENT_ORDER_CANCEL_TYPE = "event_order_cancel_type";
-    public static final String EVENT_ORDER_CANCEL_TYPE_RECEIVER = "event_order_cancel_type_receiver";
-    public static final String EVENT_ORDER_CANCEL_TYPE_REPLACEMENT = "event_order_cancel_type_replacement";
 
 
     public static final String USER_ID = "user_id";
-
     public static final String USER_TYPE = "user_type";
-
     public static final String USER_PHONE = "user_phone";
-
-
     public static final String USER_ENTITY = "user_entity_object";
+
     public static final String ORDER_ENTITY = "order_entity_object";
     public static final String ORDER_ID = "order_id";
     public static final String ORDER_CANCEL_TYPE = "order_cancel_type";
@@ -61,4 +54,15 @@ public class Constant {
     public static final String MANUAL_UPGRADE = "action_sub_type_upgrade";
     public static final String MANUAL_DEGRADE = "action_sub_type_degrade";
     public static final String MANUAL_COMPLAIN = "action_sub_type_complain";
+
+
+    public static final String EVENT_ORDER_CANCEL_TYPE = "event_order_cancel_type";
+    public static final String EVENT_ORDER_CANCEL_TYPE_RECEIVER = "event_order_cancel_type_receiver";
+    public static final String EVENT_ORDER_CANCEL_TYPE_REPLACEMENT = "event_order_cancel_type_replacement";
+    public static final String EVENT_USER_REGISTER_USERENTITY = "event_user_register_user_entity";
+    public static final String EVENT_ORDER_ENTITY = ORDER_ENTITY;
+
+    public static final String CREDIT_CHANGE_VALUE = "credit_change_value";
+    public static final String CREDIT_REMARK = "credit_remark";
+
 }

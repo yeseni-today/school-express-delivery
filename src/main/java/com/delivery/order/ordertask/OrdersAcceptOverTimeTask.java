@@ -1,8 +1,8 @@
 package com.delivery.order.ordertask;
 
 import com.delivery.common.constant.Constant;
-import com.delivery.common.dao.OrdersDao;
-import com.delivery.common.entity.OrdersEntity;
+import com.delivery.common.dao.OrderDao;
+import com.delivery.common.entity.OrderEntity;
 import com.delivery.common.util.Task;
 import com.delivery.dispatch.Dispatcher;
 import com.delivery.event.Event;
@@ -20,27 +20,27 @@ public class OrdersAcceptOverTimeTask extends Task {
 
     String ordersId;
 
-    OrdersDao dao;
+    OrderDao dao;
 
     Dispatcher dispatcher;
 
-    public OrdersAcceptOverTimeTask(String orderId, OrdersDao ordersDao, Dispatcher dispatcher) {
+    public OrdersAcceptOverTimeTask(String orderId, OrderDao orderDao, Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
         this.ordersId = orderId;
-        this.dao = ordersDao;
+        this.dao = orderDao;
     }
 
     @Override
     public void run() {
         super.run();
-        OrdersEntity orders = dao.findById(ordersId);
+        OrderEntity orders = dao.findById(ordersId);
         if (orders.getOrdersState().equals(OrderState.ACCEPTED)) {
             synchronized (orders) {
                 if (orders.getOrdersState().equals(OrderState.ACCEPTED)) {
                     orders.setOrdersState(OrderState.CANCELED);
                     dao.update(orders);
                     //todo 发布订单取消事件
-                    dispatcher.getEventManager().publish(Event.OrderCancelEvent,
+                    dispatcher.getEventManager().publish(Event.OrderReplacementCancelEvent,
                             parseContext());
                 }
             }

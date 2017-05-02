@@ -1,7 +1,6 @@
 package com.delivery.order;
 
-import com.delivery.common.entity.UsersEntity;
-import com.sun.corba.se.spi.servicecontext.UEInfoServiceContext;
+import com.delivery.common.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class DefaultTimelineMatcher implements TimelineMatcher {
      * @date 21/04/2017
      */
     @Override
-    public Map<String, String> timelineCondition(UsersEntity users) {
+    public Map<String, String> timelineCondition(UserEntity users) {
         String school = users.getUserSchoolname();
         String sex = users.getUserSex();
 

@@ -1,13 +1,10 @@
 package com.delivery.common.dao;
 
-import com.delivery.common.dao.AbstractDao;
-import com.delivery.common.entity.OrdersEntity;
-import com.delivery.common.entity.UsersEntity;
+import com.delivery.common.entity.OrderEntity;
+import com.delivery.common.entity.UserEntity;
 import com.delivery.order.OrderState;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.internal.CriteriaImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -19,19 +16,19 @@ import java.util.*;
  */
 @Component
 @Repository
-public class OrdersDao extends AbstractDao<OrdersEntity> {
+public class OrderDao extends AbstractDao<OrderEntity> {
 
-    public List<OrdersEntity> findByIdAndState(String id, OrderState state) {
+    public List<OrderEntity> findByIdAndState(String id, OrderState state) {
         String[] key = new String[]{"ordersId", "ordersState"};
         return super.findBy(key, new String[]{id, state.toString()}, false);
     }
 
-    public List<OrdersEntity> findByReplacementId(String id) {
+    public List<OrderEntity> findByReplacementId(String id) {
         String[] key = new String[]{"replacementId"};
         return findBy(key, new String[]{id}, false);
     }
 
-    public List<OrdersEntity> findByRecipientId(String id) {
+    public List<OrderEntity> findByRecipientId(String id) {
         String[] key = new String[]{"recipientId"};
         return findBy(key, new String[]{id}, false);
     }
@@ -67,12 +64,12 @@ public class OrdersDao extends AbstractDao<OrdersEntity> {
     }
 
     //todo 在lx下测试
-    public List<OrdersEntity> findByUserMatch(UsersEntity user) {
-        List<OrdersEntity> res = new ArrayList<>();
+    public List<OrderEntity> findByUserMatch(UserEntity user) {
+        List<OrderEntity> res = new ArrayList<>();
         Session session = sessionFactory.getCurrentSession();
         int state = OrderState.WAIT_ACCEPT.ordinal();
         SQLQuery query = session.createSQLQuery("select *  from orders where orders_state='" + state + "' and recipient_ID in(SELECT user_ID FROM users WHERE user_sex=(select user_sex from users where user_ID='" + user.getUserId() + "'))");
-        res.addAll(query.addEntity(OrdersEntity.class).list());
+        res.addAll(query.addEntity(OrderEntity.class).list());
 
         System.out.println(res.size());
         return res;

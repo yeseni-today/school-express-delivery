@@ -1,7 +1,7 @@
 package com.delivery.order.ordertask;
 
-import com.delivery.common.dao.OrdersDao;
-import com.delivery.common.entity.OrdersEntity;
+import com.delivery.common.dao.OrderDao;
+import com.delivery.common.entity.OrderEntity;
 import com.delivery.common.util.Task;
 import com.delivery.order.OrderState;
 
@@ -14,17 +14,17 @@ public class OrderOvertimeTask extends Task {
 
     String ordersId;
 
-    OrdersDao dao;
+    OrderDao dao;
 
-    public OrderOvertimeTask(String orderId, OrdersDao ordersDao){
+    public OrderOvertimeTask(String orderId, OrderDao orderDao){
         this.ordersId = orderId;
-        this.dao = ordersDao;
+        this.dao = orderDao;
     }
 
     @Override
     public void run() {
         super.run();
-        OrdersEntity orders = dao.findById(ordersId);
+        OrderEntity orders = dao.findById(ordersId);
         if (orders.getOrdersState().equals(OrderState.WAIT_ACCEPT)){
             synchronized (orders){
                 if (orders.getOrdersState().equals(OrderState.WAIT_ACCEPT)){

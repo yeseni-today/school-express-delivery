@@ -3,9 +3,9 @@ package com.delivery.order;
 import com.delivery.common.ErrorCode;
 import com.delivery.common.SedException;
 import com.delivery.common.action.Action;
-import com.delivery.common.dao.OrdersDao;
-import com.delivery.common.entity.OrdersEntity;
-import com.delivery.common.entity.UsersEntity;
+import com.delivery.common.dao.OrderDao;
+import com.delivery.common.entity.OrderEntity;
+import com.delivery.common.entity.UserEntity;
 import com.delivery.common.util.Util;
 
 import java.sql.Timestamp;
@@ -33,11 +33,11 @@ public class OrderUtil {
      * @author finderlo
      * @date 22/04/2017
      */
-    public static synchronized OrdersEntity getOrderAndSave(Action action, OrdersDao ordersDao) {
-        OrdersEntity order = null;
+    public static synchronized OrderEntity getOrderAndSave(Action action, OrderDao orderDao) {
+        OrderEntity order = null;
 
         try {
-            order = new OrdersEntity();
+            order = new OrderEntity();
 
             //通过TOKEN自动获取
             String userId;
@@ -53,7 +53,7 @@ public class OrderUtil {
             String pickup_code;
             String remark;
 
-            UsersEntity creator = Util.getUser(action);
+            UserEntity creator = Util.getUser(action);
             userId = creator.getUserId();
             expressname = getAttrOrThrow(action, "express_name", ORDER_CREATE_EXPRESSNAME_NOEXIST);
             pickup_addr = getAttrOrThrow(action, "pickup_address", ORDER_CREATE_PICKUP_ADDR_NOEXIST);
@@ -90,9 +90,9 @@ public class OrderUtil {
             order.setOrdersCreatetime(new Timestamp(System.currentTimeMillis()));
             order.setOrdersState(OrderState.WAIT_ACCEPT);
 
-            String ordersId = ordersDao.newOrderId(OrdersDao.IdType.ORDER);
+            String ordersId = orderDao.newOrderId(OrderDao.IdType.ORDER);
             order.setOrdersId(ordersId);
-            ordersDao.save(order);
+            orderDao.save(order);
             System.out.println("订单创建完成");
             return order;
         } catch (IllegalArgumentException e) {
@@ -107,8 +107,8 @@ public class OrderUtil {
                 throw new SedException(ORDER_CREATE_FAILED_UNKNOW_ERROR);
             } else {
                 String id = order.getOrdersId();
-                OrdersEntity e1 = ordersDao.findById(id);
-                ordersDao.delete(e1);
+                OrderEntity e1 = orderDao.findById(id);
+                orderDao.delete(e1);
                 e.printStackTrace();
                 throw new SedException(ORDER_CREATE_FAILED_UNKNOW_ERROR);
             }

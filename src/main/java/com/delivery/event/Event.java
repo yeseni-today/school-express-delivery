@@ -16,7 +16,7 @@ public enum Event {
     OrderPublishedEvent,
     OrderAcceptedEvent,
     OrderCompleteSuccessEvent,
-    OrderCancelEvent,
+    OrderReplacementCancelEvent,
     OrderOutExpireEvent,
 
     UserRegisterEvent,
@@ -24,6 +24,6 @@ public enum Event {
 
     FundsDepositEvent,
     FundsFetchEvent,
-    FundsWithDrawEvent;
+    FundsWithDrawEvent, OrderCommentSuccessEvent;
 
 }

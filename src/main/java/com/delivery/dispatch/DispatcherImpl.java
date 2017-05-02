@@ -2,7 +2,7 @@ package com.delivery.dispatch;
 
 import com.delivery.common.SedException;
 import com.delivery.common.constant.Constant;
-import com.delivery.common.entity.UsersEntity;
+import com.delivery.common.entity.UserEntity;
 import com.delivery.common.ErrorCode;
 import com.delivery.common.action.Action;
 import com.delivery.common.Response;
@@ -66,7 +66,7 @@ public class DispatcherImpl implements Dispatcher {
         if (!token.equals("")) {
             Response response = userService.checkLogin(action);
             if (isSuccess(response)) {
-                UsersEntity user = (UsersEntity) response.getContent();
+                UserEntity user = (UserEntity) response.getContent();
                 user.setUserPassword("");
                 action.put(USER_ENTITY, user);
                 action.put(USER_ID, user.getUserId());

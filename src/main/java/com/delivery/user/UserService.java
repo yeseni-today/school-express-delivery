@@ -2,8 +2,8 @@ package com.delivery.user;
 
 import com.delivery.common.action.ActionHandler;
 import com.delivery.common.constant.Constant;
-import com.delivery.common.dao.UsersDao;
-import com.delivery.common.entity.UsersEntity;
+import com.delivery.common.dao.UserDao;
+import com.delivery.common.entity.UserEntity;
 import com.delivery.common.Response;
 import com.delivery.common.action.Action;
 import com.delivery.common.action.ActionType;
@@ -37,7 +37,7 @@ public class UserService implements ActionHandler, EventPublisher {
     Dispatcher dispatcher;
 
     @Autowired
-    UsersDao usersDao;
+    UserDao userDao;
 
     @Autowired
     TokenHandler tokenHandler;
@@ -93,7 +93,7 @@ public class UserService implements ActionHandler, EventPublisher {
      * @see UserConstant#USER_PASSWORD
      */
     public Response register(Action action) {
-        UsersEntity user = getUserAndSave(action,usersDao);
+        UserEntity user = getUserAndSave(action, userDao);
         publishRegisterSuccess(user);
         return success(user);
     }
@@ -112,7 +112,7 @@ public class UserService implements ActionHandler, EventPublisher {
         String phone = getUserPhone(action);
         if (phone.equals("")) return error(USER_NOT_EXIST_FIND_ARRT);
 
-        UsersEntity users = usersDao.findByUserPhone(phone);
+        UserEntity users = userDao.findByUserPhone(phone);
         Map<String, Object> res = new HashMap<>();
         res.put(USER_RES_USERS, users);
         return success(res);
@@ -124,7 +124,7 @@ public class UserService implements ActionHandler, EventPublisher {
      * @author finderlo
      * @date 17/04/2017
      */
-    private void publishRegisterSuccess(UsersEntity user) {
+    private void publishRegisterSuccess(UserEntity user) {
         publish(Event.UserRegisterEvent, parseEventfromUsersEntity(user));
     }
 
@@ -145,7 +145,7 @@ public class UserService implements ActionHandler, EventPublisher {
         //空检查
         if ("".equals(phone)) return error(USER_ID_ISNULL);
         //用户名密码检查
-        UsersEntity user = usersDao.findByUserPhone(phone);
+        UserEntity user = userDao.findByUserPhone(phone);
         if (user == null) return error(USER_NO_EXIST_PHONE);
 
         if (!validUser(phone, userpsd, user)) return error(USER_INCORRECT_ID_OR_PSD);
@@ -173,7 +173,7 @@ public class UserService implements ActionHandler, EventPublisher {
         //判断Token是否正确
         if (!tokenHandler.isRight(token)) return Response.error(USER_TOKEN_EXPIRY);
         //正确则返回Response
-        UsersEntity user = tokenHandler.getUser(token);
+        UserEntity user = tokenHandler.getUser(token);
         return success(user);
     }
 

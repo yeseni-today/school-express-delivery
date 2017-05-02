@@ -52,12 +52,22 @@ public class BeanConfig {
             FundsService fun,
             ManualService manualService,
             MessageService service){
+
+        //create a dispatcher
         DispatcherImpl dispatcher = new DispatcherImpl();
+
+        //set up link from dispatcher to module
         dispatcher.setEventManager(eventManager);
         dispatcher.setOrderService(orderService);
         dispatcher.setTimer(new TimerImpl(dispatcher));
         dispatcher.setUserService(userService);
 
+        //set up link from module to dispatcher
+        creditSystem.setDispatcher(dispatcher);
+        orderService.setDispatcher(dispatcher);
+        userService.setDispatcher(dispatcher);
+
+        //add all modules to the dispatcher
         ArrayList<ActionHandler> handlers = new ArrayList<>();
         handlers.add(orderService);
         handlers.add(userService);
@@ -67,9 +77,9 @@ public class BeanConfig {
         handlers.add(service);
         dispatcher.setHandlers(handlers);
 
+        //after,initialize module that need initialize
+        creditSystem.initEventListener();
 
-        orderService.setDispatcher(dispatcher);
-        userService.setDispatcher(dispatcher);
         return dispatcher;
     }
 }

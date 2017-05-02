@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "orders", schema = "sed", catalog = "")
-public class OrdersEntity {
+public class OrderEntity {
     private String ordersId;
     private Timestamp ordersCreatetime;
     private Timestamp ordersFinishtime;
@@ -195,7 +195,7 @@ public class OrdersEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        OrdersEntity that = (OrdersEntity) o;
+        OrderEntity that = (OrderEntity) o;
 
         if (ordersId != null ? !ordersId.equals(that.ordersId) : that.ordersId != null) return false;
         if (ordersCreatetime != null ? !ordersCreatetime.equals(that.ordersCreatetime) : that.ordersCreatetime != null)

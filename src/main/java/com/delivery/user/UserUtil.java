@@ -3,8 +3,8 @@ package com.delivery.user;
 import com.delivery.common.SedException;
 import com.delivery.common.action.Action;
 import com.delivery.common.constant.Constant;
-import com.delivery.common.dao.UsersDao;
-import com.delivery.common.entity.UsersEntity;
+import com.delivery.common.dao.UserDao;
+import com.delivery.common.entity.UserEntity;
 import com.delivery.common.ErrorCode;
 
 import static com.delivery.common.ErrorCode.SYSTEM_UNKNOWN_ERROR;
@@ -35,10 +35,10 @@ public class UserUtil {
      * @author finderlo
      * @date 17/04/2017
      */
-    public static synchronized UsersEntity getUserAndSave(Action action, UsersDao dao) {
-        UsersEntity user = null;
+    public static synchronized UserEntity getUserAndSave(Action action, UserDao dao) {
+        UserEntity user = null;
         try {
-            user = new UsersEntity();
+            user = new UserEntity();
             //用户填写的参数:name\phone\password\schoolcard\sex\schoolname\schooladdress
             user.setUserName((String) action.get("user_name"));
             user.setUserPhone((String) action.get("user_phone"));
@@ -51,7 +51,7 @@ public class UserUtil {
 
 
             //默认参数
-            user.setUserIdentity(Constant.getDefaultUsersEntity().getUserIdentity());
+            user.setUserIdentity(Constant.getDefaultUserEntity().getUserIdentity());
 
             //id
             user.setUserId(dao.newUsersId());
@@ -67,14 +67,14 @@ public class UserUtil {
                 throw new SedException(USER_REGISTER_INCORRECT_INFO);
             } else {
                 String id = user.getUserId();
-                UsersEntity e1 = dao.findById(id);
+                UserEntity e1 = dao.findById(id);
                 dao.delete(e1);
                 throw new SedException(SYSTEM_UNKNOWN_ERROR);
             }
         }
     }
 
-    private static void checkUniquePhone(String phone, UsersDao dao) {
+    private static void checkUniquePhone(String phone, UserDao dao) {
         if (dao.findByUserPhone(phone) != null){
             throw new SedException(ErrorCode.USER_REGISTER_DEP_PHONE);
         }

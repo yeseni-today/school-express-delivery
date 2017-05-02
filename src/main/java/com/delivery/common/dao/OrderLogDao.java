@@ -1,6 +1,6 @@
 package com.delivery.common.dao;
 
-import com.delivery.common.entity.OrdersOperationLogEntity;
+import com.delivery.common.entity.OrderOperationLogEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,9 +12,9 @@ import java.util.Map;
  */
 //todo
 @Component
-public class OrdersLogDao extends AbstractDao<OrdersOperationLogEntity> {
+public class OrderLogDao extends AbstractDao<OrderOperationLogEntity> {
     @Override
-    public List<OrdersOperationLogEntity> findBy(Map<String, String> attr, boolean likeQuery) {
+    public List<OrderOperationLogEntity> findBy(Map<String, String> attr, boolean likeQuery) {
         return null;
     }
 }

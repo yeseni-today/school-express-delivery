@@ -2,17 +2,19 @@ package com.delivery.common.util;
 
 import com.delivery.common.SedException;
 import com.delivery.common.action.Action;
-import com.delivery.common.dao.OrdersDao;
-import com.delivery.common.dao.OrdersLogDao;
-import com.delivery.common.entity.OrdersEntity;
-import com.delivery.common.entity.OrdersOperationLogEntity;
-import com.delivery.common.entity.UsersEntity;
+import com.delivery.common.dao.OrderDao;
+import com.delivery.common.dao.OrderLogDao;
+import com.delivery.common.entity.OrderEntity;
+import com.delivery.common.entity.OrderOperationLogEntity;
+import com.delivery.common.entity.UserEntity;
 import com.delivery.common.ErrorCode;
 import com.delivery.common.Response;
 import com.delivery.dispatch.Dispatcher;
 import com.delivery.event.EventContext;
 import com.delivery.order.OrderState;
+import com.sun.istack.internal.Nullable;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotNull;
 
 import java.sql.Timestamp;
@@ -49,11 +51,10 @@ public class Util {
 
     }
 
-//    public static void main(String[] args) {
-//        Action action = new Action();
-//        action.put(ACTION_SUB_TYPE, OrderActionType.accept);
-//        System.out.println(getActionSubType(action,OrderActionType.class).ordinal());
-//    }
+
+    public static void checkNull(Object o) {
+        checkNull(o, SYSTEM_NULL_OBJECT);
+    }
 
     public static void checkNull(Object type, ErrorCode errorCode) {
         if (type == null) {
@@ -61,9 +62,15 @@ public class Util {
         }
     }
 
+    public static void checkNotEqual(@Nullable Object type, @NotNull Object target, ErrorCode errorCode) {
+        if (!target.equals(type)){
+            throw new SedException(errorCode);
+        }
+    }
+
     public static void checkAdmin(Action action) {
-        if (checkRightType(action, UsersEntity.UserType.SYSTEM)) {
-            if (checkRightType(action, UsersEntity.UserType.ADMINSTARTE)) {
+        if (checkRightType(action, UserEntity.UserType.SYSTEM)) {
+            if (checkRightType(action, UserEntity.UserType.ADMINSTARTE)) {
                 return;
             } else throw new SedException(SYSTEM_NO_ENOUGH_PERMISSION);
 
@@ -71,8 +78,8 @@ public class Util {
 
     }
 
-    public static boolean checkRightType(Action action, UsersEntity.UserType userType) {
-        UsersEntity.UserType userType1 = (UsersEntity.UserType) action.get(USER_TYPE);
+    public static boolean checkRightType(Action action, UserEntity.UserType userType) {
+        UserEntity.UserType userType1 = (UserEntity.UserType) action.get(USER_TYPE);
         if (!userType1.equals(userType)) {
             return false;
         }
@@ -113,24 +120,18 @@ public class Util {
      * @author finderlo
      * @date 17/04/2017
      */
-    public static boolean validUser(String phone, String psd, UsersEntity correctUsers) {
+    public static boolean validUser(String phone, String psd, UserEntity correctUsers) {
         if (correctUsers == null) return false;
         if ("".equals(phone) || "".equals(psd)) return false;
         return psd.equals(correctUsers.getUserPassword()) && phone.equals(correctUsers.getUserPhone());
     }
 
-    public static EventContext parseEventfromUsersEntity(UsersEntity user) {
+    public static EventContext parseEventfromUsersEntity(UserEntity user) {
         EventContext context = new EventContext();
         context.put(EVENT_USER_REGISTER_USERENTITY, user);
         return context;
     }
 
-
-    public static void checkNull(Object o) {
-        if (o == null) {
-            throw new SedException(SYSTEM_NULL_OBJECT);
-        }
-    }
 
     public static boolean isSuccess(Response response) {
         return response.getError_code() == DEFAULT_SUCCESS.getCode();
@@ -144,14 +145,14 @@ public class Util {
      * @author finderlo
      * @date 22/04/2017
      */
-    public static UsersEntity getUser(Action action) {
-        UsersEntity user = (UsersEntity) action.getOrDefault(USER_ENTITY, null);
+    public static UserEntity getUser(Action action) {
+        UserEntity user = (UserEntity) action.getOrDefault(USER_ENTITY, null);
         checkNull(user, SYSTEM_USER_NO_EXIST);
         return user;
     }
 
-    public static OrdersEntity getOrder(Action action) {
-        OrdersEntity order = (OrdersEntity) action.getOrDefault(ORDER_ENTITY, null);
+    public static OrderEntity getOrder(Action action) {
+        OrderEntity order = (OrderEntity) action.getOrDefault(ORDER_ENTITY, null);
         checkNull(order, SYSTEM_ORDER_NO_EXIST);
         return order;
     }
@@ -205,10 +206,10 @@ public class Util {
     }
 
 
-    public static OrdersEntity getOrdersById(Action action, OrdersDao ordersDao) {
+    public static OrderEntity getOrdersById(Action action, OrderDao orderDao) {
         String orderid = getOrdersId(action);
         assert !Objects.equals(orderid, "");
-        OrdersEntity order = ordersDao.findById(orderid);
+        OrderEntity order = orderDao.findById(orderid);
         checkNull(order);
         return order;
     }
@@ -217,15 +218,15 @@ public class Util {
         return (String) action.getOrDefault(ORDER_ID, "");
     }
 
-    public static void pushlishOrdersLog(String logId, OrderState state, OrdersLogDao ordersLogDao) {
+    public static void pushlishOrdersLog(String logId, OrderState state, OrderLogDao orderLogDao) {
         try {
 
 
-            OrdersOperationLogEntity log = new OrdersOperationLogEntity();
+            OrderOperationLogEntity log = new OrderOperationLogEntity();
             log.setOrdersId(logId);
             log.setStateChangeTime(new Timestamp(System.currentTimeMillis()));
             log.setStateType(state);
-            ordersLogDao.save(log);
+            orderLogDao.save(log);
 
         } catch (Exception e) {
             throw new SedException(ORDER_OPERATION_LOG_PUBLISH_ERROR);
@@ -243,24 +244,20 @@ public class Util {
         return 100;
     }
 
-    public static int getOrderCountByReplace(String userID, int state, OrdersDao ordersDao) {
-        return getOrdersByUser(userID, state, ordersDao).size();
+    public static int getOrderCountByReplace(String userID, int state, OrderDao orderDao) {
+        return getOrdersByUser(userID, state, orderDao).size();
     }
 
-    public static List<OrdersEntity> getOrdersByUser(String userId, int state, OrdersDao ordersDao) {
+    public static List<OrderEntity> getOrdersByUser(String userId, int state, OrderDao orderDao) {
         boolean tar = state != 0;
-        List<OrdersEntity> orders = new ArrayList<>();
-        List<OrdersEntity> ordersRepl = ordersDao.findByReplacementId(userId);
+        List<OrderEntity> orders = new ArrayList<>();
+        List<OrderEntity> ordersRepl = orderDao.findByReplacementId(userId);
         orders.addAll(ordersRepl.stream().filter(e -> !e.getOrdersState().isComplete() ^ tar).collect(Collectors.toList()));
 
 
-        List<OrdersEntity> ordersReci = ordersDao.findByRecipientId(userId);
+        List<OrderEntity> ordersReci = orderDao.findByRecipientId(userId);
         orders.addAll(ordersReci.stream().filter(e -> !e.getOrdersState().isComplete() ^ tar).collect(Collectors.toList()));
 
-//        System.out.println("状态：" + state);
-//        System.out.println("总数:"+ordersRepl.size() + ordersReci.size());
-//        System.out.println("tar:"+tar);
-//        System.out.println(!OrderState.WAIT_ACCEPT.isComplete() ^ tar);
         return orders;
     }
 
@@ -271,4 +268,23 @@ public class Util {
     }
 
 
+    public static int getCreditChangeValue(Action action) {
+        Object valo = action.getOrDefault(CREDIT_CHANGE_VALUE, 0);
+        int val = 0;
+        if (valo instanceof String) {
+            String valstr = (String) valo;
+            valo = Integer.valueOf(valstr);
+        } else if (valo instanceof Integer) {
+            val = (int) valo;
+        } else {
+            throw new SedException(ErrorCode.CREDIT_CHANGE_VALUE_ERROR_TYPE);
+        }
+        return val;
+    }
+
+
+    public static String getRemark(Action action) {
+        String remark = (String) action.getOrDefault(CREDIT_REMARK, "");
+        return remark;
+    }
 }

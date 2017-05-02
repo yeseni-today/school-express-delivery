@@ -1,12 +1,10 @@
 import com.delivery.Application;
-import com.delivery.common.dao.UsersDao;
+import com.delivery.common.dao.UserDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -17,7 +15,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import sun.reflect.generics.tree.VoidDescriptor;
 
 /**
  * @author finderlo
@@ -41,7 +38,7 @@ public class UserControllerTest {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
-    @Test
+//    @Test
     public void login() throws Exception {
         String uri = "/user/login";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
@@ -57,22 +54,23 @@ public class UserControllerTest {
         println();
     }
 
-    @Test
+//    @Test
     public void test(){
         String phone = "18217699893";
         System.out.println(
-                usersDao.findByUserPhone(phone).getUserSchooladdress()
+                userDao.findByUserPhone(phone).getUserSchooladdress()
         );
     }
 
+    @Test
     public void register() throws Exception {
         String url = "/user/register";
 
-        String phone = "18217699895";
+        String phone = "18217699800";
 
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(url)
-                .param("user_name", "finderlo")
-                .param("user_phone", "18217699895")
+                .param("user_name", "Ticknick")
+                .param("user_phone", phone)
                 .param("user_password", "123456")
                 .param("user_schoolcard", "123456789")
                 .param("user_sex", "男")
@@ -85,13 +83,13 @@ public class UserControllerTest {
         System.out.println("注册测试");
         System.out.println(mvcResult.getResponse().getStatus());
         System.out.println(mvcResult.getResponse().getContentAsString());
-        System.out.println("sex from datebase:" + usersDao.findByUserPhone(phone).getUserSex()
+        System.out.println("sex from datebase:" + userDao.findByUserPhone(phone).getUserSex()
         );
         println();
     }
 
     @Autowired
-    UsersDao usersDao;
+    UserDao userDao;
 
     public void println() {
         System.out.println("------------------------------");
@@ -101,38 +99,5 @@ public class UserControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(obj);
     }
-
-//    @Test
-//    public void testShowDaoInt() throws Exception {
-//        List<TestPOJO> testPOJOList = testServices.showDao(10);
-//        expectedJson = Obj2Json(testPOJOList);
-//
-//        String uri="/showDao?age=10";
-//        MvcResult mvcResult=mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON)).andReturn();
-//        int status=mvcResult.getResponse().getStatus();
-//        String content=mvcResult.getResponse().getContentAsString();
-//
-//        Assert.assertTrue("错误，正确的返回值为200", status == 200);
-//        Assert.assertFalse("错误，正确的返回值为200", status != 200);
-//        Assert.assertTrue("数据一致", expectedJson.equals(content));
-//        Assert.assertFalse("数据不一致", !expectedJson.equals(content));
-//    }
-//
-//    @Test
-//    public void testShowDaoString() throws Exception {
-//        List<HotelDto> hotelDtoList=testServices.findByCountry("US");
-//        expectedJson = Obj2Json(hotelDtoList);
-//
-//        String uri="/country/US";
-//        MvcResult mvcResult=mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON)).andReturn();
-//        int status=mvcResult.getResponse().getStatus();
-//        String content=mvcResult.getResponse().getContentAsString();
-//
-//        Assert.assertTrue("错误，正确的返回值为200", status == 200);
-//        Assert.assertFalse("错误，正确的返回值为200", status != 200);
-//        Assert.assertTrue("数据一致", expectedJson.equals(content));
-//        Assert.assertFalse("数据不一致", !expectedJson.equals(content));
-//    }
-//
 
 }

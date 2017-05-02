@@ -1,7 +1,7 @@
 package com.delivery.order;
 
-import com.delivery.common.entity.OrdersEntity;
-import com.delivery.common.entity.UsersEntity;
+import com.delivery.common.entity.OrderEntity;
+import com.delivery.common.entity.UserEntity;
 import com.delivery.dispatch.Dispatcher;
 
 /**
@@ -11,5 +11,5 @@ import com.delivery.dispatch.Dispatcher;
  * @date 17/04/2017
  */
 public interface OrderAccepter {
-    boolean canAcceptOrder(UsersEntity user, OrdersEntity order, Dispatcher dispatcher);
+    boolean canAcceptOrder(UserEntity user, OrderEntity order, Dispatcher dispatcher);
 }

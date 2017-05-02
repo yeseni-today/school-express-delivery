@@ -1,6 +1,6 @@
 package com.delivery.user;
 
-import com.delivery.common.entity.UsersEntity;
+import com.delivery.common.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 public class TokenHandler {
 
-    private Map<String, UsersEntity> tokens = new HashMap<>();
+    private Map<String, UserEntity> tokens = new HashMap<>();
 
     /**
      * 判断Token是否正确，可以判断这个Token是否已经登陆
@@ -28,7 +28,7 @@ public class TokenHandler {
      *
      * @author finderlo
      */
-    public UsersEntity getUser(String token) {
+    public UserEntity getUser(String token) {
         return tokens.get(token);
     }
 
@@ -37,10 +37,10 @@ public class TokenHandler {
      *
      * @author finderlo
      */
-    public String getTokenAndLogin(UsersEntity usersEntity) {
+    public String getTokenAndLogin(UserEntity userEntity) {
         StringBuilder builder = new StringBuilder();
-        builder.append(usersEntity.getUserId()).append("%%").append(usersEntity.getUserName());
-        tokens.put(builder.toString(), usersEntity);
+        builder.append(userEntity.getUserId()).append("%%").append(userEntity.getUserName());
+        tokens.put(builder.toString(), userEntity);
         return builder.toString();
     }
 

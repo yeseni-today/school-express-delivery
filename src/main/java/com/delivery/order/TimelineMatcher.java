@@ -1,6 +1,6 @@
 package com.delivery.order;
 
-import com.delivery.common.entity.UsersEntity;
+import com.delivery.common.entity.UserEntity;
 
 import java.util.Map;
 
@@ -12,6 +12,6 @@ import java.util.Map;
  */
 public interface TimelineMatcher {
 
-    Map<String,String> timelineCondition(UsersEntity users);
+    Map<String,String> timelineCondition(UserEntity users);
 
 }

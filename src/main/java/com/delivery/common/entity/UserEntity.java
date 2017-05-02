@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "users", schema = "sed", catalog = "")
-public class UsersEntity {
+public class UserEntity {
     private String userId;
     private String userName;
     private String userPhone;
@@ -152,7 +152,7 @@ public class UsersEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UsersEntity that = (UsersEntity) o;
+        UserEntity that = (UserEntity) o;
 
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
