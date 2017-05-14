@@ -10,18 +10,18 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users", schema = "sed", catalog = "")
 public class UserEntity {
-    private String userId;
-    private String userName;
-    private String userPhone;
-    private String userPassword;
-    private UserType userIdentity;
-    private String userSchoolcard;
-    private String userIdcard;
-    private String userPhoto;
-    private String userAlipay;
-    private String userSex;
-    private String userSchoolname;
-    private String userSchooladdress;
+    private String id;
+    private String name;
+    private String phone;
+    private String password;
+    private UserType identity;
+    private String schoolCard;
+    private String idCard;
+    private String photo;
+    private String aliPay;
+    private String sex;
+    private String schoolName;
+    private String schoolAddress;
 
     public enum UserType{
         SYSTEM,RECIPIENT,REPLACEMENT,ADMINSTARTE
@@ -29,122 +29,122 @@ public class UserEntity {
 
     @Id
     @Column(name = "user_ID")
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Basic
     @Column(name = "user_name")
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Basic
     @Column(name = "user_phone")
-    public String getUserPhone() {
-        return userPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Basic
     @Column(name = "user_password")
-    public String getUserPassword() {
-        return userPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Basic
     @Column(name = "user_identity")
-    public UserType getUserIdentity() {
-        return userIdentity;
+    public UserType getIdentity() {
+        return identity;
     }
 
-    public void setUserIdentity(UserType userIdentity) {
-        this.userIdentity = userIdentity;
+    public void setIdentity(UserType identity) {
+        this.identity = identity;
     }
 
     @Basic
     @Column(name = "user_schoolcard")
-    public String getUserSchoolcard() {
-        return userSchoolcard;
+    public String getSchoolCard() {
+        return schoolCard;
     }
 
-    public void setUserSchoolcard(String userSchoolcard) {
-        this.userSchoolcard = userSchoolcard;
+    public void setSchoolCard(String schoolCard) {
+        this.schoolCard = schoolCard;
     }
 
     @Basic
     @Column(name = "user_idcard")
-    public String getUserIdcard() {
-        return userIdcard;
+    public String getIdCard() {
+        return idCard;
     }
 
-    public void setUserIdcard(String userIdcard) {
-        this.userIdcard = userIdcard;
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 
     @Basic
     @Column(name = "user_photo")
-    public String getUserPhoto() {
-        return userPhoto;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setUserPhoto(String userPhoto) {
-        this.userPhoto = userPhoto;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     @Basic
     @Column(name = "user_alipay")
-    public String getUserAlipay() {
-        return userAlipay;
+    public String getAliPay() {
+        return aliPay;
     }
 
-    public void setUserAlipay(String userAlipay) {
-        this.userAlipay = userAlipay;
+    public void setAliPay(String aliPay) {
+        this.aliPay = aliPay;
     }
 
     @Basic
     @Column(name = "user_sex")
-    public String getUserSex() {
-        return userSex;
+    public String getSex() {
+        return sex;
     }
 
-    public void setUserSex(String userSex) {
-        this.userSex = userSex;
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     @Basic
     @Column(name = "user_schoolname")
-    public String getUserSchoolname() {
-        return userSchoolname;
+    public String getSchoolName() {
+        return schoolName;
     }
 
-    public void setUserSchoolname(String userSchoolname) {
-        this.userSchoolname = userSchoolname;
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
     }
 
     @Basic
     @Column(name = "user_schooladdress")
-    public String getUserSchooladdress() {
-        return userSchooladdress;
+    public String getSchoolAddress() {
+        return schoolAddress;
     }
 
-    public void setUserSchooladdress(String userSchooladdress) {
-        this.userSchooladdress = userSchooladdress;
+    public void setSchoolAddress(String schoolAddress) {
+        this.schoolAddress = schoolAddress;
     }
 
     @Override
@@ -154,20 +154,20 @@ public class UserEntity {
 
         UserEntity that = (UserEntity) o;
 
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-        if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
-        if (userPhone != null ? !userPhone.equals(that.userPhone) : that.userPhone != null) return false;
-        if (userPassword != null ? !userPassword.equals(that.userPassword) : that.userPassword != null) return false;
-        if (userIdentity != null ? !userIdentity.equals(that.userIdentity) : that.userIdentity != null) return false;
-        if (userSchoolcard != null ? !userSchoolcard.equals(that.userSchoolcard) : that.userSchoolcard != null)
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
+        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (identity != null ? !identity.equals(that.identity) : that.identity != null) return false;
+        if (schoolCard != null ? !schoolCard.equals(that.schoolCard) : that.schoolCard != null)
             return false;
-        if (userIdcard != null ? !userIdcard.equals(that.userIdcard) : that.userIdcard != null) return false;
-        if (userPhoto != null ? !userPhoto.equals(that.userPhoto) : that.userPhoto != null) return false;
-        if (userAlipay != null ? !userAlipay.equals(that.userAlipay) : that.userAlipay != null) return false;
-        if (userSex != null ? !userSex.equals(that.userSex) : that.userSex != null) return false;
-        if (userSchoolname != null ? !userSchoolname.equals(that.userSchoolname) : that.userSchoolname != null)
+        if (idCard != null ? !idCard.equals(that.idCard) : that.idCard != null) return false;
+        if (photo != null ? !photo.equals(that.photo) : that.photo != null) return false;
+        if (aliPay != null ? !aliPay.equals(that.aliPay) : that.aliPay != null) return false;
+        if (sex != null ? !sex.equals(that.sex) : that.sex != null) return false;
+        if (schoolName != null ? !schoolName.equals(that.schoolName) : that.schoolName != null)
             return false;
-        if (userSchooladdress != null ? !userSchooladdress.equals(that.userSchooladdress) : that.userSchooladdress != null)
+        if (schoolAddress != null ? !schoolAddress.equals(that.schoolAddress) : that.schoolAddress != null)
             return false;
 
         return true;
@@ -175,18 +175,18 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        int result = userId != null ? userId.hashCode() : 0;
-        result = 31 * result + (userName != null ? userName.hashCode() : 0);
-        result = 31 * result + (userPhone != null ? userPhone.hashCode() : 0);
-        result = 31 * result + (userPassword != null ? userPassword.hashCode() : 0);
-        result = 31 * result + (userIdentity != null ? userIdentity.hashCode() : 0);
-        result = 31 * result + (userSchoolcard != null ? userSchoolcard.hashCode() : 0);
-        result = 31 * result + (userIdcard != null ? userIdcard.hashCode() : 0);
-        result = 31 * result + (userPhoto != null ? userPhoto.hashCode() : 0);
-        result = 31 * result + (userAlipay != null ? userAlipay.hashCode() : 0);
-        result = 31 * result + (userSex != null ? userSex.hashCode() : 0);
-        result = 31 * result + (userSchoolname != null ? userSchoolname.hashCode() : 0);
-        result = 31 * result + (userSchooladdress != null ? userSchooladdress.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (identity != null ? identity.hashCode() : 0);
+        result = 31 * result + (schoolCard != null ? schoolCard.hashCode() : 0);
+        result = 31 * result + (idCard != null ? idCard.hashCode() : 0);
+        result = 31 * result + (photo != null ? photo.hashCode() : 0);
+        result = 31 * result + (aliPay != null ? aliPay.hashCode() : 0);
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (schoolName != null ? schoolName.hashCode() : 0);
+        result = 31 * result + (schoolAddress != null ? schoolAddress.hashCode() : 0);
         return result;
     }
 

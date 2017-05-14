@@ -7,9 +7,10 @@ package com.delivery.export;
 public class HttpConstant {
 
 
+
     public static final String USER_REGISTER = "/user/register";
 
-    public static final String USER_FIND = "/user/find";
+    public static final String USER_FIND = "/user/findByPhone";
 
     public static final String USER_LOGIN = "/user/login";
 
@@ -24,7 +25,9 @@ public class HttpConstant {
 
     public static final String ORDER_CREATE_NORMAL = "/order/create";
 
-    public static final String ORDER_FIND = "/order/find";
+    public static final String ORDER_FIND = "/order/findByPhone";
+
+    public static final String ORDER_FIND_ORDER_LOG = "/order/find_order_log.json";
 
     public static final String ORDER_FIND_BY_USER_COMPLETE = "/order/find_by_user_complete";
 
@@ -46,8 +49,7 @@ public class HttpConstant {
     public static final String ORDER_COMPLAIN = "/order/complain";
 
     public static final String ORDER_CANCEL = "/order/cancel";
-
-
+    public static final String ORDER_FIND_ORDER_AND_USER = "/order/find_order_user";
 
     public static final String FUNDS_PAY = "/funds/pay ";
 
@@ -56,4 +58,8 @@ public class HttpConstant {
 
     public static final String MESSAGE_TIMELINE = "/message/timeline";
 
+    public static final String MANUAL_HANDLE_USER_UPGRADE = "/manage/handle_user_upgrade";
+
+    public static final String MANUAL_GET_REVIEW_LIST = "/manage/get_review_list";
+    public static final String MANUAL_GET_REVIEW_BY_USER = "/manage/get_review_by_userid";
 }

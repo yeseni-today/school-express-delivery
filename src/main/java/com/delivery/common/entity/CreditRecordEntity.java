@@ -9,10 +9,10 @@ import javax.persistence.*;
 @Table(name = "credit_record", schema = "sed", catalog = "")
 public class CreditRecordEntity {
     private String userId;
-    private String userEvent;
+    private String event;
     private Integer creditChange;
     private String eventInformation;
-    private int creditId;
+    private int id;
 
     @Basic
     @Column(name = "user_ID")
@@ -26,12 +26,12 @@ public class CreditRecordEntity {
 
     @Basic
     @Column(name = "user_event")
-    public String getUserEvent() {
-        return userEvent;
+    public String getEvent() {
+        return event;
     }
 
-    public void setUserEvent(String userEvent) {
-        this.userEvent = userEvent;
+    public void setEvent(String event) {
+        this.event = event;
     }
 
     @Basic
@@ -56,12 +56,12 @@ public class CreditRecordEntity {
 
     @Id
     @Column(name = "credit_ID")
-    public int getCreditId() {
-        return creditId;
+    public int getId() {
+        return id;
     }
 
-    public void setCreditId(int creditId) {
-        this.creditId = creditId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -71,9 +71,9 @@ public class CreditRecordEntity {
 
         CreditRecordEntity that = (CreditRecordEntity) o;
 
-        if (creditId != that.creditId) return false;
+        if (id != that.id) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-        if (userEvent != null ? !userEvent.equals(that.userEvent) : that.userEvent != null) return false;
+        if (event != null ? !event.equals(that.event) : that.event != null) return false;
         if (creditChange != null ? !creditChange.equals(that.creditChange) : that.creditChange != null) return false;
         if (eventInformation != null ? !eventInformation.equals(that.eventInformation) : that.eventInformation != null)
             return false;
@@ -84,10 +84,10 @@ public class CreditRecordEntity {
     @Override
     public int hashCode() {
         int result = userId != null ? userId.hashCode() : 0;
-        result = 31 * result + (userEvent != null ? userEvent.hashCode() : 0);
+        result = 31 * result + (event != null ? event.hashCode() : 0);
         result = 31 * result + (creditChange != null ? creditChange.hashCode() : 0);
         result = 31 * result + (eventInformation != null ? eventInformation.hashCode() : 0);
-        result = 31 * result + creditId;
+        result = 31 * result + id;
         return result;
     }
 }

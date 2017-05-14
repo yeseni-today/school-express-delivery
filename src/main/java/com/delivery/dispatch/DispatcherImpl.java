@@ -45,21 +45,27 @@ public class DispatcherImpl implements Dispatcher {
 
     @Override
     public Response execute(Action action) {
-        preExecute(action);
-        for (ActionHandler handler : handlers) {
-            if (handler.canHandleAction(action)) {
-                return handler.execute(action);
+        try {
+            preExecute(action);
+            for (ActionHandler handler : handlers) {
+                if (handler.canHandleAction(action)) {
+                    return handler.execute(action);
+                }
             }
+        } catch (SedException e) {
+            return Response.error(e.getErrorCode());
+        } catch (Exception e) {
+            return Response.error(ErrorCode.DEFAULT_ERROR);
         }
         return Response.error(ErrorCode.DISPATCHER_UNKNOWN_ACTION_TYPE);
     }
 
     private void preExecute(Action action) {
-        //如果不需要登陆，设置不需要登陆状态
-        String bool = (String) action.getOrDefault(Constant.ACTION_NEED_LOGIN,"true");
+        //如果不需要登陆，设置不需要登陆状态m
+        String bool = (String) action.getOrDefault(Constant.ACTION_NEED_LOGIN, "true");
         boolean needLogin = !bool.equals("false");
         //如果存在token，则添加用户名和类型
-        if (!needLogin){
+        if (!needLogin) {
             return;
         }
         String token = getToken(action);
@@ -67,10 +73,10 @@ public class DispatcherImpl implements Dispatcher {
             Response response = userService.checkLogin(action);
             if (isSuccess(response)) {
                 UserEntity user = (UserEntity) response.getContent();
-                user.setUserPassword("");
+                user.setPassword("");
                 action.put(USER_ENTITY, user);
-                action.put(USER_ID, user.getUserId());
-                action.put(USER_TYPE, user.getUserIdentity());
+                action.put(USER_ID, user.getId());
+                action.put(USER_TYPE, user.getIdentity());
             } else {
                 throw new SedException(ErrorCode.DISPATCHER_AUTO_LOGIN_CHECK_ERROR);
             }

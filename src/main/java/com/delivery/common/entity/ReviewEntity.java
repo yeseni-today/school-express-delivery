@@ -9,22 +9,43 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "review", schema = "sed", catalog = "")
 public class ReviewEntity {
-    private String reviewId;
+    private String id;
     private String userId;
     private String managerId;
-    private String reviewType;
+    private ReviewType reviewType;
     private Timestamp reviewTime;
-    private String reviewState;
-    private String revieWInformation;
+    private ReviewState state;
+    private String information;
+
+    private UserEntity user;
+
+
+    @OneToOne(cascade = CascadeType.MERGE,targetEntity = UserEntity.class)
+    @JoinColumn(name = "user_ID",insertable = false,updatable = false)
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public enum ReviewType{
+        UPGRADE,DEGRADE,UPDATE_DATA
+    }
+
+    public enum ReviewState{
+        WAIT_HANDLE,SUCCESS,FAIL
+    }
 
     @Id
     @Column(name = "review_ID")
-    public String getReviewId() {
-        return reviewId;
+    public String getId() {
+        return id;
     }
 
-    public void setReviewId(String reviewId) {
-        this.reviewId = reviewId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Basic
@@ -49,11 +70,11 @@ public class ReviewEntity {
 
     @Basic
     @Column(name = "review_type")
-    public String getReviewType() {
+    public ReviewType getReviewType() {
         return reviewType;
     }
 
-    public void setReviewType(String reviewType) {
+    public void setReviewType(ReviewType reviewType) {
         this.reviewType = reviewType;
     }
 
@@ -69,22 +90,22 @@ public class ReviewEntity {
 
     @Basic
     @Column(name = "review_state")
-    public String getReviewState() {
-        return reviewState;
+    public ReviewState getState() {
+        return state;
     }
 
-    public void setReviewState(String reviewState) {
-        this.reviewState = reviewState;
+    public void setState(ReviewState state) {
+        this.state = state;
     }
 
     @Basic
-    @Column(name = "revie\r\nw_information")
-    public String getRevieWInformation() {
-        return revieWInformation;
+    @Column(name = "review_information")
+    public String getInformation() {
+        return information;
     }
 
-    public void setRevieWInformation(String revieWInformation) {
-        this.revieWInformation = revieWInformation;
+    public void setInformation(String information) {
+        this.information = information;
     }
 
     @Override
@@ -94,13 +115,13 @@ public class ReviewEntity {
 
         ReviewEntity that = (ReviewEntity) o;
 
-        if (reviewId != null ? !reviewId.equals(that.reviewId) : that.reviewId != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (managerId != null ? !managerId.equals(that.managerId) : that.managerId != null) return false;
         if (reviewType != null ? !reviewType.equals(that.reviewType) : that.reviewType != null) return false;
         if (reviewTime != null ? !reviewTime.equals(that.reviewTime) : that.reviewTime != null) return false;
-        if (reviewState != null ? !reviewState.equals(that.reviewState) : that.reviewState != null) return false;
-        if (revieWInformation != null ? !revieWInformation.equals(that.revieWInformation) : that.revieWInformation != null)
+        if (state != null ? !state.equals(that.state) : that.state != null) return false;
+        if (information != null ? !information.equals(that.information) : that.information != null)
             return false;
 
         return true;
@@ -108,13 +129,13 @@ public class ReviewEntity {
 
     @Override
     public int hashCode() {
-        int result = reviewId != null ? reviewId.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (managerId != null ? managerId.hashCode() : 0);
         result = 31 * result + (reviewType != null ? reviewType.hashCode() : 0);
         result = 31 * result + (reviewTime != null ? reviewTime.hashCode() : 0);
-        result = 31 * result + (reviewState != null ? reviewState.hashCode() : 0);
-        result = 31 * result + (revieWInformation != null ? revieWInformation.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (information != null ? information.hashCode() : 0);
         return result;
     }
 }

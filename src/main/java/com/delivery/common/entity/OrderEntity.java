@@ -11,17 +11,23 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "orders", schema = "sed", catalog = "")
 public class OrderEntity {
-    private String ordersId;
-    private Timestamp ordersCreatetime;
-    private Timestamp ordersFinishtime;
-    private String ordersGrade;
-    private Double ordersCost;
-    private String ordersRemark;
+    private String id;
+    private Timestamp createTime;
+    private Timestamp finishTime;
+    private String grade;
+    private Double cost;
+    private String remark;
 
-    private OrderState ordersState;
+    private OrderState state;
 
     private String recipientId;
     private String replacementId;
+
+
+    private UserEntity recipient;
+
+    private UserEntity replacement;
+
     private String expressName;
     private String expressCode;
     private Timestamp pickupTime;
@@ -30,74 +36,94 @@ public class OrderEntity {
     private Timestamp deliveryTime;
     private String deliveryAddress;
 
-    @Id
-    @Column(name = "orders_ID")
-    public String getOrdersId() {
-        return ordersId;
+
+    @OneToOne(cascade = CascadeType.DETACH,targetEntity = UserEntity.class)
+    @JoinColumn(name = "recipient_ID",insertable = false,updatable = false)
+    public UserEntity getRecipient() {
+        return recipient;
     }
 
-    public void setOrdersId(String ordersId) {
-        this.ordersId = ordersId;
+    public void setRecipient(UserEntity recipient) {
+        this.recipient = recipient;
+    }
+    @OneToOne(cascade = CascadeType.DETACH,targetEntity = UserEntity.class)
+    @JoinColumn(name = "replacement_ID",insertable = false,updatable = false)
+    public UserEntity getReplacement() {
+        return replacement;
+    }
+
+    public void setReplacement(UserEntity replacement) {
+        this.replacement = replacement;
+    }
+
+    @Id
+    @Column(name = "orders_ID")
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Basic
     @Column(name = "orders_createtime")
-    public Timestamp getOrdersCreatetime() {
-        return ordersCreatetime;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setOrdersCreatetime(Timestamp ordersCreatetime) {
-        this.ordersCreatetime = ordersCreatetime;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     @Basic
     @Column(name = "orders_finishtime")
-    public Timestamp getOrdersFinishtime() {
-        return ordersFinishtime;
+    public Timestamp getFinishTime() {
+        return finishTime;
     }
 
-    public void setOrdersFinishtime(Timestamp ordersFinishtime) {
-        this.ordersFinishtime = ordersFinishtime;
+    public void setFinishTime(Timestamp finishTime) {
+        this.finishTime = finishTime;
     }
 
     @Basic
     @Column(name = "orders_grade")
-    public String getOrdersGrade() {
-        return ordersGrade;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setOrdersGrade(String ordersGrade) {
-        this.ordersGrade = ordersGrade;
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     @Basic
     @Column(name = "orders_cost")
-    public Double getOrdersCost() {
-        return ordersCost;
+    public Double getCost() {
+        return cost;
     }
 
-    public void setOrdersCost(Double ordersCost) {
-        this.ordersCost = ordersCost;
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 
     @Basic
     @Column(name = "orders_remark")
-    public String getOrdersRemark() {
-        return ordersRemark;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setOrdersRemark(String ordersRemark) {
-        this.ordersRemark = ordersRemark;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Basic
     @Column(name = "orders_state")
-    public OrderState getOrdersState() {
-        return ordersState;
+    public OrderState getState() {
+        return state;
     }
 
-    public void setOrdersState(OrderState ordersState) {
-        this.ordersState = ordersState;
+    public void setState(OrderState state) {
+        this.state = state;
     }
 
     @Basic
@@ -197,15 +223,15 @@ public class OrderEntity {
 
         OrderEntity that = (OrderEntity) o;
 
-        if (ordersId != null ? !ordersId.equals(that.ordersId) : that.ordersId != null) return false;
-        if (ordersCreatetime != null ? !ordersCreatetime.equals(that.ordersCreatetime) : that.ordersCreatetime != null)
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null)
             return false;
-        if (ordersFinishtime != null ? !ordersFinishtime.equals(that.ordersFinishtime) : that.ordersFinishtime != null)
+        if (finishTime != null ? !finishTime.equals(that.finishTime) : that.finishTime != null)
             return false;
-        if (ordersGrade != null ? !ordersGrade.equals(that.ordersGrade) : that.ordersGrade != null) return false;
-        if (ordersCost != null ? !ordersCost.equals(that.ordersCost) : that.ordersCost != null) return false;
-        if (ordersRemark != null ? !ordersRemark.equals(that.ordersRemark) : that.ordersRemark != null) return false;
-        if (ordersState != null ? !ordersState.equals(that.ordersState) : that.ordersState != null) return false;
+        if (grade != null ? !grade.equals(that.grade) : that.grade != null) return false;
+        if (cost != null ? !cost.equals(that.cost) : that.cost != null) return false;
+        if (remark != null ? !remark.equals(that.remark) : that.remark != null) return false;
+        if (state != null ? !state.equals(that.state) : that.state != null) return false;
         if (recipientId != null ? !recipientId.equals(that.recipientId) : that.recipientId != null) return false;
         if (replacementId != null ? !replacementId.equals(that.replacementId) : that.replacementId != null)
             return false;
@@ -224,13 +250,13 @@ public class OrderEntity {
 
     @Override
     public int hashCode() {
-        int result = ordersId != null ? ordersId.hashCode() : 0;
-        result = 31 * result + (ordersCreatetime != null ? ordersCreatetime.hashCode() : 0);
-        result = 31 * result + (ordersFinishtime != null ? ordersFinishtime.hashCode() : 0);
-        result = 31 * result + (ordersGrade != null ? ordersGrade.hashCode() : 0);
-        result = 31 * result + (ordersCost != null ? ordersCost.hashCode() : 0);
-        result = 31 * result + (ordersRemark != null ? ordersRemark.hashCode() : 0);
-        result = 31 * result + (ordersState != null ? ordersState.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (finishTime != null ? finishTime.hashCode() : 0);
+        result = 31 * result + (grade != null ? grade.hashCode() : 0);
+        result = 31 * result + (cost != null ? cost.hashCode() : 0);
+        result = 31 * result + (remark != null ? remark.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (recipientId != null ? recipientId.hashCode() : 0);
         result = 31 * result + (replacementId != null ? replacementId.hashCode() : 0);
         result = 31 * result + (expressName != null ? expressName.hashCode() : 0);

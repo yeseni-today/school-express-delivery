@@ -1,6 +1,5 @@
 package com.delivery.common;
 
-import com.sun.istack.internal.Nullable;
 
 /**
  * @author finderlo

@@ -8,22 +8,21 @@ import com.delivery.common.Response;
 import com.delivery.common.action.ActionType;
 import com.delivery.common.constant.Constant;
 import com.delivery.common.dao.CreditRecordDao;
+import com.delivery.common.entity.ComplaintEntity;
 import com.delivery.common.entity.CreditRecordEntity;
 import com.delivery.common.entity.OrderEntity;
 import com.delivery.common.entity.UserEntity;
 import com.delivery.common.util.Util;
 import com.delivery.dispatch.Dispatcher;
 import com.delivery.event.*;
-import com.delivery.order.OrderActionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static com.delivery.common.Response.*;
+import static com.delivery.common.util.UserUtil.checkAdmin;
 import static com.delivery.common.util.Util.*;
-import static com.delivery.common.constant.Constant.*;
-import static com.delivery.credit.CreditActionType.userRecords;
 
 /**
  * @author finderlo
@@ -54,6 +53,7 @@ public class CreditSystem implements EventPublisher, ActionHandler {
         manager.register(Event.OrderCommentSuccessEvent, orderCommentEventExecutor());
         manager.register(Event.OrderCompleteSuccessEvent, orderCompleteSuccessEventExecutor());
         manager.register(Event.OrderReplacementCancelEvent, orderReplacementCancelEventExecutor());
+        manager.register(Event.ManualHandleComplainResultEvent,manualHandleComplainResultEventEventExecutor());
     }
 
 
@@ -102,7 +102,7 @@ public class CreditSystem implements EventPublisher, ActionHandler {
      */
     public Response userCreditValue(Action action) {
         UserEntity user = getUser(action);
-        int val = creditRecordDao.getCreditValueByUserId(user.getUserId());
+        int val = creditRecordDao.getCreditValueByUserId(user.getId());
         return success(val);
     }
 
@@ -129,9 +129,29 @@ public class CreditSystem implements EventPublisher, ActionHandler {
      */
     public Response userRecords(Action action) {
         UserEntity user = getUser(action);
-        List<CreditRecordEntity> records = creditRecordDao.findByUserId(user.getUserId());
+        List<CreditRecordEntity> records = creditRecordDao.findByUserId(user.getId());
         return success(records);
     }
+
+    /**
+     * 申诉处理结果，事件执行器，主要执行信用值的记录变化
+     *
+     * @author Ticknick
+     * @date 02/05/2017
+     */
+    public EventExecutor manualHandleComplainResultEventEventExecutor() {
+        EventExecutor executor = new EventExecutor() {
+            @Override
+            public void execute(Event event, EventContext context) {
+                if (event != Event.ManualHandleComplainResultEvent) return;
+                int credit = (int) context.get(Constant.EVENT_COMPLAINT_RESULT_CREDIT_VALUE_INT);
+                ComplaintEntity complaint = (ComplaintEntity) context.get(Constant.EVENT_COMPLAINT_ENTITY);
+                saveRecord(complaint.getOrder().getReplacementId(),event.name(),credit,"");
+            }
+        };
+        return executor;
+    }
+
 
     /**
      * 用户注册，事件执行器
@@ -145,7 +165,7 @@ public class CreditSystem implements EventPublisher, ActionHandler {
             public void execute(Event event, EventContext context) {
                 if (event != Event.UserRegisterEvent) return;
                 UserEntity user = (UserEntity) context.get(Constant.EVENT_USER_REGISTER_USERENTITY);
-                saveRecord(user.getUserId(), event.name(), 100, null);
+                saveRecord(user.getId(), event.name(), 100, null);
             }
         };
         return executor;
@@ -163,9 +183,10 @@ public class CreditSystem implements EventPublisher, ActionHandler {
             public void execute(Event event, EventContext context) {
                 if (event != Event.OrderCommentSuccessEvent) return;
                 OrderEntity order = (OrderEntity) context.get(Constant.EVENT_ORDER_ENTITY);
-                int grade = Integer.parseInt(order.getOrdersGrade());
-                saveRecord(order.getRecipientId(), event.name(), grade - 2, order.toString());
-                saveRecord(order.getReplacementId(), event.name(), grade - 2, order.toString());
+                int grade = Integer.parseInt(order.getGrade());
+                //todo
+//                saveRecord(order.getRecipientId(), event.name(), grade - 2, order.toString());
+//                saveRecord(order.getReplacementId(), event.name(), grade - 2, order.toString());
             }
         };
         return executor;
@@ -211,7 +232,7 @@ public class CreditSystem implements EventPublisher, ActionHandler {
     public void saveRecord(String userId, String event, int changeValue, String remark) {
         CreditRecordEntity record = new CreditRecordEntity();
         record.setUserId(userId);
-        record.setUserEvent(event);
+        record.setEvent(event);
         record.setCreditChange(changeValue);
         record.setEventInformation(remark);
         try {

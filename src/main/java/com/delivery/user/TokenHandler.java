@@ -39,7 +39,7 @@ public class TokenHandler {
      */
     public String getTokenAndLogin(UserEntity userEntity) {
         StringBuilder builder = new StringBuilder();
-        builder.append(userEntity.getUserId()).append("%%").append(userEntity.getUserName());
+        builder.append(userEntity.getId()).append("%%").append(userEntity.getName());
         tokens.put(builder.toString(), userEntity);
         return builder.toString();
     }

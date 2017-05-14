@@ -9,34 +9,61 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "complaint", schema = "sed", catalog = "")
 public class ComplaintEntity {
-    private String complaintId;
-    private String orders_ID;
+    private String id;
+    private String orderId;
     private String userId;
     private String managerId;
-    private String complaintType;
-    private Timestamp complaintTime;
-    private String complaintState;
-    private String complaintInformation;
-    private String complaintResult;
+    private ComplainType type;
+    private Timestamp createTime;
+    private ComplainState state;
+    private String description;
+    private String result;
+
+
+    public enum ComplainState{
+        WAIT_DEAL,
+        COMPLETE
+    }
+
+    public enum ComplainType{
+        ReplacementDeliveryOnTime,
+        ReplacementNotSendDelivery,
+        ReceiverInfoError,
+        BigOrSmallDelivery,
+        Other
+    }
+
+    private OrderEntity order;
+
+    @OneToOne(cascade = CascadeType.DETACH,targetEntity = OrderEntity.class)
+    @JoinColumn(name = "orders_ID",insertable = false,updatable = false)
+    public OrderEntity getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderEntity order) {
+        this.order = order;
+    }
+
 
     @Id
     @Column(name = "complaint_ID")
-    public String getComplaintId() {
-        return complaintId;
+    public String getId() {
+        return id;
     }
 
-    public void setComplaintId(String complaintId) {
-        this.complaintId = complaintId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Basic
-    @Column(name = "orders_ID")
-    public String getOrders_ID() {
-        return orders_ID;
+    @Column(name = "ordersID")
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setOrders_ID(String orders_ID) {
-        this.orders_ID = orders_ID;
+    public void setOrderId(String orders_ID) {
+        this.orderId = orders_ID;
     }
 
     @Basic
@@ -61,52 +88,52 @@ public class ComplaintEntity {
 
     @Basic
     @Column(name = "complaint_type")
-    public String getComplaintType() {
-        return complaintType;
+    public ComplainType getType() {
+        return type;
     }
 
-    public void setComplaintType(String complaintType) {
-        this.complaintType = complaintType;
+    public void setType(ComplainType type) {
+        this.type = type;
     }
 
     @Basic
     @Column(name = "complaint_time")
-    public Timestamp getComplaintTime() {
-        return complaintTime;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setComplaintTime(Timestamp complaintTime) {
-        this.complaintTime = complaintTime;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     @Basic
     @Column(name = "complaint_state")
-    public String getComplaintState() {
-        return complaintState;
+    public ComplainState getState() {
+        return state;
     }
 
-    public void setComplaintState(String complaintState) {
-        this.complaintState = complaintState;
+    public void setState(ComplainState state) {
+        this.state = state;
     }
 
     @Basic
     @Column(name = "complaint_information")
-    public String getComplaintInformation() {
-        return complaintInformation;
+    public String getDescription() {
+        return description;
     }
 
-    public void setComplaintInformation(String complaintInformation) {
-        this.complaintInformation = complaintInformation;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Basic
     @Column(name = "complaint_result")
-    public String getComplaintResult() {
-        return complaintResult;
+    public String getResult() {
+        return result;
     }
 
-    public void setComplaintResult(String complaintResult) {
-        this.complaintResult = complaintResult;
+    public void setResult(String result) {
+        this.result = result;
     }
 
     @Override
@@ -116,19 +143,19 @@ public class ComplaintEntity {
 
         ComplaintEntity that = (ComplaintEntity) o;
 
-        if (complaintId != null ? !complaintId.equals(that.complaintId) : that.complaintId != null) return false;
-        if (orders_ID != null ? !orders_ID.equals(that.orders_ID) : that.orders_ID != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (orderId != null ? !orderId.equals(that.orderId) : that.orderId != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (managerId != null ? !managerId.equals(that.managerId) : that.managerId != null) return false;
-        if (complaintType != null ? !complaintType.equals(that.complaintType) : that.complaintType != null)
+        if (type != null ? !type.equals(that.type) : that.type != null)
             return false;
-        if (complaintTime != null ? !complaintTime.equals(that.complaintTime) : that.complaintTime != null)
+        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null)
             return false;
-        if (complaintState != null ? !complaintState.equals(that.complaintState) : that.complaintState != null)
+        if (state != null ? !state.equals(that.state) : that.state != null)
             return false;
-        if (complaintInformation != null ? !complaintInformation.equals(that.complaintInformation) : that.complaintInformation != null)
+        if (description != null ? !description.equals(that.description) : that.description != null)
             return false;
-        if (complaintResult != null ? !complaintResult.equals(that.complaintResult) : that.complaintResult != null)
+        if (result != null ? !result.equals(that.result) : that.result != null)
             return false;
 
         return true;
@@ -136,15 +163,15 @@ public class ComplaintEntity {
 
     @Override
     public int hashCode() {
-        int result = complaintId != null ? complaintId.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + (orders_ID != null ? orders_ID.hashCode() : 0);
+        result = 31 * result + (orderId != null ? orderId.hashCode() : 0);
         result = 31 * result + (managerId != null ? managerId.hashCode() : 0);
-        result = 31 * result + (complaintType != null ? complaintType.hashCode() : 0);
-        result = 31 * result + (complaintTime != null ? complaintTime.hashCode() : 0);
-        result = 31 * result + (complaintState != null ? complaintState.hashCode() : 0);
-        result = 31 * result + (complaintInformation != null ? complaintInformation.hashCode() : 0);
-        result = 31 * result + (complaintResult != null ? complaintResult.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (this.result != null ? this.result.hashCode() : 0);
         return result;
     }
 }

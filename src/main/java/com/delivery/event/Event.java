@@ -8,7 +8,7 @@ package com.delivery.event;
  */
 public enum Event {
 
-    ManualHandleComplainSuccessEvent,
+    ManualHandleComplainResultEvent,
     ManualHandleComplainFailEvent,
     ManualHandleUserUpgradeSuccessEvent,
     ManualHandleUserUpgradeFailEvent,
@@ -24,6 +24,6 @@ public enum Event {
 
     FundsDepositEvent,
     FundsFetchEvent,
-    FundsWithDrawEvent, OrderCommentSuccessEvent;
+    FundsWithDrawEvent, OrderCommentSuccessEvent, Manual_NewUpgradeEvent, Manual_NewComplaint;
 
 }

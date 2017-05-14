@@ -9,93 +9,102 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "message", schema = "sed", catalog = "")
 public class MessageEntity {
-    private int messageId;
-    private String messageSendId;
-    private String messageReceiveId;
-    private String messageType;
-    private Timestamp messagEDate;
-    private String messageTitle;
-    private String messageInformation;
-    private String messageState;
+    private int id;
+    private String senderId;
+    private String receiverId;
+    private MessageType type;
+    private Timestamp createTime;
+    private String title;
+    private String content;
+    private MessageState state;
+
+
+    public enum MessageState {
+        UNREAD, READ, NOT_SHOW
+    }
+
+    public enum MessageType {
+        SYSTEM, APPLY, COMPLAIN_RESULT, ORDER_MSG, OTHER
+    }
 
     @Id
     @Column(name = "message_ID")
-    public int getMessageId() {
-        return messageId;
+    public int getId() {
+        return id;
     }
 
-    public void setMessageId(int messageId) {
-        this.messageId = messageId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Basic
     @Column(name = "message_send_ID")
     public String getMessageSendId() {
-        return messageSendId;
+        return senderId;
     }
 
     public void setMessageSendId(String messageSendId) {
-        this.messageSendId = messageSendId;
+        this.senderId = messageSendId;
     }
 
     @Basic
     @Column(name = "message_receive_ID")
-    public String getMessageReceiveId() {
-        return messageReceiveId;
+    public String getReceiverId() {
+        return receiverId;
     }
 
-    public void setMessageReceiveId(String messageReceiveId) {
-        this.messageReceiveId = messageReceiveId;
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
     }
 
     @Basic
     @Column(name = "message_type")
-    public String getMessageType() {
-        return messageType;
+    public MessageType getType() {
+        return type;
     }
 
-    public void setMessageType(String messageType) {
-        this.messageType = messageType;
+    public void setType(MessageType type) {
+        this.type = type;
     }
 
     @Basic
-    @Column(name = "messag\r\ne_date")
-    public Timestamp getMessagEDate() {
-        return messagEDate;
+    @Column(name = "message_date")
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setMessagEDate(Timestamp messagEDate) {
-        this.messagEDate = messagEDate;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     @Basic
     @Column(name = "message_title")
-    public String getMessageTitle() {
-        return messageTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setMessageTitle(String messageTitle) {
-        this.messageTitle = messageTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Basic
     @Column(name = "message_information")
-    public String getMessageInformation() {
-        return messageInformation;
+    public String getContent() {
+        return content;
     }
 
-    public void setMessageInformation(String messageInformation) {
-        this.messageInformation = messageInformation;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Basic
     @Column(name = "message_state")
-    public String getMessageState() {
-        return messageState;
+    public MessageState getState() {
+        return state;
     }
 
-    public void setMessageState(String messageState) {
-        this.messageState = messageState;
+    public void setState(MessageState state) {
+        this.state = state;
     }
 
     @Override
@@ -105,31 +114,31 @@ public class MessageEntity {
 
         MessageEntity that = (MessageEntity) o;
 
-        if (messageId != that.messageId) return false;
-        if (messageSendId != null ? !messageSendId.equals(that.messageSendId) : that.messageSendId != null)
+        if (id != that.id) return false;
+        if (senderId != null ? !senderId.equals(that.senderId) : that.senderId != null)
             return false;
-        if (messageReceiveId != null ? !messageReceiveId.equals(that.messageReceiveId) : that.messageReceiveId != null)
+        if (receiverId != null ? !receiverId.equals(that.receiverId) : that.receiverId != null)
             return false;
-        if (messageType != null ? !messageType.equals(that.messageType) : that.messageType != null) return false;
-        if (messagEDate != null ? !messagEDate.equals(that.messagEDate) : that.messagEDate != null) return false;
-        if (messageTitle != null ? !messageTitle.equals(that.messageTitle) : that.messageTitle != null) return false;
-        if (messageInformation != null ? !messageInformation.equals(that.messageInformation) : that.messageInformation != null)
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (content != null ? !content.equals(that.content) : that.content != null)
             return false;
-        if (messageState != null ? !messageState.equals(that.messageState) : that.messageState != null) return false;
+        if (state != null ? !state.equals(that.state) : that.state != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = messageId;
-        result = 31 * result + (messageSendId != null ? messageSendId.hashCode() : 0);
-        result = 31 * result + (messageReceiveId != null ? messageReceiveId.hashCode() : 0);
-        result = 31 * result + (messageType != null ? messageType.hashCode() : 0);
-        result = 31 * result + (messagEDate != null ? messagEDate.hashCode() : 0);
-        result = 31 * result + (messageTitle != null ? messageTitle.hashCode() : 0);
-        result = 31 * result + (messageInformation != null ? messageInformation.hashCode() : 0);
-        result = 31 * result + (messageState != null ? messageState.hashCode() : 0);
+        int result = id;
+        result = 31 * result + (senderId != null ? senderId.hashCode() : 0);
+        result = 31 * result + (receiverId != null ? receiverId.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (content != null ? content.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
         return result;
     }
 }

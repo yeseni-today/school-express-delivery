@@ -33,10 +33,10 @@ public class OrderAutoComfirmTask extends Task {
     public void run() {
         super.run();
         OrderEntity orders = dao.findById(orderId);
-        if (orders.getOrdersState().equals(OrderState.TAKE_PARCEL_WAIT_DELIVERY)) {
+        if (orders.getState().equals(OrderState.TAKE_PARCEL_WAIT_DELIVERY)) {
             synchronized (orders) {
-                if (orders.getOrdersState().equals(OrderState.TAKE_PARCEL_WAIT_DELIVERY)) {
-                    orders.setOrdersState(OrderState.WAIT_COMMENT);
+                if (orders.getState().equals(OrderState.TAKE_PARCEL_WAIT_DELIVERY)) {
+                    orders.setState(OrderState.WAIT_COMMENT);
                     dao.update(orders);
                     dispatcher.getTimer().submit(new OrderAutoCommentTask(orderId, dao), 12, TimeUnit.HOURS);
 

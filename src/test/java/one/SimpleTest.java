@@ -1,3 +1,5 @@
+package one;
+
 import com.delivery.common.Response;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
@@ -19,7 +21,7 @@ public class SimpleTest {
         LinkedTreeMap content = (LinkedTreeMap) result.getContent();
         for (Object key : content.keySet()) {
             System.out.println(key);
-            if ("recpiaToken".equals(key.toString())) {
+            if ("token".equals(key.toString())) {
                 System.out.println("111");
                 return (String) content.get(key);
             }

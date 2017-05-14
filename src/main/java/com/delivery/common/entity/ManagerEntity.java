@@ -8,49 +8,49 @@ import javax.persistence.*;
 @Entity
 @Table(name = "manager", schema = "sed", catalog = "")
 public class ManagerEntity {
-    private String managerId;
-    private String managerName;
-    private String managerIdentity;
-    private String managerPhone;
+    private String id;
+    private String name;
+    private String identity;
+    private String phone;
 
     @Id
     @Column(name = "manager_ID")
-    public String getManagerId() {
-        return managerId;
+    public String getId() {
+        return id;
     }
 
-    public void setManagerId(String managerId) {
-        this.managerId = managerId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Basic
     @Column(name = "manager_name")
-    public String getManagerName() {
-        return managerName;
+    public String getName() {
+        return name;
     }
 
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Basic
     @Column(name = "manager_identity")
-    public String getManagerIdentity() {
-        return managerIdentity;
+    public String getIdentity() {
+        return identity;
     }
 
-    public void setManagerIdentity(String managerIdentity) {
-        this.managerIdentity = managerIdentity;
+    public void setIdentity(String identity) {
+        this.identity = identity;
     }
 
     @Basic
     @Column(name = "manager_phone")
-    public String getManagerPhone() {
-        return managerPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setManagerPhone(String managerPhone) {
-        this.managerPhone = managerPhone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override
@@ -60,21 +60,21 @@ public class ManagerEntity {
 
         ManagerEntity that = (ManagerEntity) o;
 
-        if (managerId != null ? !managerId.equals(that.managerId) : that.managerId != null) return false;
-        if (managerName != null ? !managerName.equals(that.managerName) : that.managerName != null) return false;
-        if (managerIdentity != null ? !managerIdentity.equals(that.managerIdentity) : that.managerIdentity != null)
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (identity != null ? !identity.equals(that.identity) : that.identity != null)
             return false;
-        if (managerPhone != null ? !managerPhone.equals(that.managerPhone) : that.managerPhone != null) return false;
+        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = managerId != null ? managerId.hashCode() : 0;
-        result = 31 * result + (managerName != null ? managerName.hashCode() : 0);
-        result = 31 * result + (managerIdentity != null ? managerIdentity.hashCode() : 0);
-        result = 31 * result + (managerPhone != null ? managerPhone.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (identity != null ? identity.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
         return result;
     }
 }

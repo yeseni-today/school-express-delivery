@@ -1,5 +1,11 @@
+package one;
+
 import com.delivery.Application;
 import com.delivery.common.dao.CreditRecordDao;
+import com.delivery.common.dao.OrderDao;
+import com.delivery.common.dao.ReviewDao;
+import com.delivery.common.entity.ReviewEntity;
+import com.delivery.order.OrderState;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +26,19 @@ public class DaoTest {
     @Autowired
     CreditRecordDao creditRecordDao;
 
+    @Autowired
+    OrderDao orderDao;
+
+    @Autowired
+    ReviewDao reviewDao;
+
     @Test
+    public void aa()
+    {
+//        System.out.println(orderDao.findById("20170423100000").getRecipient().getId());
+        System.out.println(orderDao.findByState(OrderState.WAIT_ACCEPT));
+    }
+//    @Test
     public void a(){
         System.out.println(creditRecordDao.findByUserId(userid).size());
     }

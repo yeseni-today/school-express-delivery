@@ -21,8 +21,8 @@ public class DefaultTimelineMatcher implements TimelineMatcher {
      */
     @Override
     public Map<String, String> timelineCondition(UserEntity users) {
-        String school = users.getUserSchoolname();
-        String sex = users.getUserSex();
+        String school = users.getSchoolName();
+        String sex = users.getSex();
 
         Map<String,String> attr = new HashMap<>();
 

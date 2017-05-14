@@ -19,8 +19,12 @@ import java.util.*;
 public class OrderDao extends AbstractDao<OrderEntity> {
 
     public List<OrderEntity> findByIdAndState(String id, OrderState state) {
-        String[] key = new String[]{"ordersId", "ordersState"};
-        return super.findBy(key, new String[]{id, state.toString()}, false);
+        String[] key = new String[]{"id", "state"};
+        return super.findBy(key, new String[]{id, state.ordinal()+""}, false);
+    }
+
+    public List<OrderEntity> findByState(OrderState state) {
+        return super.findBy("state",state.ordinal()+"", false);
     }
 
     public List<OrderEntity> findByReplacementId(String id) {
@@ -68,7 +72,7 @@ public class OrderDao extends AbstractDao<OrderEntity> {
         List<OrderEntity> res = new ArrayList<>();
         Session session = sessionFactory.getCurrentSession();
         int state = OrderState.WAIT_ACCEPT.ordinal();
-        SQLQuery query = session.createSQLQuery("select *  from orders where orders_state='" + state + "' and recipient_ID in(SELECT user_ID FROM users WHERE user_sex=(select user_sex from users where user_ID='" + user.getUserId() + "'))");
+        SQLQuery query = session.createSQLQuery("select *  from orders where orders_state='" + state + "' and recipient_ID in(SELECT user_ID FROM users WHERE user_sex=(select user_sex from users where user_ID='" + user.getId() + "'))");
         res.addAll(query.addEntity(OrderEntity.class).list());
 
         System.out.println(res.size());

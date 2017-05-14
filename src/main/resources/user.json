@@ -58,5 +58,43 @@
 				"userSchooladdress": "默认地址100号"
 			}
 		}
+	},
+	{
+		"url": "/user/upgrade",
+		"method": "post",
+		"param": {
+			"school_card": "1000383871",
+			"alipay": "adad",
+			"id_card": "2123123",
+			"review_type": "0",
+			"token": "213124124%%收件人"
+		},
+		"return": {
+			"error_code": 200,
+			"message": "success",
+			"content": {
+				"reviewId": "2017051100000",
+				"userId": "213124124",
+				"managerId": null,
+				"reviewType": "UPGRADE",
+				"reviewTime": 1494517609299,
+				"reviewState": "WAIT_HANDLE",
+				"reviewInformation": null,
+				"user": {
+					"userId": "213124124",
+					"userName": "收件人",
+					"userPhone": "12345678901",
+					"userPassword": "",
+					"userIdentity": "RECIPIENT",
+					"userSchoolcard": "1000383871",
+					"userIdcard": "2123123",
+					"userPhoto": "  ",
+					"userAlipay": "adad",
+					"userSex": "7",
+					"userSchoolname": "6687",
+					"userSchooladdress": "686"
+				}
+			}
+		}
 	}
 ]

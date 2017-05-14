@@ -34,10 +34,10 @@ public class OrdersAcceptOverTimeTask extends Task {
     public void run() {
         super.run();
         OrderEntity orders = dao.findById(ordersId);
-        if (orders.getOrdersState().equals(OrderState.ACCEPTED)) {
+        if (orders.getState().equals(OrderState.ACCEPTED)) {
             synchronized (orders) {
-                if (orders.getOrdersState().equals(OrderState.ACCEPTED)) {
-                    orders.setOrdersState(OrderState.CANCELED);
+                if (orders.getState().equals(OrderState.ACCEPTED)) {
+                    orders.setState(OrderState.CANCELED);
                     dao.update(orders);
                     //todo 发布订单取消事件
                     dispatcher.getEventManager().publish(Event.OrderReplacementCancelEvent,

@@ -82,7 +82,7 @@ public class UserController {
     /**
      * @author finderlo
      * @date 17/04/2017
-     * @see com.delivery.user.UserService#find(Action)
+     * @see com.delivery.user.UserService#findByPhone(Action)
      */
     @RequestMapping(value = USER_FIND, method = RequestMethod.GET)
     @ResponseBody

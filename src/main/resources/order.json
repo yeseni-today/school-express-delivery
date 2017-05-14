@@ -21,12 +21,13 @@
 				"pickup_address": "上市发东门口",
 				"pickup_time": "2017-04-28 14:59:59",
 				"delivery_address": "28号楼505",
-				"delivery_time": "2017-04-28 14:59:59"
+				"delivery_time": "2017-04-28 14:59:59",
+				"order_price": "0.0"
 			},
 			"可选": {
 				"express_code": "14012412412",
 				"pickup_code": "124",
-				"orders_remark": "备注无"
+				"order_remark": "备注无"
 			}
 		},
 		"return": {
@@ -269,7 +270,7 @@
 			"error_code": 20015,
 			"message": "订单无法设置递送状态，前置状态不是已接收",
 			"content": null
-		}
+		},
 		"return_success": {
 			"error_code": 200,
 			"message": "success",
@@ -291,6 +292,238 @@
 				"deliveryTime": 1493362799000,
 				"deliveryAddress": "28号楼505"
 			}
+		}
+	},
+	{
+		"url": "/order/find_order_user",
+		"method": "get",
+		"param": {
+			"token": "213124127%%代取人",
+			"order_id": "20170423100000"
+		},
+		"return": {
+			"error_code": 200,
+			"message": "success",
+			"content": {
+				"recipientPhone": "12345678901",
+				"deliveryTime": 1493362799000,
+				"orderId": "20170423100000",
+				"replacementName": "代取人",
+				"orderFinishtime": null,
+				"orderRemark": "备注无",
+				"orderGrade": null,
+				"orderState": "TAKE_PARCEL_WAIT_DELIVERY",
+				"expressName": "中通",
+				"pickupTime": 1493362799000,
+				"pickupAddress": "上市发东门口",
+				"deliveryAddress": "28号楼505",
+				"orderCreatetime": 1492913619000,
+				"expressCode": "14012412412",
+				"recipientId": "213124124",
+				"replacementId": "213124127",
+				"recipientName": "收件人",
+				"orderCost": null,
+				"pickupCode": "124",
+				"replacementPhone": "18217699895"
+			}
+		}
+	},
+	{
+		"url": "/order/find_order_log.json",
+		"method": "get",
+		"param": {
+			"token": "213124127%%代取人",
+			"order_id": "20170423100000"
+		},
+		"return": {
+			"error_code": 200,
+			"message": "success",
+			"content": [
+				{
+					"orderId": "20170423100000",
+					"stateType": "WAIT_ACCEPT",
+					"stateChangeTime": 1492913619000,
+					"orderLogId": 1
+				},
+				{
+					"orderId": "20170423100000",
+					"stateType": "ACCEPTED",
+					"stateChangeTime": 1492917246000,
+					"orderLogId": 3
+				},
+				{
+					"orderId": "20170423100000",
+					"stateType": "ACCEPTED",
+					"stateChangeTime": 1492917333000,
+					"orderLogId": 4
+				},
+				{
+					"orderId": "20170423100000",
+					"stateType": "ACCEPTED",
+					"stateChangeTime": 1492917476000,
+					"orderLogId": 5
+				},
+				{
+					"orderId": "20170423100000",
+					"stateType": "TAKE_PARCEL_WAIT_DELIVERY",
+					"stateChangeTime": 1492917798000,
+					"orderLogId": 6
+				},
+				{
+					"orderId": "20170423100000",
+					"stateType": "TAKE_PARCEL_WAIT_DELIVERY",
+					"stateChangeTime": 1492918118000,
+					"orderLogId": 7
+				},
+				{
+					"orderId": "20170423100000",
+					"stateType": "TAKE_PARCEL_WAIT_DELIVERY",
+					"stateChangeTime": 1492918453000,
+					"orderLogId": 8
+				}
+			]
+		}
+	},
+	{
+		"url": "/manage/get_review_list",
+		"method": "get",
+		"param": {
+			"token": "213124126%%管理员"
+		},
+		"return": {
+			"error_code": 200,
+			"message": "success",
+			"content": [
+				{
+					"id": "2017051100000",
+					"userId": "213124124",
+					"managerId": null,
+					"type": "UPGRADE",
+					"reviewTime": 1494517609000,
+					"state": "WAIT_HANDLE",
+					"information": null,
+					"user": {
+						"userId": "213124124",
+						"userName": "收件人",
+						"userPhone": "12345678901",
+						"userPassword": "123456",
+						"userIdentity": "RECIPIENT",
+						"userSchoolcard": "1",
+						"userIdcard": "12",
+						"userPhoto": "1",
+						"userAlipay": "1332",
+						"userSex": "7",
+						"userSchoolname": "6687",
+						"userSchooladdress": "686"
+					}
+				},
+				{
+					"id": "2017051100001",
+					"userId": "213124123",
+					"managerId": null,
+					"type": "UPGRADE",
+					"reviewTime": 1494431099000,
+					"state": "WAIT_HANDLE",
+					"information": null,
+					"user": {
+						"userId": "213124123",
+						"userName": "asda",
+						"userPhone": "23456789",
+						"userPassword": "12345",
+						"userIdentity": "RECIPIENT",
+						"userSchoolcard": "213",
+						"userIdcard": null,
+						"userPhoto": null,
+						"userAlipay": null,
+						"userSex": null,
+						"userSchoolname": null,
+						"userSchooladdress": null
+					}
+				},
+				{
+					"id": "2017051100002",
+					"userId": "213124124",
+					"managerId": null,
+					"type": "UPGRADE",
+					"reviewTime": 1493912732000,
+					"state": "WAIT_HANDLE",
+					"information": null,
+					"user": {
+						"userId": "213124124",
+						"userName": "收件人",
+						"userPhone": "12345678901",
+						"userPassword": "123456",
+						"userIdentity": "RECIPIENT",
+						"userSchoolcard": "1",
+						"userIdcard": "12",
+						"userPhoto": "1",
+						"userAlipay": "1332",
+						"userSex": "7",
+						"userSchoolname": "6687",
+						"userSchooladdress": "686"
+					}
+				}
+			]
+		}
+	},
+	{
+		"url": "/manage/get_review_by_userid",
+		"method": "get",
+		"param": {
+			"review_user_id": "213124124",
+			"token": "213124126%%管理员"
+		},
+		"return": {
+			"error_code": 200,
+			"message": "success",
+			"content": [
+				{
+					"id": "2017051100000",
+					"userId": "213124124",
+					"managerId": null,
+					"type": "UPGRADE",
+					"reviewTime": 1494517609000,
+					"state": "WAIT_HANDLE",
+					"information": null,
+					"user": {
+						"userId": "213124124",
+						"userName": "收件人",
+						"userPhone": "12345678901",
+						"userPassword": "123456",
+						"userIdentity": "RECIPIENT",
+						"userSchoolcard": "1",
+						"userIdcard": "12",
+						"userPhoto": "1",
+						"userAlipay": "1332",
+						"userSex": "7",
+						"userSchoolname": "6687",
+						"userSchooladdress": "686"
+					}
+				},
+				{
+					"id": "2017051100002",
+					"userId": "213124124",
+					"managerId": null,
+					"type": "UPGRADE",
+					"reviewTime": 1493912732000,
+					"state": "WAIT_HANDLE",
+					"information": null,
+					"user": {
+						"userId": "213124124",
+						"userName": "收件人",
+						"userPhone": "12345678901",
+						"userPassword": "123456",
+						"userIdentity": "RECIPIENT",
+						"userSchoolcard": "1",
+						"userIdcard": "12",
+						"userPhoto": "1",
+						"userAlipay": "1332",
+						"userSex": "7",
+						"userSchoolname": "6687",
+						"userSchooladdress": "686"
+					}
+				}
+			]
 		}
 	}
 ]

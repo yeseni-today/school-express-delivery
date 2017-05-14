@@ -16,7 +16,7 @@ public class Constant {
     public static OrderEntity getDefaultOrderEntity() {
         if (defaultOrderEntity == null) {
             defaultOrderEntity = new OrderEntity();
-            defaultOrderEntity.setOrdersGrade("5");
+            defaultOrderEntity.setGrade("5");
         }
         return defaultOrderEntity;
     }
@@ -26,8 +26,8 @@ public class Constant {
     public static UserEntity getDefaultUserEntity() {
         if (defaultUserEntity == null) {
             defaultUserEntity = new UserEntity();
-            defaultUserEntity.setUserIdentity(UserEntity.UserType.RECIPIENT);
-            defaultUserEntity.setUserIdcard(null);
+            defaultUserEntity.setIdentity(UserEntity.UserType.RECIPIENT);
+            defaultUserEntity.setIdCard(null);
 
         }
         return defaultUserEntity;
@@ -55,13 +55,25 @@ public class Constant {
     public static final String MANUAL_DEGRADE = "action_sub_type_degrade";
     public static final String MANUAL_COMPLAIN = "action_sub_type_complain";
 
+    public static final String REVIEW_ID = "review_id";
+    public static final String REVIEW_ENTITY = "review_entity_object";
+    public static final String REVIEW_USER_ID = "review_user_id";
+
+    public static final String COMPLAINT_ID = "complaint_id";
+    public static final String COMPLAINT_ENTITY = "complaint_entity_object";
+    public static final String COMPLAINT_RESULT = "complaint_result";
+    public static final String COMPLAINT_RESULT_CREDIT = "complaint_result_credit";
+
 
     public static final String EVENT_ORDER_CANCEL_TYPE = "event_order_cancel_type";
     public static final String EVENT_ORDER_CANCEL_TYPE_RECEIVER = "event_order_cancel_type_receiver";
     public static final String EVENT_ORDER_CANCEL_TYPE_REPLACEMENT = "event_order_cancel_type_replacement";
     public static final String EVENT_USER_REGISTER_USERENTITY = "event_user_register_user_entity";
     public static final String EVENT_ORDER_ENTITY = ORDER_ENTITY;
-
+    public static final String EVENT_REVIEW_ENTITY = "event_review";
+    public static final String EVENT_COMPLAINT_ENTITY = "event_complaint";
+    public static final String EVENT_COMPLAINT_RESULT_CREDIT_VALUE_INT = "event_complaint_result_credit";
+    public static final String EVENT_COMPLAINT_RESULT_ORDER_STATE_INT = "event_complaint_result_order_state";
     public static final String CREDIT_CHANGE_VALUE = "credit_change_value";
     public static final String CREDIT_REMARK = "credit_remark";
 

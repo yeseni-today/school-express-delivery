@@ -11,6 +11,7 @@ import com.delivery.dispatch.Dispatcher;
 import com.delivery.event.Event;
 import com.delivery.event.EventContext;
 import com.delivery.event.EventPublisher;
+import com.delivery.manual.ManualService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,13 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.delivery.common.ErrorCode.*;
-import static com.delivery.user.UserUtil.*;
+import static com.delivery.common.util.UserUtil.*;
 import static com.delivery.common.Response.*;
 import static com.delivery.user.UserConstant.*;
 import static com.delivery.common.util.Util.*;
 
 /**
- * Created by finderlo on 2017/4/7.
+ * Created by Ticknick Hou on 2017/4/7.
  */
 @Component
 public class UserService implements ActionHandler, EventPublisher {
@@ -32,7 +33,7 @@ public class UserService implements ActionHandler, EventPublisher {
     /**
      * 调度器
      *
-     * @author finderlo
+     * @author Ticknick Hou
      */
     Dispatcher dispatcher;
 
@@ -49,7 +50,7 @@ public class UserService implements ActionHandler, EventPublisher {
     /**
      * 能否执行Action
      *
-     * @author finderlo
+     * @author Ticknick Hou
      */
     @Override
     public boolean canHandleAction(Action action) {
@@ -59,11 +60,11 @@ public class UserService implements ActionHandler, EventPublisher {
     /**
      * 根据Action类型执行这个操作
      *
-     * @author finderlo
+     * @author Ticknick Hou
      */
     @Override
     public Response execute(Action action) {
-        UserActionType type = getType(action);
+        UserActionType type = getActionSubType(action,UserActionType.class);
         switch (type) {
             case LOGIN:
                 return login(action);
@@ -72,7 +73,7 @@ public class UserService implements ActionHandler, EventPublisher {
             case CHECK_LOGIN:
                 return checkLogin(action);
             case FIND:
-                return find(action);
+                return findByPhone(action);
             case DEGRADE:
                 return degrade(action);
             case UPGRADE:
@@ -88,7 +89,7 @@ public class UserService implements ActionHandler, EventPublisher {
      *
      * @param action
      * @return error 不完整的信息或者用户名ID重复；success 用户信息
-     * @author finderlo
+     * @author Ticknick Hou
      * @see UserConstant#USER_ID
      * @see UserConstant#USER_PASSWORD
      */
@@ -104,11 +105,11 @@ public class UserService implements ActionHandler, EventPublisher {
      * @param action 查询条件
      *               手机号
      *               返回多个对象List
-     * @author finderlo
+     * @author Ticknick Hou
      * @date 17/04/2017
-     * @see UserConstant#USER_ID
      */
-    public Response find(Action action) {
+    public Response findByPhone(Action action) {
+        // 获取手机号参数
         String phone = getUserPhone(action);
         if (phone.equals("")) return error(USER_NOT_EXIST_FIND_ARRT);
 
@@ -119,9 +120,29 @@ public class UserService implements ActionHandler, EventPublisher {
     }
 
     /**
+     * 查找用户，返回一个或多个用户
+     *
+     * @param action 查询条件
+     *               手机号
+     *               返回多个对象List
+     * @author Ticknick Hou
+     * @date 17/04/2017
+     */
+    public Response findByUserId(Action action) {
+        // 获取手机号参数
+        String phone = getUserId(action);
+        if (phone.equals("")) return error(USER_NOT_EXIST_FIND_ARRT);
+
+        UserEntity users = userDao.findById(phone);
+        Map<String, Object> res = new HashMap<>();
+        res.put(USER_RES_USERS, users);
+        return success(res);
+    }
+
+    /**
      * 发布注册成功事件
      *
-     * @author finderlo
+     * @author Ticknick Hou
      * @date 17/04/2017
      */
     private void publishRegisterSuccess(UserEntity user) {
@@ -134,7 +155,7 @@ public class UserService implements ActionHandler, EventPublisher {
      * @param action 用户名
      *               用户密码
      * @return response token、user
-     * @author finderlo
+     * @author Ticknick Hou
      * @see UserConstant#USER_ID
      * @see UserConstant#USER_PASSWORD
      */
@@ -152,7 +173,7 @@ public class UserService implements ActionHandler, EventPublisher {
         //返回信息
         String token = tokenHandler.getTokenAndLogin(user);
         HashMap<String, Object> returnContent = new HashMap<>();
-        user.setUserPassword(null);
+        user.setPassword(null);
         returnContent.put(USER_RES_USERS, user);
         returnContent.put(USER_TOKEN, token);
         return success(returnContent);
@@ -163,7 +184,7 @@ public class UserService implements ActionHandler, EventPublisher {
      * 判断是否登陆，通过Action的UserConstant#USER_TOKEN判断
      *
      * @param action Token值
-     * @author finderlo
+     * @author Ticknick Hou
      * @see UserConstant#USER_TOKEN
      */
     public Response checkLogin(Action action) {
@@ -180,24 +201,24 @@ public class UserService implements ActionHandler, EventPublisher {
     /**
      * 升级一个用户，转交至人工服务处理
      *
-     * @author finderlo
+     * @author Ticknick Hou
      * @date 17/04/2017
      */
     public Response upgrade(Action action) {
         action.setType(ActionType.MANUAL);
-        action.put(Constant.ACTION_SUB_TYPE, Constant.MANUAL_UPGRADE);
+        action.put(Constant.ACTION_SUB_TYPE, ManualService.ManualActionType.applyUpgrade);
         return dispatcher.execute(action);
     }
 
     /**
      * 降级一个用户，转交至人工服务处理
      *
-     * @author finderlo
+     * @author Ticknick Hou
      * @date 17/04/2017
      */
     public Response degrade(Action action) {
         action.setType(ActionType.MANUAL);
-        action.put(Constant.ACTION_SUB_TYPE, Constant.MANUAL_DEGRADE);
+        action.put(Constant.ACTION_SUB_TYPE, ManualService.ManualActionType.applyUpgrade);
         return dispatcher.execute(action);
     }
 
@@ -205,7 +226,7 @@ public class UserService implements ActionHandler, EventPublisher {
     /**
      * 发布事件
      *
-     * @author finderlo
+     * @author Ticknick Hou
      * @date 17/04/2017
      */
     private void publish(Event event, EventContext context) {

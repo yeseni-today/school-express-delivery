@@ -27,11 +27,11 @@ public class OrderAutoCommentTask extends Task {
     public void run() {
         super.run();
         OrderEntity orders = dao.findById(ordersId);
-        if (orders.getOrdersState().equals(OrderState.WAIT_COMMENT)) {
+        if (orders.getState().equals(OrderState.WAIT_COMMENT)) {
             synchronized (orders) {
-                if (orders.getOrdersState().equals(OrderState.WAIT_COMMENT)) {
-                    orders.setOrdersState(OrderState.COMPLETED);
-                    orders.setOrdersGrade(Constant.getDefaultOrderEntity().getOrdersGrade());
+                if (orders.getState().equals(OrderState.WAIT_COMMENT)) {
+                    orders.setState(OrderState.COMPLETED);
+                    orders.setGrade(Constant.getDefaultOrderEntity().getGrade());
                     dao.update(orders);
                 }
             }

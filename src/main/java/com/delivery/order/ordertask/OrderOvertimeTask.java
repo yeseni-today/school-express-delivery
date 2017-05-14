@@ -25,10 +25,10 @@ public class OrderOvertimeTask extends Task {
     public void run() {
         super.run();
         OrderEntity orders = dao.findById(ordersId);
-        if (orders.getOrdersState().equals(OrderState.WAIT_ACCEPT)){
+        if (orders.getState().equals(OrderState.WAIT_ACCEPT)){
             synchronized (orders){
-                if (orders.getOrdersState().equals(OrderState.WAIT_ACCEPT)){
-                    orders.setOrdersState(OrderState.CANCELED);
+                if (orders.getState().equals(OrderState.WAIT_ACCEPT)){
+                    orders.setState(OrderState.CANCELED);
                     dao.update(orders);
                 }
             }

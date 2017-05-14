@@ -5,18 +5,18 @@ import com.delivery.common.action.Action;
 import com.delivery.common.dao.OrderDao;
 import com.delivery.common.dao.OrderLogDao;
 import com.delivery.common.entity.OrderEntity;
-import com.delivery.common.entity.OrderOperationLogEntity;
+import com.delivery.common.entity.OrderLogEntity;
 import com.delivery.common.entity.UserEntity;
 import com.delivery.common.ErrorCode;
 import com.delivery.common.Response;
 import com.delivery.dispatch.Dispatcher;
 import com.delivery.event.EventContext;
 import com.delivery.order.OrderState;
-import com.sun.istack.internal.Nullable;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
+import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -62,29 +62,12 @@ public class Util {
         }
     }
 
-    public static void checkNotEqual(@Nullable Object type, @NotNull Object target, ErrorCode errorCode) {
-        if (!target.equals(type)){
+    public static void checkNotEqual(@Null Object type, @NotNull Object target, ErrorCode errorCode) {
+        if (!target.equals(type)) {
             throw new SedException(errorCode);
         }
     }
 
-    public static void checkAdmin(Action action) {
-        if (checkRightType(action, UserEntity.UserType.SYSTEM)) {
-            if (checkRightType(action, UserEntity.UserType.ADMINSTARTE)) {
-                return;
-            } else throw new SedException(SYSTEM_NO_ENOUGH_PERMISSION);
-
-        }
-
-    }
-
-    public static boolean checkRightType(Action action, UserEntity.UserType userType) {
-        UserEntity.UserType userType1 = (UserEntity.UserType) action.get(USER_TYPE);
-        if (!userType1.equals(userType)) {
-            return false;
-        }
-        return false;
-    }
 
     /**
      * 从Action中获取TOKEN属性
@@ -123,7 +106,7 @@ public class Util {
     public static boolean validUser(String phone, String psd, UserEntity correctUsers) {
         if (correctUsers == null) return false;
         if ("".equals(phone) || "".equals(psd)) return false;
-        return psd.equals(correctUsers.getUserPassword()) && phone.equals(correctUsers.getUserPhone());
+        return psd.equals(correctUsers.getPassword()) && phone.equals(correctUsers.getPhone());
     }
 
     public static EventContext parseEventfromUsersEntity(UserEntity user) {
@@ -157,75 +140,15 @@ public class Util {
         return order;
     }
 
-    /**
-     * 管理员查询订单
-     *
-     * @author finderlo
-     * @date 22/04/2017
-     */
-    public static Map<String, String> getAttr(Action action) {
-        //返回action中order查询条件
-
-        //action.get*() 中的key,是网页或手机中传来中请求的参数
-        Map<String, String> attr = new HashMap<>();
-        String recipient = (String) action.getOrDefault("recipient_ID", "");
-        if (!recipient.equals("")) attr.put("recipientId", recipient);
-
-        String replacement = (String) action.getOrDefault("replacement_ID", "");
-
-        if (!replacement.equals(""))
-            attr.put("replacementId", recipient);
-
-        String orderid = (String) action.getOrDefault("orders_ID", "");
-        if (!orderid.equals(""))
-            attr.put("ordersId", orderid);
-
-        return attr;
-    }
-
-    public static OrderState getOrderState(Action action) {
-        String state = (String) action.getOrDefault(ORDER_ATTR_STATE, null);
-        checkNull(state);
-        return OrderState.valueOf(state);
-    }
-
-    /**
-     * 获取订单完成状态 0时未完成 1时已完成
-     *
-     * @author finderlo
-     * @date 23/04/2017
-     */
-    public static int getOrderCompleteState(Action action) {
-        String state = (String) action.getOrDefault(ORDER_ATTR_COMPLETE_STATE, "0");
-        return Integer.valueOf(state);
-    }
-
-    @NotNull
-    public static String getOrdersGrade(Action action) {
-        return (String) action.getOrDefault(ORDER_ATTR_GRADLE, "");
-    }
-
-
-    public static OrderEntity getOrdersById(Action action, OrderDao orderDao) {
-        String orderid = getOrdersId(action);
-        assert !Objects.equals(orderid, "");
-        OrderEntity order = orderDao.findById(orderid);
-        checkNull(order);
-        return order;
-    }
-
-    public static String getOrdersId(Action action) {
-        return (String) action.getOrDefault(ORDER_ID, "");
-    }
 
     public static void pushlishOrdersLog(String logId, OrderState state, OrderLogDao orderLogDao) {
         try {
 
 
-            OrderOperationLogEntity log = new OrderOperationLogEntity();
-            log.setOrdersId(logId);
-            log.setStateChangeTime(new Timestamp(System.currentTimeMillis()));
-            log.setStateType(state);
+            OrderLogEntity log = new OrderLogEntity();
+            log.setOrderId(logId);
+            log.setChangeTime(new Timestamp(System.currentTimeMillis()));
+            log.setState(state);
             orderLogDao.save(log);
 
         } catch (Exception e) {
@@ -252,11 +175,11 @@ public class Util {
         boolean tar = state != 0;
         List<OrderEntity> orders = new ArrayList<>();
         List<OrderEntity> ordersRepl = orderDao.findByReplacementId(userId);
-        orders.addAll(ordersRepl.stream().filter(e -> !e.getOrdersState().isComplete() ^ tar).collect(Collectors.toList()));
+        orders.addAll(ordersRepl.stream().filter(e -> !e.getState().isComplete() ^ tar).collect(Collectors.toList()));
 
 
         List<OrderEntity> ordersReci = orderDao.findByRecipientId(userId);
-        orders.addAll(ordersReci.stream().filter(e -> !e.getOrdersState().isComplete() ^ tar).collect(Collectors.toList()));
+        orders.addAll(ordersReci.stream().filter(e -> !e.getState().isComplete() ^ tar).collect(Collectors.toList()));
 
         return orders;
     }
@@ -286,5 +209,38 @@ public class Util {
     public static String getRemark(Action action) {
         String remark = (String) action.getOrDefault(CREDIT_REMARK, "");
         return remark;
+    }
+
+
+    public static Map<String, Object> entityToMap(Object object) {
+        Map<String, Object> attr = new HashMap<>();
+        if (object == null) {
+            return attr;
+        }
+        Class clazz = object.getClass();
+        try {
+            for (Field field : clazz.getDeclaredFields()) {
+                field.setAccessible(true);
+                attr.put(field.getName(), field.get(object));
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return attr;
+    }
+
+    public  static  <T extends Enum<T>> T  getEnumParamByIntger(Action action, String paramName, Class<T> classZ) {
+
+        String type = (String) action.get(paramName);
+        int ori = Integer.parseInt(type);
+        checkNull(type, SYSTEM_WRONG_PARAM_NAME_INTGER);
+        T[] values = classZ.getEnumConstants();
+        for (T t : values) {
+            Enum ty = (Enum) t;
+            if (ty.ordinal() == ori) {
+                return t;
+            }
+        }
+        throw new SedException(SYSTEM_WRONG_PARAM_NAME_INTGER);
     }
 }

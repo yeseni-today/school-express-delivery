@@ -1,3 +1,4 @@
+package one;
 
 import com.delivery.Application;
 import org.hibernate.SQLQuery;
