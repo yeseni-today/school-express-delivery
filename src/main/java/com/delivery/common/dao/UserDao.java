@@ -16,9 +16,8 @@ import java.util.List;
 @Repository
 public class UserDao extends AbstractDao<UserEntity> {
 
-    public UserEntity findByUserPhone(String value) {
-        List<UserEntity> usersEntities =  super.findBy("userPhone", value);
-        Util.checkNull(usersEntities);
+    public UserEntity findByPhone(String value) {
+        List<UserEntity> usersEntities =  super.findBy("phone", value);
         if (usersEntities.size()==0){
             return null;
         }

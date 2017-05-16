@@ -10,9 +10,21 @@ import javax.persistence.*;
 public class CreditRecordEntity {
     private String userId;
     private String event;
-    private Integer creditChange;
-    private String eventInformation;
+    private Integer value;
+    private String remark;
     private int id;
+
+    private UserEntity user;
+
+    @ManyToOne(cascade = CascadeType.MERGE,targetEntity = UserEntity.class)
+    @JoinColumn(name = "user_ID",insertable = false,updatable = false)
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 
     @Basic
     @Column(name = "user_ID")
@@ -36,22 +48,22 @@ public class CreditRecordEntity {
 
     @Basic
     @Column(name = "credit_change")
-    public Integer getCreditChange() {
-        return creditChange;
+    public Integer getValue() {
+        return value;
     }
 
-    public void setCreditChange(Integer creditChange) {
-        this.creditChange = creditChange;
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
     @Basic
     @Column(name = "event_information")
-    public String getEventInformation() {
-        return eventInformation;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setEventInformation(String eventInformation) {
-        this.eventInformation = eventInformation;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Id
@@ -74,8 +86,8 @@ public class CreditRecordEntity {
         if (id != that.id) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (event != null ? !event.equals(that.event) : that.event != null) return false;
-        if (creditChange != null ? !creditChange.equals(that.creditChange) : that.creditChange != null) return false;
-        if (eventInformation != null ? !eventInformation.equals(that.eventInformation) : that.eventInformation != null)
+        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+        if (remark != null ? !remark.equals(that.remark) : that.remark != null)
             return false;
 
         return true;
@@ -85,8 +97,8 @@ public class CreditRecordEntity {
     public int hashCode() {
         int result = userId != null ? userId.hashCode() : 0;
         result = 31 * result + (event != null ? event.hashCode() : 0);
-        result = 31 * result + (creditChange != null ? creditChange.hashCode() : 0);
-        result = 31 * result + (eventInformation != null ? eventInformation.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (remark != null ? remark.hashCode() : 0);
         result = 31 * result + id;
         return result;
     }

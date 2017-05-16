@@ -1,8 +1,10 @@
 package com.delivery.common.dao;
 
+import com.delivery.common.entity.OrderEntity;
 import com.delivery.common.entity.ReviewEntity;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Calendar;
@@ -22,7 +24,18 @@ public class ReviewDao extends AbstractDao<ReviewEntity> {
         return findBy("state", state.ordinal()+"",false);
     }
 
-    public String newOrderId() {
+    @Autowired
+    UserDao userDao;
+
+    public void casadeUpdate(ReviewEntity orderEntity) {
+        super.update(orderEntity);
+        if (orderEntity.getUser() != null) {
+            userDao.update(orderEntity.getUser());
+        }
+    }
+
+
+    public String newId() {
         Session session = sessionFactory.getCurrentSession();
         Calendar calendar = Calendar.getInstance();
         String year = calendar.get(Calendar.YEAR) + "";

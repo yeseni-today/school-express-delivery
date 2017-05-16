@@ -1,33 +1,37 @@
 package com.delivery.common;
 
+import org.hibernate.tool.schema.internal.StandardUniqueKeyExporter;
+
 /**
  * @author finderlo
  * @date 20/04/2017
  */
 public class SedException extends RuntimeException {
 
-    ErrorCode errorCode;
 
-    Exception originException;
+    private int status = 500;
 
-    public SedException(ErrorCode error) {
-        errorCode = error;
-    }
 
-    public SedException(ErrorCode error, Exception e) {
-        errorCode = error;
-        this.originException = e;
+    public SedException(int status, String message) {
+        this(status, message, null);
     }
 
 
-    @Override
-    public void printStackTrace() {
-        if (originException == null) {
-            super.printStackTrace();
-        } else originException.printStackTrace();
+    public SedException(int status, String message, Exception e) {
+        super(message, e);
+        this.status = status;
     }
 
-    public ErrorCode getErrorCode() {
-        return errorCode;
+    public SedException(ErrorCode errorCode, Exception e) {
+        this(errorCode.getCode(),errorCode.getDescription(),e);
+    }
+
+    public SedException(ErrorCode errorCode) {
+        this(errorCode,null);
+    }
+
+
+    public int getStatus() {
+        return status;
     }
 }

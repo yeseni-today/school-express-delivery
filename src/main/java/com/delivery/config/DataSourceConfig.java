@@ -69,15 +69,5 @@ public class DataSourceConfig {
 
         return sessionFactoryBean;
     }
-//
-//    @Bean
-//    public HibernateTransactionManager transactionManager() {
-    //<editor-fold desc="Description">
-    //        HibernateTransactionManager transactionManager =
-//                new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(sessionFactory().getObject());
-//        return transactionManager;
-    //</editor-fold>
-//    }
 
 }

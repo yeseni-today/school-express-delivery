@@ -1,7 +1,6 @@
 package com.delivery.common.dao;
 
 import com.delivery.common.entity.CreditRecordEntity;
-import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +19,7 @@ public class CreditRecordDao extends AbstractDao<CreditRecordEntity> {
         List<CreditRecordEntity> records = findBy("userId", userId, false);
         int recordval = 0;
         for (CreditRecordEntity record : records) {
-            recordval += record.getCreditChange();
+            recordval += record.getValue();
         }
         return recordval;
     }

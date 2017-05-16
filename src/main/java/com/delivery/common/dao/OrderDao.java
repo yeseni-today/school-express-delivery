@@ -2,7 +2,6 @@ package com.delivery.common.dao;
 
 import com.delivery.common.entity.OrderEntity;
 import com.delivery.common.entity.UserEntity;
-import com.delivery.order.OrderState;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
@@ -18,13 +17,13 @@ import java.util.*;
 @Repository
 public class OrderDao extends AbstractDao<OrderEntity> {
 
-    public List<OrderEntity> findByIdAndState(String id, OrderState state) {
+    public List<OrderEntity> findByIdAndState(String id, OrderEntity.OrderState orderState) {
         String[] key = new String[]{"id", "state"};
-        return super.findBy(key, new String[]{id, state.ordinal()+""}, false);
+        return super.findBy(key, new String[]{id, orderState.ordinal() + ""}, false);
     }
 
-    public List<OrderEntity> findByState(OrderState state) {
-        return super.findBy("state",state.ordinal()+"", false);
+    public List<OrderEntity> findByState(OrderEntity.OrderState orderState) {
+        return super.findBy("orderState", orderState.ordinal() + "", false);
     }
 
     public List<OrderEntity> findByReplacementId(String id) {
@@ -37,7 +36,7 @@ public class OrderDao extends AbstractDao<OrderEntity> {
         return findBy(key, new String[]{id}, false);
     }
 
-    public String newOrderId(IdType idType) {
+    public String newId(IdType idType) {
         Session session = sessionFactory.getCurrentSession();
         Calendar calendar = Calendar.getInstance();
         String year = calendar.get(Calendar.YEAR) + "";
@@ -71,8 +70,8 @@ public class OrderDao extends AbstractDao<OrderEntity> {
     public List<OrderEntity> findByUserMatch(UserEntity user) {
         List<OrderEntity> res = new ArrayList<>();
         Session session = sessionFactory.getCurrentSession();
-        int state = OrderState.WAIT_ACCEPT.ordinal();
-        SQLQuery query = session.createSQLQuery("select *  from orders where orders_state='" + state + "' and recipient_ID in(SELECT user_ID FROM users WHERE user_sex=(select user_sex from users where user_ID='" + user.getId() + "'))");
+        int state = OrderEntity.OrderState.WAIT_ACCEPT.ordinal();
+        SQLQuery query = session.createSQLQuery("select *  from orders where orders_state='" + state + "' and recipient_ID in(SELECT user_ID FROM users WHERE user_sex=(select user_sex from users where user_ID='" + user.getUid() + "'))");
         res.addAll(query.addEntity(OrderEntity.class).list());
 
         System.out.println(res.size());
@@ -94,14 +93,16 @@ public class OrderDao extends AbstractDao<OrderEntity> {
         }
     }
 
-    public static void main(String[] args) {
-        Calendar calendar = Calendar.getInstance();
-        System.out.println(calendar.get(Calendar.YEAR));
-        System.out.println(calendar.get(Calendar.MONTH));
-        System.out.println(calendar.get(Calendar.DAY_OF_MONTH));
+
+    public void casadeUpdate(OrderEntity orderEntity) {
+        super.update(orderEntity);
+        if (orderEntity.getRecipient() != null) {
+            sessionFactory.getCurrentSession().update(orderEntity.getRecipient());
+        }
+        if (orderEntity.getReplacement() != null) {
+            sessionFactory.getCurrentSession().update(orderEntity.getReplacement());
+        }
     }
-
-
     //
 
 }

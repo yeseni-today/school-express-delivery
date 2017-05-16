@@ -1,0 +1,80 @@
+{
+	"/messages": {
+		"POST": {
+			"params": {
+				"receiver": "213124128",
+				"type": "1",
+				"title": "title",
+				"content": "content",
+				"[ADMIN]token": "213124127_01f91392-84b8-4ad1-a4c5-45788f90795d"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": {
+					"id": 4,
+					"senderId": "213124127",
+					"receiverId": "213124128",
+					"type": 1,
+					"createTime": 1494930640063,
+					"title": "title",
+					"content": "content",
+					"state": 0
+				}
+			}
+		},
+		"GET": {
+			"params": {
+				"[USER]token": "213124128_45b38703-4047-4492-ae54-c83447befe91"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": [
+					{
+						"id": 1,
+						"senderId": "213124127",
+						"receiverId": "213124128",
+						"type": 1,
+						"createTime": 1494928282000,
+						"title": "title",
+						"content": "content",
+						"state": 0
+					},
+					{
+						"id": 2,
+						"senderId": "213124127",
+						"receiverId": "213124128",
+						"type": 1,
+						"createTime": 1494928655000,
+						"title": "title",
+						"content": "content",
+						"state": 0
+					}
+				]
+			}
+		}
+	},
+	"/messages/{message_id}": {
+		"PUT": {
+			"params": {
+				"state": "2",
+				"[USER]token": "213124128_ba7c6147-f31b-494f-a02e-570fabf7f060"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": {
+					"id": 1,
+					"senderId": "213124127",
+					"receiverId": "213124128",
+					"type": 1,
+					"createTime": 1494928282000,
+					"title": "title",
+					"content": "content",
+					"state": 2
+				}
+			}
+		}
+	}
+}
