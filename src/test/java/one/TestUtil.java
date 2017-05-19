@@ -36,6 +36,20 @@ public class TestUtil {
 
     }
 
+    public static String getTokenFromUid(MockMvc mockMvc, String uid, String password) throws Exception {
+        String url = "/tokens";
+        RequestParams params = new  RequestParams();
+        params.put("uid", uid);
+        params.put("password", password);
+
+        MvcResult result = TestUtil.getHttpResultContent(mockMvc, url, TestUtil.Method.POST, params);
+
+        String token = getTokenFromJson(result.getResponse().getContentAsString());
+        Assert.hasLength(token);
+        return token;
+    }
+
+
     public static String getTokenFromJson(String json) {
         Response result = new Gson().fromJson(json, Response.class);
         LinkedTreeMap content = (LinkedTreeMap) result.getData();

@@ -5,6 +5,7 @@ import com.delivery.common.constant.Constant;
 import com.delivery.common.dao.OrderDao;
 import com.delivery.common.dao.OrderLogDao;
 import com.delivery.common.entity.OrderEntity;
+import com.delivery.common.entity.OrderLogEntity;
 import com.delivery.common.entity.UserEntity;
 import com.delivery.common.util.TimeUnit;
 import com.delivery.common.util.Timer;
@@ -21,12 +22,17 @@ import com.delivery.rest.order.task.OrderAutoComfirmTask;
 import com.delivery.rest.order.task.OrderAutoCommentTask;
 import com.delivery.rest.order.task.OrderOvertimeTask;
 import com.delivery.rest.order.task.OrdersAcceptOverTimeTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.delivery.common.util.Assert;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.delivery.common.ErrorCode.ORDER_CANCEL_CANNOT;
 import static com.delivery.common.util.Util.saveOrderLog;
@@ -40,6 +46,7 @@ import static com.delivery.common.constant.HttpStatus.*;
 @RequestMapping("/orders")
 public class OrderController {
 
+    private Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @Autowired
     private OrderDao orderDao;
@@ -66,8 +73,13 @@ public class OrderController {
     public Response find(
             @CurrentUser UserEntity user) {
 
-        List<OrderEntity> orders = orderDao.findByRecipientId(user.getUid());
+        Set<OrderEntity> orders = new HashSet<>();
+        orders.addAll(orderDao.findByRecipientId(user.getUid()));
         orders.addAll(orderDao.findByReplacementId(user.getUid()));
+        orders.forEach(e -> {
+            e.setReplacement(null);
+            e.setRecipient(null);
+        });
         return Response.ok(orders);
     }
 
@@ -83,6 +95,7 @@ public class OrderController {
      */
     @PostMapping
     @Authorization
+    @Transactional(rollbackFor = Exception.class)
     public Response newOne(
             @CurrentUser UserEntity user,
             @RequestParam String express_name,
@@ -116,7 +129,7 @@ public class OrderController {
         orderDao.save(order);
 
         OrderEventContext context = new OrderEventContext(order);
-        eventManager.publish(Event.OrderPublishedEvent,context);
+        eventManager.publish(Event.OrderPublishedEvent, context);
         //订单操作日志
         saveOrderLog(order.getId(), OrderEntity.OrderState.WAIT_ACCEPT, logDao);
         //发布定时任务
@@ -129,6 +142,7 @@ public class OrderController {
 
     @PutMapping("/{order_id}")
     @AdminAuthorization
+    @Transactional(rollbackFor = Exception.class)
     public Response modifyOrderState(
             @CurrentUser UserEntity user,
             @PathVariable String order_id,
@@ -153,22 +167,31 @@ public class OrderController {
         if (user.getIdentity().isUser()) {
             Assert.isTrue(orderUtil.isParticipation(user, order), FORBBID, "user only get their own order");
         }
-        return Response.ok(logDao.findByOrderId(order_id));
+        List<OrderLogEntity> res = logDao.findByOrderId(order_id);
+        res.forEach(e -> e.setOrder(null));
+        return Response.ok(res);
     }
 
 
     @PutMapping("/{order_id}/process")
     @Authorization
+    @Transactional(rollbackFor = Exception.class)
     public Response modify(
             @CurrentUser UserEntity user,
             @PathVariable String order_id,
             @EnumParam OrderEntity.OrderState state,
             @RequestParam(required = false) String grade) {
+        logger.info("/orders/" + order_id + "/process  PUT  state: " + state + ", user_id: " + user.getUid());
+
+
         OrderEntity order = orderDao.findById(order_id);
         Assert.notNull(order, 400, "wrong order id");
-        Assert.isTrue(user.getUid().equals(order.getRecipientId())
-                        || user.getUid().equals(order.getReplacementId()),
-                "user only can modify your participate order");
+        if (!order.getState().equals(OrderEntity.OrderState.WAIT_ACCEPT)) {
+            Assert.isTrue(user.getUid().equals(order.getRecipientId())
+                            || user.getUid().equals(order.getReplacementId()),
+                    "user only can modify your participate order");
+        }
+
 
         switch (state) {
             case ACCEPTED:
@@ -186,7 +209,7 @@ public class OrderController {
             case COMPLAINING:
                 return Response.error(400, "complaining order please use complaints API");
             default:
-                return Response.error(400, "");
+                return Response.error(400, "the param state is not support");
         }
     }
 
@@ -212,7 +235,7 @@ public class OrderController {
                 new OrderAutoComfirmTask(order.getId(), timer, orderDao),
                 24, TimeUnit.HOURS
         );
-        return Response.ok();
+        return Response.ok(order);
     }
 
     /**
@@ -222,14 +245,14 @@ public class OrderController {
      * @return success;error。
      */
     private Response acceptOrder(UserEntity user, OrderEntity order, OrderEntity.OrderState state) {
-        //todo
-        Assert.isTrue(user.getIdentity().equals(UserEntity.Identity.REPLACEMENT), "only replacement can accept an order");
+        Assert.isTrue(user.getIdentity().equals(UserEntity.UserIdentity.REPLACEMENT), "only replacement can accept an order");
         Assert.isTrue(order.getState().equals(OrderEntity.OrderState.WAIT_ACCEPT), "order is accepted");
         Assert.isTrue(orderDao.findByReplacementId(user.getUid()).size() < Constant.ORDER_ACCEPT_UNCOMPLETED_COUNT_LIMIT, "user can accept that their uncompleted order less than 10");
         Assert.isTrue(orderDao.findByIdAndState(user.getUid(), OrderEntity.OrderState.COMPLAINING).size() == 0, "if user have complaining orders, he can not accept an order");
 
         order.setState(OrderEntity.OrderState.ACCEPTED);
         order.setReplacementId(user.getUid());
+        order.setReplacement(user);
         orderDao.update(order);
         saveOrderLog(order.getId(), OrderEntity.OrderState.ACCEPTED, logDao);
         //发布订单接收事件
@@ -240,7 +263,7 @@ public class OrderController {
                 new OrdersAcceptOverTimeTask(order.getId(), orderDao, eventManager),
                 12, TimeUnit.HOURS
         );
-        return Response.ok();
+        return Response.ok(order);
     }
 
 
@@ -260,7 +283,7 @@ public class OrderController {
                 new OrderAutoCommentTask(order.getId(), orderDao),
                 12, TimeUnit.HOURS
         );
-        return Response.ok();
+        return Response.ok(order);
     }
 
     /**
@@ -296,19 +319,19 @@ public class OrderController {
         if (user.getUid().equals(order.getRecipientId())) {
             return receiverCancel(order);
         }
-        return Response.error();
+        return Response.error(WRONG_AUGUMENT, "user is not relation of order");
     }
 
     private Response receiverCancel(OrderEntity order) {
         if (order.getState().equals(OrderEntity.OrderState.WAIT_PAY)) {
             order.setState(OrderEntity.OrderState.CANCELED);
             orderDao.update(order);
-            return Response.ok();
+            return Response.ok(order);
         } else if (order.getState().equals(OrderEntity.OrderState.WAIT_ACCEPT)) {
             order.setState(OrderEntity.OrderState.CANCELED);
             orderDao.update(order);
             //todo 执行退款
-            return Response.ok();
+            return Response.ok(order);
         }
 
         return Response.error(ORDER_CANCEL_CANNOT);
@@ -324,12 +347,9 @@ public class OrderController {
 
             OrderReplacementCancelEventContext context = new OrderReplacementCancelEventContext(order, replace);
             eventManager.publish(Event.OrderReplacementCancelEvent, context);
-            //todo 发布信息通知收件人
-            //Util.sendSysMsg("订单取消成功", replId, dispatcher);
-            //Util.sendSysMsg("你的订单被代取人取消", order.getRecipientId(), dispatcher);
-            return Response.ok();
+            return Response.ok(order);
         }
-        return Response.ok();
+        return Response.error(FORBBID, "the order state is not ACCEPTED");
     }
 
 //    /**

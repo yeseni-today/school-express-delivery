@@ -131,7 +131,7 @@ public class CreditEventListener {
             public void execute(Event event, EventContext context) {
                 if (event != Event.OrderReplacementCancelEvent) return;
                 String replacement = ((OrderReplacementCancelEventContext) context).getReplacement().getUid();
-                saveRecord(replacement, event.name(), 10, null);
+                saveRecord(replacement, event.name(), -10, null);
             }
         };
     }

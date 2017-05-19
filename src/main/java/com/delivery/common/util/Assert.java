@@ -32,6 +32,13 @@ public class Assert {
         }
     }
 
+    public static void isStringExist(String s){
+        if (s ==null || "".equals(s.trim())){
+            throw new IllegalArgumentException();
+        }
+    }
+
+
     public static void isTrue(boolean b, int status, String message) {
         if (!b) {
             throw new SedException(status, message);

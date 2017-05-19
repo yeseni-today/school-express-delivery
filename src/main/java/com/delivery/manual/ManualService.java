@@ -40,111 +40,6 @@
 //    @Autowired
 //    ComplaintDao complaintDao;
 //
-//    Dispatcher dispatcher;
-//
-//    public void setDispatcher(Dispatcher dispatcher) {
-//        this.dispatcher = dispatcher;
-//    }
-//
-//
-//    @Override
-//    public boolean canHandleAction(Action action) {
-//        return action.getType() == ActionType.MANUAL;
-//    }
-//
-//    public enum ManualActionType {
-//        applyUpgrade, applyDegrade, handleUpgrade, handleDegrade, showReviewToUser, showReviewToManager,
-//        complaintFromUser, showComplainToManager, orderHandleComplain,showWaitHandleReviewsToManager
-//    }
-//
-//    @Override
-//    public Response execute(Action action) {
-//        ManualActionType type = Util.getActionSubType(action, ManualActionType.class);
-//        preExecute(action);
-//        switch (type) {
-//            case applyDegrade:
-//                return applyDegrade(action);
-//            case applyUpgrade:
-//                return applyUpgrade(action);
-//            case handleDegrade:
-//                return handleDegrade(action);
-//            case handleUpgrade:
-//                return handleUpgrade(action);
-//            case complaintFromUser:
-//                return complaintFromUser(action);
-//            case showReviewToUser:
-//                return showReviewToUser(action);
-//            case orderHandleComplain:
-//                return handleOrderComplaint(action);
-//            case showReviewToManager:
-//                return showReviewToManager(action);
-//            case showComplainToManager:
-//                return showComplaintToManager(action);
-//            case showWaitHandleReviewsToManager:
-//                return showWaitHandleReviewsToManager(action);
-//            default:
-//                return Response.error(ErrorCode.MANUAL_WRONG_ACTION_TYPE);
-//        }
-//    }
-//
-//    private void preExecute(Action action) {
-//        //审核单号，审核对象
-//        String reviewId = getReviewId(action);
-//        if (!reviewId.equals("")) {
-//            ReviewEntity review = reviewDao.findById(reviewId);
-//            action.put(REVIEW_ENTITY, review);
-//        }
-//
-//        //申诉单号，审核对象
-//        String complaintId = getComplaintId(action);
-//        if (!reviewId.equals("")) {
-//            ComplaintEntity review = complaintDao.findById(complaintId);
-//            action.put(COMPLAINT_ENTITY, review);
-//        }
-//    }
-//
-//
-//    /**
-//     * 用户申请升级
-//     *
-//     * @param action 用户ID
-//     *               0.检测用户是否已经存在审核类型为升级且审核状态为待审核状态
-//     *               1.保存申请单数据 设置审核类型为1[升级] 设置申请状态为待审核
-//     *               2.将用户提交的个人数据保存至Users表
-//     * @author finderlo
-//     * @date 17/04/2017
-//     */
-//    public Response applyUpgrade(Action action) {
-//        try {
-//            ReviewEntity review = ManualUtil.getReviewFromParamAndSave(action, reviewDao);
-//            //event
-//            EventContext context = new EventContext();
-//            context.put(Constant.EVENT_REVIEW_ENTITY, review);
-//            publish(Event.Manual_NewUpgradeEvent, context);
-//            return Response.ok(review);
-//        } catch (SedException e) {
-//            return Response.error(e.getErrorCode());
-//        }
-//    }
-//
-//
-//    /**
-//     * 用户申请降级
-//     *
-//     * @param action 用户ID
-//     *               1.保存申请单数据 设置审核类型为2[降级]设置申请状态为待审核
-//     * @author finderlo
-//     * @date 17/04/2017
-//     */
-//    public Response applyDegrade(Action action) {
-//        //todo
-//        return null;
-//    }
-//
-//    /**
-//     * 人工处理升级
-//     *
-//     * @param action 审核单ID
 //     *               管理员ID
 //     *               1.保存信息并修改审核状态通过/不通过
 //     *               2.修改Users表的 身份 若通过设为代取人 不通过则不变
@@ -165,7 +60,7 @@
 //
 //        if (pass.toLowerCase().equals("true")) {
 //            review.setState(ReviewEntity.ReviewState.SUCCESS);
-//            review.getUser().setIdentity(UserEntity.Identity.REPLACEMENT);
+//            review.getUser().setIdentity(UserEntity.UserIdentity.REPLACEMENT);
 //            reviewDao.update(review);
 //
 //            EventContext context = new EventContext();

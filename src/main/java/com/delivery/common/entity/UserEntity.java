@@ -1,8 +1,5 @@
 package com.delivery.common.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.gson.Gson;
 
 import javax.persistence.*;
@@ -17,7 +14,7 @@ public class UserEntity {
     private String name;
     private String phone;
     private String password;
-    private Identity identity;
+    private UserIdentity identity;
     private String schoolCard;
     private String idCard;
     private String photo;
@@ -27,7 +24,7 @@ public class UserEntity {
     private String schoolAddress;
 
 
-    public enum Identity {
+    public enum UserIdentity {
         RECIPIENT, REPLACEMENT, ADMINISTRATOR, SYSTEM;
 
         public boolean isUser() {
@@ -78,11 +75,11 @@ public class UserEntity {
 
     @Basic
     @Column(name = "user_identity")
-    public Identity getIdentity() {
+    public UserIdentity getIdentity() {
         return identity;
     }
 
-    public void setIdentity(Identity identity) {
+    public void setIdentity(UserIdentity identity) {
         this.identity = identity;
     }
 

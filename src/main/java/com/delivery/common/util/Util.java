@@ -9,6 +9,7 @@ import com.delivery.common.entity.UserEntity;
 import com.delivery.common.ErrorCode;
 import com.delivery.common.Response;
 import com.delivery.event.EventContext;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
@@ -30,7 +31,6 @@ import static com.delivery.common.constant.Constant.*;
 public class Util {
 
 
-
     public static <T extends Enum<T>> T enumFromOrigin(int origin, Class<T> classT) {
         T[] values = classT.getEnumConstants();
         for (T t : values) {
@@ -42,13 +42,9 @@ public class Util {
         return null;
     }
 
-    public static void writeToResponse(HttpServletResponse response,Object o) throws IOException {
+    public static void writeToResponse(HttpServletResponse response, Object o) throws IOException {
         response.getWriter().append(o.toString()).flush();
     }
-
-
-
-
 
 
     public static void saveOrderLog(String order_id, OrderEntity.OrderState orderState, OrderLogDao orderLogDao) {
@@ -63,28 +59,6 @@ public class Util {
             throw new SedException(ORDER_OPERATION_LOG_PUBLISH_ERROR);
         }
     }
-
-
-
-    /**
-     * 获取用户订单 0 为完成 1未未完成
-     * @author Ticknick Hou
-     * @date 16/05/2017
-     */
-    public static List<OrderEntity> getOrdersByUser(String userId, int state, OrderDao orderDao) {
-        boolean tar = state != 0;
-        List<OrderEntity> orders = new ArrayList<>();
-        List<OrderEntity> ordersRepl = orderDao.findByReplacementId(userId);
-        orders.addAll(ordersRepl.stream().filter(e -> !e.getState().isComplete() ^ tar).collect(Collectors.toList()));
-
-
-        List<OrderEntity> ordersReci = orderDao.findByRecipientId(userId);
-        orders.addAll(ordersReci.stream().filter(e -> !e.getState().isComplete() ^ tar).collect(Collectors.toList()));
-
-        return orders;
-    }
-
-
 
 
 
@@ -108,5 +82,16 @@ public class Util {
 
     public static Timestamp now() {
         return new Timestamp(System.currentTimeMillis());
+    }
+
+    public static boolean isHaveEnoughInfoToUpgrade(UserEntity user) {
+        try {
+            Assert.isStringExist(user.getSchoolCard());
+            Assert.isStringExist(user.getIdCard());
+            Assert.isStringExist(user.getAliPay());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 public class ComplaintDao extends AbstractDao<ComplaintEntity> {
 
     public List<ComplaintEntity> findByWaitDeal() {
-        return findBy("state", ComplaintEntity.State.WAIT_DEAL.ordinal() + "");
+        return findBy("state", ComplaintEntity.ComplaintState.WAIT_DEAL.ordinal() + "");
     }
 
     public List<ComplaintEntity> findByOrderId(String orderId) {
@@ -38,7 +38,7 @@ public class ComplaintDao extends AbstractDao<ComplaintEntity> {
 
 
         StringBuilder builder = new StringBuilder();
-        String sql = builder.append("SELECT MAX(complaintId) FROM complaint WHERE complaintId LIKE '")
+        String sql = builder.append("SELECT MAX(complaint_ID) FROM complaint WHERE complaint_ID LIKE '")
                 .append(prefix)
                 .append("%' ")
                 .toString();
@@ -62,27 +62,19 @@ public class ComplaintDao extends AbstractDao<ComplaintEntity> {
     @Autowired
     OrderDao orderDao;
 
-    @Autowired
-    ManagerDao managerDao;
 
-    public void casadeUpdate(ComplaintEntity complaintEntity) {
-        super.update(complaintEntity);
-        if (complaintEntity.getOrder() != null) {
-            orderDao.update(complaintEntity.getOrder());
-        }
-        if (complaintEntity.getUser() != null) {
-            userDao.update(complaintEntity.getUser());
-        }
-        if (complaintEntity.getManager() != null) {
-            managerDao.update(complaintEntity.getManager());
-        }
-    }
 
     public List<ComplaintEntity> findByUserId(String uid) {
         return findBy("userId", uid, false);
     }
 
-    public Collection<? extends ComplaintEntity> findByState(ComplaintEntity.Type state) {
+    public Collection<? extends ComplaintEntity> findByState(ComplaintEntity.ComplaintType state) {
         return findBy("state", state.ordinal() + "", false);
     }
+
+
+    public Collection<? extends ComplaintEntity> findByState(int state) {
+        return findBy("state", state + "", false);
+    }
+
 }

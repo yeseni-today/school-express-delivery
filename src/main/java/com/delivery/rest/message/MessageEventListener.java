@@ -6,11 +6,14 @@ import com.delivery.common.entity.*;
 import com.delivery.event.*;
 import com.delivery.event.context.ComplaintResultEventContext;
 import com.delivery.event.context.OrderEventContext;
+import com.delivery.event.context.OrderReplacementCancelEventContext;
 import com.delivery.event.context.UserUpgradeEventContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+
+import static com.delivery.event.Event.OrderReplacementCancelEvent;
 
 /**
  * Created by finderlo on 17/04/2017.
@@ -33,6 +36,34 @@ public class MessageEventListener {
         manager.register(Event.UserUpgradeSuccessEvent, userUpgradeSuccessEventExecutor());
         manager.register(Event.UserUpgradeFailEvent, userUpgradeFailEventExecutor());
         manager.register(Event.OrderAcceptedEvent, orderAcceptedEventExecutor());
+        manager.register(OrderReplacementCancelEvent, orderReplacementCancelEventExecutor());
+    }
+
+    private EventExecutor orderReplacementCancelEventExecutor() {
+        return new EventExecutor() {
+            @Override
+            public void execute(Event event, EventContext context) {
+                if (!event.equals(OrderReplacementCancelEvent)) {
+                    return;
+                }
+                OrderReplacementCancelEventContext context1 = (OrderReplacementCancelEventContext) context;
+                String reciId = context1.getOrder().getReplacementId();
+                String replId = context1.getReplacement().getUid();
+                StringBuilder builder = new StringBuilder();
+                builder.append("你的订单(")
+                        .append(context1.getOrder().getId()).append(")")
+                        .append("被代取人(").append(replId).append(")取消，").append("请进入订单详情查看结果。");
+                MessageEntity msg = new MessageBuilder().sender("0")
+                        .receiver(reciId).title("订单被取消").content(builder.toString())
+                        .type(MessageEntity.MessageType.SYSTEM).state(MessageEntity.State.UNREAD).build();
+                MessageEntity msg1 = new MessageBuilder().sender("0")
+                        .receiver(replId).title("订单取消成功").content("你的订单" + context1.getOrder().getId() + "取消成功。")
+                        .type(MessageEntity.MessageType.SYSTEM).state(MessageEntity.State.UNREAD).build();
+                saveMessage(msg);
+                saveMessage(msg1);
+
+            }
+        };
     }
 
 
@@ -131,7 +162,7 @@ public class MessageEventListener {
 
     public static class MessageBuilder {
 
-        private MessageEntity message;
+        private MessageEntity message = new MessageEntity();
 
         public MessageBuilder sender(String senderId) {
             message.setSenderId(senderId);

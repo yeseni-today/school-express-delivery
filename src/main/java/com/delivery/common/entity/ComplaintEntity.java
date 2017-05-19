@@ -13,23 +13,23 @@ public class ComplaintEntity {
     private String orderId;
     private String userId;
     private String managerId;
-    private Type type;
+    private ComplaintType type;
     private Timestamp createTime;
-    private State state;
+    private ComplaintState state;
     private String description;
     private String result;
 
     private OrderEntity order;
     private UserEntity user;
-    private ManagerEntity manager;
+//    private ManagerEntity manager;
 
 
-    public enum State {
+    public enum ComplaintState {
         WAIT_DEAL,
         COMPLETE
     }
 
-    public enum Type {
+    public enum ComplaintType {
         ReplacementDeliveryOnTime,
         ReplacementNotSendDelivery,
         ReceiverInfoError,
@@ -58,15 +58,15 @@ public class ComplaintEntity {
         this.user = user;
     }
 
-    @OneToOne(cascade = CascadeType.DETACH, targetEntity = ManagerEntity.class)
-    @JoinColumn(name = "manager_ID", insertable = false, updatable = false)
-    public ManagerEntity getManager() {
-        return manager;
-    }
-
-    public void setManager(ManagerEntity manager) {
-        this.manager = manager;
-    }
+//    @OneToOne(cascade = CascadeType.DETACH, targetEntity = ManagerEntity.class)
+//    @JoinColumn(name = "manager_ID", insertable = false, updatable = false)
+//    public ManagerEntity getManager() {
+//        return manager;
+//    }
+//
+//    public void setManager(ManagerEntity manager) {
+//        this.manager = manager;
+//    }
 
     @Id
     @Column(name = "complaint_ID")
@@ -79,7 +79,7 @@ public class ComplaintEntity {
     }
 
     @Basic
-    @Column(name = "ordersID")
+    @Column(name = "orders_ID")
     public String getOrderId() {
         return orderId;
     }
@@ -110,11 +110,11 @@ public class ComplaintEntity {
 
     @Basic
     @Column(name = "complaint_type")
-    public Type getType() {
+    public ComplaintType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(ComplaintType type) {
         this.type = type;
     }
 
@@ -130,11 +130,11 @@ public class ComplaintEntity {
 
     @Basic
     @Column(name = "complaint_state")
-    public State getState() {
+    public ComplaintState getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(ComplaintState state) {
         this.state = state;
     }
 

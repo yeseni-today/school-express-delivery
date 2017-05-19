@@ -12,7 +12,7 @@ public class ReviewEntity {
     private String id;
     private String userId;
     private String managerId;
-    private Type type;
+    private ReviewType type;
     private Timestamp time;
     private ReviewState state;
     private String remark;
@@ -31,7 +31,7 @@ public class ReviewEntity {
         this.userId = user.getUid();
     }
 
-    public enum Type {
+    public enum ReviewType {
         UPGRADE,DEGRADE,UPDATE_DATA
     }
 
@@ -71,11 +71,11 @@ public class ReviewEntity {
 
     @Basic
     @Column(name = "review_type")
-    public Type getType() {
+    public ReviewType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(ReviewType type) {
         this.type = type;
     }
 

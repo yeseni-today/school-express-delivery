@@ -4,6 +4,7 @@ import com.delivery.Application;
 import com.delivery.common.constant.Constant;
 import one.RequestParams;
 import one.TestUtil;
+import org.apache.tomcat.util.bcel.Const;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.print.DocFlavor;
 import java.util.HashMap;
 
 /**
@@ -48,7 +50,7 @@ public class OrderTest {
         System.out.println("管理员TOKEN：" + adminToken);
     }
 
-    //@Test
+    @Test
     public void order_user() throws Exception {
 
         String url = "/orders/user";
@@ -59,13 +61,15 @@ public class OrderTest {
     }
 
 
-    //@Test
+    @Test
     public void new_order() throws Exception {
+
+        String token = TestUtil.getTokenFromUid(mockMvc,"1000000015","123456");
 
         String url = "/orders";
         TestUtil.Method method = TestUtil.Method.POST;
         HashMap<String, String> keyvals = new HashMap<>();
-        keyvals.put(Constant.AUTHORIZATION, recipToken);
+        keyvals.put(Constant.AUTHORIZATION, token);
         keyvals.put("express_name", "express_name");
         keyvals.put("pickup_address", "pickup_address");
         keyvals.put("delivery_address", "delivery_address");
@@ -88,7 +92,7 @@ public class OrderTest {
 
     }
 
-    //@Test
+    @Test
     public void modify_order_msg() throws Exception {
         String uri = "/orders/100005";
         TestUtil.Method method = TestUtil.Method.PUT;
@@ -96,7 +100,7 @@ public class OrderTest {
         param.put(Constant.AUTHORIZATION, adminToken);
         param.put("state", "9");
 
-        TestUtil.requestAndPrint(mockMvc,uri,method,param);
+        TestUtil.requestAndPrint(mockMvc, uri, method, param);
         //8 代表申诉中的订单
     }
 
@@ -106,7 +110,22 @@ public class OrderTest {
         TestUtil.Method method = TestUtil.Method.GET;
         RequestParams param = new RequestParams();
         param.put(Constant.AUTHORIZATION, adminToken);
-        TestUtil.requestAndPrint(mockMvc,uri,method,param);
+        TestUtil.requestAndPrint(mockMvc, uri, method, param);
     }
+
+    @Test
+    public void putprocess() throws Exception {
+        String uro = "/orders/100003/process";
+        TestUtil.Method method = TestUtil.Method.PUT;
+        String token = TestUtil.getTokenFromUid(mockMvc, "213124128", "123456");
+        RequestParams params = new RequestParams();
+        params.put(Constant.AUTHORIZATION, token);
+        params.put("state", "7");
+
+        TestUtil.requestAndPrint(mockMvc,uro,method,params);
+
+
+    }
+
 
 }

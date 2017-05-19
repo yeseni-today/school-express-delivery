@@ -43,7 +43,6 @@ public class OrderEntity {
      */
     public enum OrderState {
 
-        //todo 设立前置条件
 
         // -1 代表完成订单
 
@@ -75,37 +74,6 @@ public class OrderEntity {
 
         //已赔偿 -1
         COMPENSATION;
-
-
-        OrderState[] preState;
-
-        OrderState(OrderState... preState) {
-            this.preState = preState;
-        }
-
-        public boolean isComplete() {
-            switch (this) {
-                case WAIT_COMMENT:
-                case COMPLETED:
-                case COMPENSATION:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        public OrderState[] getPreState() {
-            return preState;
-        }
-
-        public boolean isInPreState(OrderState state) {
-            for (OrderState orderstate : preState) {
-                if (state.equals(orderstate)) {
-                    return true;
-                }
-            }
-            return false;
-        }
 
     }
 

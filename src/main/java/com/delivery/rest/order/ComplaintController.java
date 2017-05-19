@@ -15,11 +15,13 @@ import com.delivery.event.Event;
 import com.delivery.event.EventManager;
 import com.delivery.event.context.ComplaintResultEventContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import static com.delivery.common.constant.HttpStatus.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author finderlo
@@ -57,12 +59,16 @@ public class ComplaintController {
     @GetMapping
     @AdminAuthorization
     public Response find(
-            @CurrentUser UserEntity user,
-            @RequestParam String uid,
-            @EnumParam ComplaintEntity.Type state
+            @RequestParam(defaultValue = "") String uid,
+            @RequestParam(defaultValue = "-1") int state
     ) {
-        List<ComplaintEntity> complaints = complaintDao.findByUserId(uid);
-        complaints.addAll(complaintDao.findByState(state));
+        Set<ComplaintEntity> complaints = new HashSet<>();
+        if (!uid.equals("")) {
+            complaints.addAll(complaintDao.findByUserId(uid));
+        }
+        if (state != -1 && state < ComplaintEntity.ComplaintType.values().length) {
+            complaints.addAll(complaintDao.findByState(state));
+        }
         return Response.ok(complaints);
     }
 
@@ -86,11 +92,12 @@ public class ComplaintController {
      */
     @PostMapping
     @Authorization
-    public Response newReview(
+    @Transactional(rollbackFor = Exception.class)
+    public Response newNompaint(
             @CurrentUser UserEntity user,
             @RequestParam String order_id,
-            @EnumParam ComplaintEntity.Type type,
-            @RequestParam String description
+            @EnumParam ComplaintEntity.ComplaintType type,
+            @RequestParam(defaultValue = "default description") String description
     ) {
         Assert.isTrue(description.length() < 100, "description length should less than 100");
         Assert.notNull(type, WRONG_AUGUMENT, "review type can not be empty");
@@ -105,7 +112,7 @@ public class ComplaintController {
         complaint.setOrderId(order_id);
         complaint.setUserId(user.getUid());
         complaint.setCreateTime(Util.now());
-        complaint.setState(ComplaintEntity.State.WAIT_DEAL);
+        complaint.setState(ComplaintEntity.ComplaintState.WAIT_DEAL);
         complaint.setDescription(description);
 
         String id = complaintDao.newId();
@@ -123,6 +130,7 @@ public class ComplaintController {
      */
     @PutMapping("/{id}")
     @AdminAuthorization
+    @Transactional(rollbackFor = Exception.class)
     public Response modify(
             @PathVariable String id,
             @EnumParam OrderEntity.OrderState order_state,
@@ -132,8 +140,13 @@ public class ComplaintController {
     ) {
         Assert.isTrue(result.length() < 10, "result length should less than 10");
 
+
         ComplaintEntity complaint = complaintDao.findById(id);
-        complaint.setState(ComplaintEntity.State.COMPLETE);
+
+        Assert.notNull(complaint, WRONG_AUGUMENT, "wrong complaint id ");
+        Assert.isTrue(!complaint.getState().equals(ComplaintEntity.ComplaintState.COMPLETE), WRONG_AUGUMENT, "complaint already complete");
+
+        complaint.setState(ComplaintEntity.ComplaintState.COMPLETE);
         complaint.setResult(result);
         complaint.setManagerId(admin.getUid());
 
@@ -142,9 +155,9 @@ public class ComplaintController {
         complaintDao.update(complaint);
         orderDao.update(order);
         //发布审核单处理结果事件，此处信用机制和消息机制进行监听此事件,信用机制根据传过来的值进行修改
-        ComplaintResultEventContext context = new ComplaintResultEventContext(complaint,credit_value,order_state);
-        eventManager.publish(Event.ComplaintResultEvent,context);
-        return Response.ok();
+        ComplaintResultEventContext context = new ComplaintResultEventContext(complaint, credit_value, order_state);
+        eventManager.publish(Event.ComplaintResultEvent, context);
+        return Response.ok(complaint);
     }
 
 

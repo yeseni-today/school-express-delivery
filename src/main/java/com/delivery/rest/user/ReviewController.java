@@ -4,6 +4,7 @@ import com.delivery.common.Response;
 import com.delivery.common.dao.OrderDao;
 import com.delivery.common.dao.ReviewDao;
 import com.delivery.common.dao.UserDao;
+import com.delivery.common.entity.ComplaintEntity;
 import com.delivery.common.entity.ReviewEntity;
 import com.delivery.common.entity.UserEntity;
 import com.delivery.common.util.Assert;
@@ -16,11 +17,16 @@ import com.delivery.event.Event;
 import com.delivery.event.EventManager;
 import com.delivery.event.context.UserUpgradeEventContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import static com.delivery.common.constant.HttpStatus.*;
+
 /**
- * 将Reviews单独成类，作为独立的资源，主要负责对于review这个主体进行的操作，只支持管理员
+ * 将Reviews单独成类，作为独立的资源，主要负责对于review这个主体进行的操作
  *
  * @author finderlo
  * @date 15/05/2017
@@ -51,11 +57,16 @@ public class ReviewController {
     @GetMapping
     @AdminAuthorization
     public Response find(
-            @RequestParam String uid,
-            @EnumParam ReviewEntity.ReviewState state
+            @RequestParam(defaultValue = "") String uid,
+            @RequestParam(defaultValue = "-1") int state
     ) {
-        List<ReviewEntity> reviews = reviewDao.findByUserId(uid);
-        reviews.addAll(reviewDao.findByState(state));
+        Set<ReviewEntity> reviews = new HashSet<>();
+        if (!uid.equals("")) {
+            reviews.addAll(reviewDao.findByUserId(uid));
+        }
+        if (state != -1 && state < ComplaintEntity.ComplaintType.values().length) {
+            reviews.addAll(reviewDao.findByState(state));
+        }
         return Response.ok(reviews);
     }
 
@@ -74,23 +85,24 @@ public class ReviewController {
      */
     @PutMapping("/{review_id}")
     @AdminAuthorization
+    @Transactional(rollbackFor = Exception.class)
     public Response modify(
             @PathVariable String review_id,
             @EnumParam ReviewEntity.ReviewState result,
             @RequestParam String remark,
             @CurrentUser UserEntity admin
     ) {
+        Assert.isTrue(!result.equals(ReviewEntity.ReviewState.WAIT_HANDLE),WRONG_AUGUMENT,"result must be success(1) or fail(2)");
+
         ReviewEntity review = reviewDao.findById(review_id);
         review.setState(result);
         review.setTime(Util.now());
         review.setRemark(remark);
         review.setManagerId(admin.getUid());
 
-        String id = reviewDao.newId();
-        review.setId(id);
-        reviewDao.save(review);
+        reviewDao.update(review);
 
-        if (review.getType().equals(ReviewEntity.Type.UPGRADE)) {
+        if (review.getType().equals(ReviewEntity.ReviewType.UPGRADE)) {
             UserUpgradeEventContext context = new UserUpgradeEventContext(review.getUser(), review);
             if (result.equals(ReviewEntity.ReviewState.SUCCESS)) {
                 eventManager.publish(Event.UserUpgradeSuccessEvent, context);
@@ -108,13 +120,17 @@ public class ReviewController {
      */
     @PostMapping
     @Authorization
+    @Transactional(rollbackFor = Exception.class)
     public Response newReview(
-            @PathVariable String uid,
             @CurrentUser UserEntity user,
-            @EnumParam ReviewEntity.Type type
+            @EnumParam ReviewEntity.ReviewType type
     ) {
-        Assert.notNull(type,WRONG_AUGUMENT, "review type can not be empty");
-        Assert.isTrue(uid.equals(user.getUid()), "user only post his/her own reviews");
+        Assert.notNull(type, WRONG_AUGUMENT, "review type can not be empty");
+        if (type.equals(ReviewEntity.ReviewType.DEGRADE)) {
+            return userDegrade(user);
+        }
+
+        Assert.isTrue(Util.isHaveEnoughInfoToUpgrade(user), FORBBID, "user only upgrade with enough profile");
 
         ReviewEntity review = new ReviewEntity();
         review.setUser(user);
@@ -127,6 +143,12 @@ public class ReviewController {
         review.setId(id);
         reviewDao.save(review);
         return Response.ok(review);
+    }
+
+    private Response userDegrade(UserEntity user) {
+        Assert.isTrue(user.getIdentity().equals(UserEntity.UserIdentity.REPLACEMENT), "user already is recipient");
+        Assert.isTrue(orderDao.findByReplacementId(user.getUid()).size() == 0, 403, "user have uncompleted order");
+        return Response.ok();
     }
 
 

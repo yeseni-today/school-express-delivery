@@ -39,26 +39,4 @@ public class DaoTest {
     @Autowired
     ReviewDao reviewDao;
 
-    @Test
-    @Rollback(false)
-    public void aa() {
-//        System.out.println(orderDao.findById("20170423100000").getRecipient().getUid());
-//        System.out.println(orderDao.findByState(State.WAIT_ACCEPT));
-
-//        OrderEntity order = orderDao.findById("100001");
-//        System.out.println(order.getRecipient());
-//        order.getRecipient().setName("ti122");
-//        orderDao.casadeUpdate(order);
-//        UserEntity user = userDao.findById("10001");
-//        System.out.println(user.getName());
-
-        ReviewEntity review = reviewDao.findById("2017051100000");
-        System.out.println(review.getUser());
-        review.getUser().setName("AliPAy");
-        reviewDao.casadeUpdate(review);
-    }
-//    @Test
-    public void a(){
-        System.out.println(creditRecordDao.findByUserId(userid).size());
-    }
 }

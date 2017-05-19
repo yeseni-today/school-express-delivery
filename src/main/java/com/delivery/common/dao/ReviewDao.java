@@ -20,18 +20,12 @@ public class ReviewDao extends AbstractDao<ReviewEntity> {
         return findBy("userId", userId);
     }
 
-    public List<ReviewEntity> findByState(ReviewEntity.ReviewState state){
-        return findBy("state", state.ordinal()+"",false);
+    public List<ReviewEntity> findByState(ReviewEntity.ReviewState state) {
+        return findBy("state", state.ordinal() + "", false);
     }
 
-    @Autowired
-    UserDao userDao;
-
-    public void casadeUpdate(ReviewEntity orderEntity) {
-        super.update(orderEntity);
-        if (orderEntity.getUser() != null) {
-            userDao.update(orderEntity.getUser());
-        }
+    public List<ReviewEntity> findByState(int state) {
+        return findBy("state", state + "", false);
     }
 
 

@@ -63,7 +63,7 @@ public class UserController {
         user.setSchoolName(school_name);
         user.setSchoolAddress(school_address);
         //默认参数
-        user.setIdentity(UserEntity.Identity.RECIPIENT);
+        user.setIdentity(UserEntity.UserIdentity.RECIPIENT);
         user.setUid(userDao.newUsersId());
         userDao.save(user);
         logger.info(user.toString());
