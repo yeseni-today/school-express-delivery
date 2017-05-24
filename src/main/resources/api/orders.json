@@ -1,0 +1,296 @@
+//'[]'中内容作为备注
+[
+	{
+		"/orders": {
+			"POST": {
+				"param": {
+					"token": "213124124%%fin",
+					"express_name": "中通",
+					"pickup_address": "上市发东门口",
+					"pickup_time": "2017-04-28 14:59:59",
+					"delivery_address": "28号楼505",
+					"delivery_time": "2017-04-28 14:59:59",
+					"order_price": "0.0",
+					"[可选]express_code": "14012412412",
+					"[可选]pickup_code": "124",
+					"[可选]order_remark": "备注无"
+				},
+				"response_body": {
+					"status": 200,
+					"message": "success",
+					"data": {
+						"id": "20170516100001",
+						"createTime": 1494896002551,
+						"finishTime": null,
+						"grade": null,
+						"price": 10.0,
+						"remark": "remark",
+						"state": 1,
+						"recipientId": "213124126",
+						"replacementId": null,
+						"recipient": {
+							"uid": "213124126",
+							"name": "收件人",
+							"phone": "18217699894",
+							"password": "123456",
+							"identity": "RECIPIENT",
+							"schoolCard": "123456789",
+							"idCard": null,
+							"photo": null,
+							"aliPay": null,
+							"sex": "男",
+							"schoolName": "上海下师大",
+							"schoolAddress": "默认地址100号"
+						},
+						"replacement": null,
+						"expressName": "express_name",
+						"expressCode": "456",
+						"pickupTime": 1493362799000,
+						"pickupAddress": "pickup_address",
+						"pickupCode": "123",
+						"deliveryTime": 1493362799000,
+						"deliveryAddress": "delivery_address"
+					}
+				}
+			}
+		},
+		"/orders/token": {
+			"GET": {
+				"param": {
+					"token": "用户的token值"
+				},
+				"response_body": {
+					"status": 200,
+					"message": "success",
+					"data": [
+						{
+							"id": "100001",
+							"createTime": 1492913661000,
+							"finishTime": null,
+							"grade": null,
+							"price": null,
+							"remark": null,
+							"state": 2,
+							"recipientId": "213124126",
+							"replacementId": null,
+							"recipient": {
+								"uid": "213124126",
+								"name": "username",
+								"phone": "18217699894",
+								"password": "123456",
+								"identity": "RECIPIENT",
+								"schoolCard": "123456789",
+								"idCard": null,
+								"photo": null,
+								"aliPay": null,
+								"sex": "男",
+								"schoolName": "上海下师大",
+								"schoolAddress": "默认地址100号"
+							},
+							"replacement": null,
+							"expressName": "sto",
+							"expressCode": "14012984",
+							"pickupTime": 1493362799000,
+							"pickupAddress": "上市发东门口",
+							"pickupCode": null,
+							"deliveryTime": 1493362799000,
+							"deliveryAddress": "28号楼505"
+						},	{
+							"id": "100001",
+							"createTime": 1492913661000,
+							"finishTime": null,
+							"grade": null,
+							"price": null,
+							"remark": null,
+							"state": 2,
+							"recipientId": "213124126",
+							"replacementId": null,
+							"recipient": {
+								"uid": "213124126",
+								"name": "username",
+								"phone": "18217699894",
+								"password": "123456",
+								"identity": "RECIPIENT",
+								"schoolCard": "123456789",
+								"idCard": null,
+								"photo": null,
+								"aliPay": null,
+								"sex": "男",
+								"schoolName": "上海下师大",
+								"schoolAddress": "默认地址100号"
+							},
+							"replacement": null,
+							"expressName": "sto",
+							"expressCode": "14012984",
+							"pickupTime": 1493362799000,
+							"pickupAddress": "上市发东门口",
+							"pickupCode": null,
+							"deliveryTime": 1493362799000,
+							"deliveryAddress": "28号楼505"
+						}
+					]
+				}
+			}
+		},
+		"/orders/{order_id}": {
+			"PUT": {
+				"params": {
+					"state": "9",
+					"[Admin]token": "213124127_47c4ae38-e278-4cda-86b3-57c97cc475ba"
+				},
+				//replacement和replacementId为空时，说明订单没有接单
+				"[正确]response_body": {
+					"status": 200,
+					"message": "ok",
+					"data": {
+						"id": "100005",
+						"createTime": 1492913661000,
+						"finishTime": null,
+						"grade": null,
+						"price": null,
+						"remark": null,
+						"state": 9,
+						"recipientId": "213124126",
+						"replacementId": "213124126",
+						"recipient": {
+							"uid": "213124126",
+							"name": "收件人",
+							"phone": "18217699894",
+							"password": "123456",
+							"identity": "RECIPIENT",
+							"schoolCard": "adasdads",
+							"idCard": "adasdads",
+							"photo": null,
+							"aliPay": "houyuooooo",
+							"sex": "男",
+							"schoolName": "上海下师大",
+							"schoolAddress": "默认地址100号"
+						},
+						"replacement": {
+							"uid": "213124126",
+							"name": "收件人",
+							"phone": "18217699894",
+							"password": "123456",
+							"identity": "RECIPIENT",
+							"schoolCard": "adasdads",
+							"idCard": "adasdads",
+							"photo": null,
+							"aliPay": "houyuooooo",
+							"sex": "男",
+							"schoolName": "上海下师大",
+							"schoolAddress": "默认地址100号"
+						},
+						"expressName": "sto",
+						"expressCode": "32783728",
+						"pickupTime": null,
+						"pickupAddress": "上市发东门口",
+						"pickupCode": null,
+						"deliveryTime": 1493362799000,
+						"deliveryAddress": "28号楼505"
+					}
+				},
+				"[错误]response_body": {
+					"status": 400,
+					"message": "only complainting order can modify state",
+					"data": null
+				}
+			}
+		},
+		"/orders/{order_id}/process": {
+			"GET": {
+				"params": {
+					"token": "213124127_b2b4db74-4477-40d2-8c15-3ecf9b1e9668"
+				},
+				"response_body": {
+					"status": 200,
+					"message": "ok",
+					"data": [
+						{
+							"orderId": "100005",
+							"orderState": 9,
+							"changeTime": 1494917409000,
+							"id": 11,
+							"order": {
+								"id": "100005",
+								"createTime": 1492913661000,
+								"finishTime": null,
+								"grade": null,
+								"price": null,
+								"remark": null,
+								"state": 3,
+								"recipientId": "213124126",
+								"replacementId": "213124127",
+								"[永为null]recipient":null,
+								"[永为null]replacement": null,
+								"expressName": "sto",
+								"expressCode": "32783728",
+								"pickupTime": null,
+								"pickupAddress": "上市发东门口",
+								"pickupCode": null,
+								"deliveryTime": 1493362799000,
+								"deliveryAddress": "28号楼505"
+							}
+						}
+					]
+				}
+			},
+			"PUT": {
+				"params": {
+					"state": "2",
+					"token": "213124128_6fe1a2b3-754e-4bc0-b87d-b369fde33f70",
+					"[只有state是6（已完成）时，此参数必选]grade":"5"
+				},
+				"response_body": {
+					"status": 200,
+					"message": "ok",
+					"data": {
+						"id": "100003",
+						"createTime": 1492913661000,
+						"finishTime": null,
+						"grade": null,
+						"price": null,
+						"remark": null,
+						"state": 2,
+						"recipientId": "213124126",
+						"replacementId": "213124128",
+						"recipient": {
+							"uid": "213124126",
+							"name": "收件人",
+							"phone": "18217699894",
+							"password": "123456",
+							"identity": 0,
+							"schoolCard": "adasdads",
+							"idCard": "adasdads",
+							"photo": null,
+							"aliPay": "houyuooooo",
+							"sex": "男",
+							"schoolName": "上海下师大",
+							"schoolAddress": "默认地址100号"
+						},
+						"replacement": {
+							"uid": "213124128",
+							"name": "代取人",
+							"phone": "18217699800",
+							"password": "123456",
+							"identity": 1,
+							"schoolCard": "123456789",
+							"idCard": null,
+							"photo": null,
+							"aliPay": null,
+							"sex": "男",
+							"schoolName": "上海下师大",
+							"schoolAddress": "默认地址100号"
+						},
+						"expressName": "sto",
+						"expressCode": "3749273",
+						"pickupTime": 1493362799000,
+						"pickupAddress": "上市发东门口",
+						"pickupCode": null,
+						"deliveryTime": 1493362799000,
+						"deliveryAddress": "28号楼505"
+					}
+				}
+			}
+		}
+	}
+]

@@ -1,0 +1,112 @@
+[
+	{
+		"/users": {
+			"POST": {
+				"params": {
+					"school_card": "1000000000",
+					"password": "123456",
+					"phone": "12362789123",
+					"school_address": "100hao",
+					"sex": "女",
+					"name": "register_test",
+					"school_name": "Shnu"
+				},
+				"response_body": {
+					"status ": 200,
+					"message ": "success ",
+					"data ": {
+						"uid ": "213124130 ",
+						"name ": "register_test ",
+						"phone ": "12362789123 ",
+						"password ": "123456 ",
+						"identity ": "RECIPIENT ",
+						"schoolCard ": "1000000000 ",
+						"idCard ": null,
+						"photo ": null,
+						"aliPay ": null,
+						"sex ": "女 ",
+						"schoolName ": "Shnu ",
+						"schoolAddress ": "100hao "
+					}
+				}
+			}
+		},
+		"/users/{uid}": {
+			"GET": {
+				"params": {
+					"token": "213124127_1a10fe72-5415-4d97-8bf2-6c47d4748e11"
+				},
+				"response_body": {
+					"status ": 200,
+					"message ": "success",
+					"data ": {
+						"uid": "1000000015",
+						"name": "test15",
+						"phone": "18200000015",
+						"password": "123456",
+						"identity": "ADMINISTRATOR",
+						"schoolCard": "140153015",
+						"idCard": "3300001",
+						"photo": "asd15",
+						"aliPay": "qwer15",
+						"sex": "女",
+						"schoolName": "shnu",
+						"schoolAddress ": "sh"
+					}
+				}
+			}
+		},
+		"/users/token": {
+			"PUT": {
+				"params": {
+					"school_card": "adasdads",
+					"alipay": "houyuooooo",
+					"id_card": "adasdads",
+					"photo": "photourl",
+					"token": "213124126_5295364b-9546-442c-9f5c-957e78c8c5be"
+				},
+				"response_body": {
+					"status ": 200,
+					"message ": "success",
+					"data ": {
+						"uid ": "213124126",
+						"name ": "收件人",
+						"phone ": "18217699894",
+						"password ": "123456",
+						"identity ": "RECIPIENT",
+						"schoolCard ": "adasdads",
+						"idCard ": "adasdads",
+						"photo ": null,
+						"aliPay ": "houyuooooo",
+						"sex ": "男",
+						"schoolName ": "上海下师大",
+						"schoolAddress ": "默认地址100号 "
+					}
+				}
+			},
+			"GET": {
+				"params": {
+					"token": "213124126_05a610cc-acb8-43f2-a328-880b777f03f3"
+				},
+				"response_body": {
+					"status ": 200,
+					"message ": "success",
+					"data ": {
+						"uid ": "213124126 ",
+						"name ": "收件人 ",
+						"phone ": "18217699894 ",
+						"password ": "123456 ",
+						"identity ": "RECIPIENT ",
+						"schoolCard ": "adasdads ",
+						"idCard ": "adasdads ",
+						"photo ": null,
+						"aliPay ": "houyuooooo ",
+						"sex ": "男 ",
+						"schoolName ": "上海下师大 ",
+						"schoolAddress ": "默认地址100号 "
+					}
+				}
+			}
+		}
+	}
+]

@@ -1,5 +1,8 @@
 package com.delivery.common.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.util.*;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -12,14 +15,15 @@ public class MessageEntity {
     private int id;
     private String senderId;
     private String receiverId;
+
     private MessageType type;
     private Timestamp createTime;
     private String title;
     private String content;
-    private MessageState state;
+    private State state;
 
 
-    public enum MessageState {
+    public enum State {
         UNREAD, READ, NOT_SHOW
     }
 
@@ -28,6 +32,7 @@ public class MessageEntity {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_ID")
     public int getId() {
         return id;
@@ -39,12 +44,12 @@ public class MessageEntity {
 
     @Basic
     @Column(name = "message_send_ID")
-    public String getMessageSendId() {
+    public String getSenderId() {
         return senderId;
     }
 
-    public void setMessageSendId(String messageSendId) {
-        this.senderId = messageSendId;
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
 
     @Basic
@@ -63,8 +68,8 @@ public class MessageEntity {
         return type;
     }
 
-    public void setType(MessageType type) {
-        this.type = type;
+    public void setType(MessageType messageType) {
+        this.type = messageType;
     }
 
     @Basic
@@ -99,11 +104,11 @@ public class MessageEntity {
 
     @Basic
     @Column(name = "message_state")
-    public MessageState getState() {
+    public State getState() {
         return state;
     }
 
-    public void setState(MessageState state) {
+    public void setState(State state) {
         this.state = state;
     }
 

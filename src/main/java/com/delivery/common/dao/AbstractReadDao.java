@@ -43,7 +43,7 @@ public abstract class AbstractReadDao<T>  {
         List<T> tList = session.createQuery("from " + bindClassName()).list();
 
         if (tList == null) {
-            logger.info("findAll:Type:'" + this.getClass().getSimpleName() + "'" + "findByPhone null");
+            logger.info("findAll:MessageType:'" + this.getClass().getSimpleName() + "'" + "findByPhone null");
             return new ArrayList<T>();
         }
         return sort(tList);

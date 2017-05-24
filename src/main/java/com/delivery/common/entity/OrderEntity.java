@@ -1,9 +1,8 @@
 package com.delivery.common.entity;
 
-import com.delivery.order.OrderState;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by finderlo on 2017/4/7.
@@ -15,7 +14,7 @@ public class OrderEntity {
     private Timestamp createTime;
     private Timestamp finishTime;
     private String grade;
-    private Double cost;
+    private Double price;
     private String remark;
 
     private OrderState state;
@@ -36,9 +35,50 @@ public class OrderEntity {
     private Timestamp deliveryTime;
     private String deliveryAddress;
 
+    /**
+     * 等待接单、已接单、已收件、已确认、待评价、已完成、已取消、申诉中、已赔偿
+     *
+     * @author finderlo
+     * @date 17/04/2017
+     */
+    public enum OrderState {
 
-    @OneToOne(cascade = CascadeType.DETACH,targetEntity = UserEntity.class)
-    @JoinColumn(name = "recipient_ID",insertable = false,updatable = false)
+
+        // -1 代表完成订单
+
+        WAIT_PAY(),
+
+        //等待接单
+        WAIT_ACCEPT(),
+
+        //已接单
+        ACCEPTED,
+
+        //已收件，待送达
+        TAKE_PARCEL_WAIT_DELIVERY,
+
+        //已确认
+        AFFIRMATIVE,
+
+        //待评价 -1
+        WAIT_COMMENT,
+
+        //已完成 -1
+        COMPLETED,
+
+        //以取消
+        CANCELED,
+
+        //申诉中
+        COMPLAINING,
+
+        //已赔偿 -1
+        COMPENSATION;
+
+    }
+
+    @OneToOne(cascade = CascadeType.MERGE, targetEntity = UserEntity.class)
+    @JoinColumn(name = "recipient_ID", insertable = false, updatable = false)
     public UserEntity getRecipient() {
         return recipient;
     }
@@ -46,8 +86,9 @@ public class OrderEntity {
     public void setRecipient(UserEntity recipient) {
         this.recipient = recipient;
     }
-    @OneToOne(cascade = CascadeType.DETACH,targetEntity = UserEntity.class)
-    @JoinColumn(name = "replacement_ID",insertable = false,updatable = false)
+
+    @OneToOne(cascade = CascadeType.MERGE, targetEntity = UserEntity.class)
+    @JoinColumn(name = "replacement_ID", insertable = false, updatable = false)
     public UserEntity getReplacement() {
         return replacement;
     }
@@ -98,12 +139,12 @@ public class OrderEntity {
 
     @Basic
     @Column(name = "orders_cost")
-    public Double getCost() {
-        return cost;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setCost(Double cost) {
-        this.cost = cost;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     @Basic
@@ -229,7 +270,7 @@ public class OrderEntity {
         if (finishTime != null ? !finishTime.equals(that.finishTime) : that.finishTime != null)
             return false;
         if (grade != null ? !grade.equals(that.grade) : that.grade != null) return false;
-        if (cost != null ? !cost.equals(that.cost) : that.cost != null) return false;
+        if (price != null ? !price.equals(that.price) : that.price != null) return false;
         if (remark != null ? !remark.equals(that.remark) : that.remark != null) return false;
         if (state != null ? !state.equals(that.state) : that.state != null) return false;
         if (recipientId != null ? !recipientId.equals(that.recipientId) : that.recipientId != null) return false;
@@ -254,7 +295,7 @@ public class OrderEntity {
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         result = 31 * result + (finishTime != null ? finishTime.hashCode() : 0);
         result = 31 * result + (grade != null ? grade.hashCode() : 0);
-        result = 31 * result + (cost != null ? cost.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (remark != null ? remark.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (recipientId != null ? recipientId.hashCode() : 0);

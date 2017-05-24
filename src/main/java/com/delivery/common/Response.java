@@ -1,14 +1,16 @@
 package com.delivery.common;
 
+import com.google.gson.Gson;
+
 /**
  * Created by finderlo on 2017/4/7.
  */
 public class Response {
 
     /**
-     * 错误码
+     * 状态码
      */
-    private int error_code;
+    private int status;
 
     /**
      * 描述
@@ -18,7 +20,27 @@ public class Response {
     /**
      * 返回信息
      */
-    private Object content;
+    private Object data;
+
+    /**
+     * @author finderlo
+     * @date 17/04/2017
+     */
+    public Response() {
+        this(200, null);
+    }
+
+    public Response(int status, String message, Object data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+    }
+
+
+    private Response(int status, Object data) {
+        this.status = status;
+        this.data = data;
+    }
 
     /**
      * @author finderlo
@@ -28,11 +50,13 @@ public class Response {
         this(errorCode, null);
     }
 
-    private Response(ErrorCode errorCode, Object content) {
-        this.error_code = errorCode.getCode();
+
+    private Response(ErrorCode errorCode, Object data) {
+        this.status = errorCode.getCode();
         this.message = errorCode.getDescription();
-        this.content = content;
+        this.data = data;
     }
+
 
 
     /**
@@ -46,12 +70,20 @@ public class Response {
     /**
      * @return 返回一个默认成功的response.
      **/
-    public static Response success() {
+    public static Response ok() {
         return new Response(ErrorCode.DEFAULT_SUCCESS);
     }
 
-    public static Response success(final Object object) {
+    public static Response ok(final Object object) {
         return new Response(ErrorCode.DEFAULT_SUCCESS, object);
+    }
+
+
+    /**
+     * @return 返回一个默认错误的response.
+     **/
+    public static Response error(int status,String message) {
+        return new Response(status,message,null);
     }
 
     /**
@@ -67,10 +99,10 @@ public class Response {
 
 
     /**
-     * @return error_code
+     * @return status
      */
-    public int getError_code() {
-        return error_code;
+    public int getStatus() {
+        return status;
     }
 
 
@@ -85,9 +117,25 @@ public class Response {
     /**
      * @return
      */
-    public Object getContent() {
-        return content;
+    public Object getData() {
+        return data;
     }
 
+    public void setStatus(int code) {
+        this.status = code;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 
 }

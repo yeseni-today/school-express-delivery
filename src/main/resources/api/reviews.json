@@ -1,0 +1,150 @@
+{
+	"/reviews": {
+		"GET": {
+			"params": {
+				"[可选]uid": "uid",
+				"[可选]state": "0",
+				"token": "10001_5bf3a806-cc79-4348-85a7-619bfd3d9f7b"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": [
+					{
+						"id": "2017051100001",
+						"userId": "213124123",
+						"managerId": null,
+						"type": 0,
+						"time": 1494431099000,
+						"state": 0,
+						"remark": null,
+						"user": {
+							"uid": "213124123",
+							"name": "asda",
+							"phone": "23456789",
+							"password": "12345",
+							"identity": 1,
+							"schoolCard": "213",
+							"idCard": null,
+							"photo": null,
+							"aliPay": null,
+							"sex": null,
+							"schoolName": null,
+							"schoolAddress": null
+						}
+					}
+				]
+			}
+		},
+		"POST": {
+			"params": {
+				"type": "0",
+				"token": "213124129_b9b97e13-e46e-46ad-983c-4ea908b44220"
+			},
+			"[没有足够的升级信息时]response_body": {
+				"status": 403,
+				"message": "user only upgrade with enough profile",
+				"data": null
+			},
+			"[正确返回]response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": {
+					"id": "2017051700000",
+					"userId": "213124124",
+					"managerId": null,
+					"type": 0,
+					"time": 1495007887651,
+					"state": 0,
+					"remark": null,
+					"user": {
+						"uid": "213124124",
+						"name": "AliPAy",
+						"phone": "12345678901",
+						"password": "123456",
+						"identity": 0,
+						"schoolCard": "1",
+						"idCard": "12",
+						"photo": "1",
+						"aliPay": "1332",
+						"sex": "7",
+						"schoolName": "6687",
+						"schoolAddress": "686"
+					}
+				}
+			}
+		}
+	},
+	"/reviews/token": {
+		"GET": {
+			"params": {
+				"token": "213124124_dafffd50-38e9-4d19-a9b7-184416dad02b"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": [
+					{
+						"id": "2017051100000",
+						"userId": "213124124",
+						"managerId": null,
+						"type": 0,
+						"time": 1494517609000,
+						"state": 0,
+						"remark": "IN Test",
+						"user": {
+							"uid": "213124124",
+							"name": "AliPAy",
+							"phone": "12345678901",
+							"password": "123456",
+							"identity": 0,
+							"schoolCard": "1",
+							"idCard": "12",
+							"photo": "1",
+							"aliPay": "1332",
+							"sex": "7",
+							"schoolName": "6687",
+							"schoolAddress": "686"
+						}
+					}
+				]
+			}
+		}
+	},
+	"/reviews/{review_id}": {
+		"PUT": {
+			"params": {
+				"result": "1",
+				"remark": "用户太美",
+				"token": "10001_915a1020-7ba1-4045-9f22-e9a4624d714b"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": {
+					"id": "2017051700000",
+					"userId": "213124124",
+					"managerId": "10001",
+					"type": 0,
+					"time": 1495008713054,
+					"state": 1,
+					"remark": "用户太美",
+					"user": {
+						"uid": "213124124",
+						"name": "AliPAy",
+						"phone": "12345678901",
+						"password": "123456",
+						"identity": 1,
+						"schoolCard": "1",
+						"idCard": "12",
+						"photo": "1",
+						"aliPay": "1332",
+						"sex": "7",
+						"schoolName": "6687",
+						"schoolAddress": "686"
+					}
+				}
+			}
+		}
+	}
+}

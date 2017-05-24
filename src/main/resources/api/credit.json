@@ -1,0 +1,72 @@
+{
+	"/credits/{user_id}": {
+		"GET": {
+			"params": {
+				"token": "213124127_e33f8f54-3424-4336-922e-7d5b70c2d546"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": {
+					"uid": "213124129",
+					"credit_value": 100
+				}
+			}
+		}
+	},
+	"/credits/token": {
+		"GET": {
+			"params": {
+				"token": "1000000004_eabf6edf-c858-41de-a5ec-afeac9407c5b"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": [
+					{
+						"userId": "1000000004",
+						"event": "中文是啥",
+						"value": 100,
+						"remark": "111",
+						"id": 4,
+						"user": {
+							"uid": "1000000004",
+							"name": "test4",
+							"phone": "18200000004",
+							"password": "123456",
+							"identity": 1,
+							"schoolCard": "140153004",
+							"idCard": "3300001",
+							"photo": "asd4",
+							"aliPay": "qwer4",
+							"sex": "å¥³",
+							"schoolName": "shnu",
+							"schoolAddress": "sh"
+						}
+					},
+					{
+						"userId": "1000000004",
+						"event": "给你瞅瞅",
+						"value": 100,
+						"remark": "111",
+						"id": 5,
+						"user": {
+							"uid": "1000000004",
+							"name": "test4",
+							"phone": "18200000004",
+							"password": "123456",
+							"identity": 1,
+							"schoolCard": "140153004",
+							"idCard": "3300001",
+							"photo": "asd4",
+							"aliPay": "qwer4",
+							"sex": "å¥³",
+							"schoolName": "shnu",
+							"schoolAddress": "sh"
+						}
+					}
+				]
+			}
+		}
+	}
+}

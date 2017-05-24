@@ -1,6 +1,8 @@
 package com.delivery.common.dao;
 
+import com.delivery.common.entity.OrderEntity;
 import com.delivery.common.entity.OrderLogEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,6 +20,17 @@ public class OrderLogDao extends AbstractDao<OrderLogEntity> {
     }
 
     public List<OrderLogEntity> findByOrderId(String orderId) {
-        return findBy("orderId",orderId);
+        return findBy("orderId", orderId);
     }
+
+    @Autowired
+    OrderDao orderDao;
+
+    public void casadeUpdate(OrderLogEntity logEntity) {
+        super.update(logEntity);
+        if (logEntity.getOrder() != null) {
+            orderDao.casadeUpdate(logEntity.getOrder());
+        }
+    }
+
 }

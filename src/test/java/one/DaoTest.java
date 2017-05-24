@@ -4,12 +4,15 @@ import com.delivery.Application;
 import com.delivery.common.dao.CreditRecordDao;
 import com.delivery.common.dao.OrderDao;
 import com.delivery.common.dao.ReviewDao;
+import com.delivery.common.dao.UserDao;
+import com.delivery.common.entity.OrderEntity;
 import com.delivery.common.entity.ReviewEntity;
-import com.delivery.order.OrderState;
+import com.delivery.common.entity.UserEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -29,17 +32,11 @@ public class DaoTest {
     @Autowired
     OrderDao orderDao;
 
+
+    @Autowired
+    UserDao userDao;
+
     @Autowired
     ReviewDao reviewDao;
 
-    @Test
-    public void aa()
-    {
-//        System.out.println(orderDao.findById("20170423100000").getRecipient().getId());
-        System.out.println(orderDao.findByState(OrderState.WAIT_ACCEPT));
-    }
-//    @Test
-    public void a(){
-        System.out.println(creditRecordDao.findByUserId(userid).size());
-    }
 }

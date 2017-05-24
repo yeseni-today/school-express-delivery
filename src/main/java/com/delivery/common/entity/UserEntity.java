@@ -10,11 +10,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users", schema = "sed", catalog = "")
 public class UserEntity {
-    private String id;
+    private String uid;
     private String name;
     private String phone;
     private String password;
-    private UserType identity;
+    private UserIdentity identity;
     private String schoolCard;
     private String idCard;
     private String photo;
@@ -23,18 +23,24 @@ public class UserEntity {
     private String schoolName;
     private String schoolAddress;
 
-    public enum UserType{
-        SYSTEM,RECIPIENT,REPLACEMENT,ADMINSTARTE
+
+    public enum UserIdentity {
+        RECIPIENT, REPLACEMENT, ADMINISTRATOR, SYSTEM;
+
+        public boolean isUser() {
+            return this.equals(RECIPIENT) || this.equals(RECIPIENT);
+        }
     }
+
 
     @Id
     @Column(name = "user_ID")
-    public String getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     @Basic
@@ -69,11 +75,11 @@ public class UserEntity {
 
     @Basic
     @Column(name = "user_identity")
-    public UserType getIdentity() {
+    public UserIdentity getIdentity() {
         return identity;
     }
 
-    public void setIdentity(UserType identity) {
+    public void setIdentity(UserIdentity identity) {
         this.identity = identity;
     }
 
@@ -154,7 +160,7 @@ public class UserEntity {
 
         UserEntity that = (UserEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
@@ -175,7 +181,7 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = uid != null ? uid.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);

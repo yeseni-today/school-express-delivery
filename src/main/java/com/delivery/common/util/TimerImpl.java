@@ -1,6 +1,5 @@
 package com.delivery.common.util;
 
-import com.delivery.dispatch.Dispatcher;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,25 +15,22 @@ import java.util.concurrent.ScheduledExecutorService;
  * @author finderlo
  * @date 21/04/2017
  */
+@Component
 public class TimerImpl implements Timer, Runnable {
 
-    ScheduledExecutorService service;
 
-    Dispatcher dispatcher;
+    private Map<Long, List<Task>> tasks = new HashMap<>(1000);
 
-    Map<Long, List<Task>> tasks = new HashMap<>(1000);
+    private ExceptionHandler exceptionHandler;
 
-    ExceptionHandler exceptionHandler;
-
-    public TimerImpl(Dispatcher dispatcher) {
-        this.dispatcher = dispatcher;
+    public TimerImpl() {
         this.exceptionHandler = new ExceptionHandler() {
             @Override
             public void handle(Throwable e, Task task) {
-                TimerImpl.this.dispatcher.handTimerException(e,task);
+                //todo 定时器执行的异常处理器
             }
         };
-        service = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间
         // 每秒执行一次run()方法,非阻塞
         service.scheduleAtFixedRate(this, 1, 1, java.util.concurrent.TimeUnit.SECONDS);

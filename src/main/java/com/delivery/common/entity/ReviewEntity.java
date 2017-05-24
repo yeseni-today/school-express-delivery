@@ -12,10 +12,10 @@ public class ReviewEntity {
     private String id;
     private String userId;
     private String managerId;
-    private ReviewType reviewType;
-    private Timestamp reviewTime;
+    private ReviewType type;
+    private Timestamp time;
     private ReviewState state;
-    private String information;
+    private String remark;
 
     private UserEntity user;
 
@@ -28,9 +28,10 @@ public class ReviewEntity {
 
     public void setUser(UserEntity user) {
         this.user = user;
+        this.userId = user.getUid();
     }
 
-    public enum ReviewType{
+    public enum ReviewType {
         UPGRADE,DEGRADE,UPDATE_DATA
     }
 
@@ -70,22 +71,22 @@ public class ReviewEntity {
 
     @Basic
     @Column(name = "review_type")
-    public ReviewType getReviewType() {
-        return reviewType;
+    public ReviewType getType() {
+        return type;
     }
 
-    public void setReviewType(ReviewType reviewType) {
-        this.reviewType = reviewType;
+    public void setType(ReviewType type) {
+        this.type = type;
     }
 
     @Basic
     @Column(name = "review_time")
-    public Timestamp getReviewTime() {
-        return reviewTime;
+    public Timestamp getTime() {
+        return time;
     }
 
-    public void setReviewTime(Timestamp reviewTime) {
-        this.reviewTime = reviewTime;
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
     @Basic
@@ -100,12 +101,12 @@ public class ReviewEntity {
 
     @Basic
     @Column(name = "review_information")
-    public String getInformation() {
-        return information;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setInformation(String information) {
-        this.information = information;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Override
@@ -118,10 +119,10 @@ public class ReviewEntity {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (managerId != null ? !managerId.equals(that.managerId) : that.managerId != null) return false;
-        if (reviewType != null ? !reviewType.equals(that.reviewType) : that.reviewType != null) return false;
-        if (reviewTime != null ? !reviewTime.equals(that.reviewTime) : that.reviewTime != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (time != null ? !time.equals(that.time) : that.time != null) return false;
         if (state != null ? !state.equals(that.state) : that.state != null) return false;
-        if (information != null ? !information.equals(that.information) : that.information != null)
+        if (remark != null ? !remark.equals(that.remark) : that.remark != null)
             return false;
 
         return true;
@@ -132,10 +133,10 @@ public class ReviewEntity {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (managerId != null ? managerId.hashCode() : 0);
-        result = 31 * result + (reviewType != null ? reviewType.hashCode() : 0);
-        result = 31 * result + (reviewTime != null ? reviewTime.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (time != null ? time.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
-        result = 31 * result + (information != null ? information.hashCode() : 0);
+        result = 31 * result + (remark != null ? remark.hashCode() : 0);
         return result;
     }
 }

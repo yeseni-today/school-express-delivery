@@ -1,0 +1,298 @@
+{
+	"/complaints": {
+		"GET": {
+			"params": {
+				"[可选]state": "0",
+				"[可选]uid": "uid",
+				"token": "213124127_6c33f69f-240f-4753-874e-e18a80353e94"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": [
+					{
+						"id": "2017051700000",
+						"orderId": "20170423100000",
+						"userId": "213124124",
+						"managerId": null,
+						"type": 4,
+						"createTime": 1495001801000,
+						"state": 0,
+						"description": "default description",
+						"result": null,
+						"order": {
+							"id": "20170423100000",
+							"createTime": 1492913619000,
+							"finishTime": null,
+							"grade": null,
+							"price": null,
+							"remark": "备注无",
+							"state": 3,
+							"recipientId": "213124124",
+							"replacementId": "213124127",
+							"recipient": {
+								"uid": "213124124",
+								"name": "AliPAy",
+								"phone": "12345678901",
+								"password": "123456",
+								"identity": 1,
+								"schoolCard": "1",
+								"idCard": "12",
+								"photo": "1",
+								"aliPay": "1332",
+								"sex": "7",
+								"schoolName": "6687",
+								"schoolAddress": "686"
+							},
+							"replacement": {
+								"uid": "213124127",
+								"name": "管理员",
+								"phone": "18217699895",
+								"password": "123456",
+								"identity": 2,
+								"schoolCard": "123456789",
+								"idCard": null,
+								"photo": null,
+								"aliPay": null,
+								"sex": "男",
+								"schoolName": "上海下师大",
+								"schoolAddress": "默认地址100号"
+							},
+							"expressName": "中通",
+							"expressCode": "14012412412",
+							"pickupTime": 1493362799000,
+							"pickupAddress": "上市发东门口",
+							"pickupCode": "124",
+							"deliveryTime": 1493362799000,
+							"deliveryAddress": "28号楼505"
+						},
+						"user": {
+							"uid": "213124124",
+							"name": "AliPAy",
+							"phone": "12345678901",
+							"password": "123456",
+							"identity": 1,
+							"schoolCard": "1",
+							"idCard": "12",
+							"photo": "1",
+							"aliPay": "1332",
+							"sex": "7",
+							"schoolName": "6687",
+							"schoolAddress": "686"
+						},
+						"manager": null
+					}
+				]
+			}
+		},
+		"POST": {
+			"params": {
+				"type": "4",
+				"order_id": "20170423100000",
+				"token": "213124124_85e13d46-abf6-46dc-b1f0-2bb9468d1c79",
+				"description":"description"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": {
+					"id": "2017051700000",
+					"orderId": "20170423100000",
+					"userId": "213124124",
+					"managerId": null,
+					"type": 4,
+					"createTime": 1495001801192,
+					"state": 0,
+					"description": "default description",
+					"result": null,
+					"order": null,
+					"user": {
+						"uid": "213124124",
+						"name": "AliPAy",
+						"phone": "12345678901",
+						"password": "123456",
+						"identity": 1,
+						"schoolCard": "1",
+						"idCard": "12",
+						"photo": "1",
+						"aliPay": "1332",
+						"sex": "7",
+						"schoolName": "6687",
+						"schoolAddress": "686"
+					},
+					"manager": null
+				}
+			}
+		}
+	},
+	"/complaints/{complaints_id}": {
+		"PUT": {
+			"params": {
+				"result": "resultlt",
+				"state": "0",
+				"credit_value": "-1000",
+				"order_state": "6",
+				"token": "10001_03c3d26c-c324-4776-baf9-0d8b147b1c3d"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": {
+					"id": "2017051700000",
+					"orderId": "20170423100000",
+					"userId": "213124124",
+					"managerId": "10001",
+					"type": 4,
+					"createTime": 1495001801000,
+					"state": 1,
+					"description": "default description",
+					"result": "resultlt",
+					"order": {
+						"id": "20170423100000",
+						"createTime": 1492913619000,
+						"finishTime": null,
+						"grade": null,
+						"price": null,
+						"remark": "备注无",
+						"state": 6,
+						"recipientId": "213124124",
+						"replacementId": "213124127",
+						"recipient": {
+							"uid": "213124124",
+							"name": "AliPAy",
+							"phone": "12345678901",
+							"password": "123456",
+							"identity": 1,
+							"schoolCard": "1",
+							"idCard": "12",
+							"photo": "1",
+							"aliPay": "1332",
+							"sex": "7",
+							"schoolName": "6687",
+							"schoolAddress": "686"
+						},
+						"replacement": {
+							"uid": "213124127",
+							"name": "管理员",
+							"phone": "18217699895",
+							"password": "123456",
+							"identity": 2,
+							"schoolCard": "123456789",
+							"idCard": null,
+							"photo": null,
+							"aliPay": null,
+							"sex": "男",
+							"schoolName": "上海下师大",
+							"schoolAddress": "默认地址100号"
+						},
+						"expressName": "中通",
+						"expressCode": "14012412412",
+						"pickupTime": 1493362799000,
+						"pickupAddress": "上市发东门口",
+						"pickupCode": "124",
+						"deliveryTime": 1493362799000,
+						"deliveryAddress": "28号楼505"
+					},
+					"user": {
+						"uid": "213124124",
+						"name": "AliPAy",
+						"phone": "12345678901",
+						"password": "123456",
+						"identity": 1,
+						"schoolCard": "1",
+						"idCard": "12",
+						"photo": "1",
+						"aliPay": "1332",
+						"sex": "7",
+						"schoolName": "6687",
+						"schoolAddress": "686"
+					}
+				}
+			}
+		}
+	},
+	"/complaints/token": {
+		"GET": {
+			"params": {
+				"token": "213124124_ad87f7b0-79d2-4eef-ac16-c07d49ab305e"
+			},
+			"response_body": {
+				"status": 200,
+				"message": "ok",
+				"data": [
+					{
+						"id": "2017051700000",
+						"orderId": "20170423100000",
+						"userId": "213124124",
+						"managerId": "10001",
+						"type": 4,
+						"createTime": 1495001801000,
+						"state": 1,
+						"description": "default description",
+						"result": "resultlt",
+						"order": {
+							"id": "20170423100000",
+							"createTime": 1492913619000,
+							"finishTime": null,
+							"grade": null,
+							"price": null,
+							"remark": "备注无",
+							"state": 6,
+							"recipientId": "213124124",
+							"replacementId": "213124127",
+							"recipient": {
+								"uid": "213124124",
+								"name": "AliPAy",
+								"phone": "12345678901",
+								"password": "123456",
+								"identity": 1,
+								"schoolCard": "1",
+								"idCard": "12",
+								"photo": "1",
+								"aliPay": "1332",
+								"sex": "7",
+								"schoolName": "6687",
+								"schoolAddress": "686"
+							},
+							"replacement": {
+								"uid": "213124127",
+								"name": "管理员",
+								"phone": "18217699895",
+								"password": "123456",
+								"identity": 2,
+								"schoolCard": "123456789",
+								"idCard": null,
+								"photo": null,
+								"aliPay": null,
+								"sex": "男",
+								"schoolName": "上海下师大",
+								"schoolAddress": "默认地址100号"
+							},
+							"expressName": "中通",
+							"expressCode": "14012412412",
+							"pickupTime": 1493362799000,
+							"pickupAddress": "上市发东门口",
+							"pickupCode": "124",
+							"deliveryTime": 1493362799000,
+							"deliveryAddress": "28号楼505"
+						},
+						"user": {
+							"uid": "213124124",
+							"name": "AliPAy",
+							"phone": "12345678901",
+							"password": "123456",
+							"identity": 1,
+							"schoolCard": "1",
+							"idCard": "12",
+							"photo": "1",
+							"aliPay": "1332",
+							"sex": "7",
+							"schoolName": "6687",
+							"schoolAddress": "686"
+						}
+					}
+				]
+			}
+		}
+	}
+}

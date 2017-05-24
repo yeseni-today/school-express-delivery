@@ -1,6 +1,5 @@
 package com.delivery.common.entity;
 
-import com.delivery.order.OrderState;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -12,9 +11,22 @@ import java.sql.Timestamp;
 @Table(name = "orders_operation_log", schema = "sed", catalog = "")
 public class OrderLogEntity {
     private String orderId;
-    private OrderState state;
+    private OrderEntity.OrderState orderState;
     private Timestamp changeTime;
     private int id;
+
+    private OrderEntity order;
+
+
+    @OneToOne(cascade = CascadeType.MERGE,targetEntity = OrderEntity.class)
+    @JoinColumn(name = "orders_ID",insertable = false,updatable = false)
+    public OrderEntity getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderEntity order) {
+        this.order = order;
+    }
 
     @Basic
     @Column(name = "orders_ID")
@@ -28,12 +40,12 @@ public class OrderLogEntity {
 
     @Basic
     @Column(name = "state_type")
-    public OrderState getState() {
-        return state;
+    public OrderEntity.OrderState getOrderState() {
+        return orderState;
     }
 
-    public void setState(OrderState state) {
-        this.state = state;
+    public void setOrderState(OrderEntity.OrderState orderState) {
+        this.orderState = orderState;
     }
 
     @Basic
@@ -65,7 +77,7 @@ public class OrderLogEntity {
 
         if (id != that.id) return false;
         if (orderId != null ? !orderId.equals(that.orderId) : that.orderId != null) return false;
-        if (state != null ? !state.equals(that.state) : that.state != null) return false;
+        if (orderState != null ? !orderState.equals(that.orderState) : that.orderState != null) return false;
         if (changeTime != null ? !changeTime.equals(that.changeTime) : that.changeTime != null)
             return false;
 
@@ -75,7 +87,7 @@ public class OrderLogEntity {
     @Override
     public int hashCode() {
         int result = orderId != null ? orderId.hashCode() : 0;
-        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (orderState != null ? orderState.hashCode() : 0);
         result = 31 * result + (changeTime != null ? changeTime.hashCode() : 0);
         result = 31 * result + id;
         return result;
