@@ -4,6 +4,7 @@ import com.delivery.common.Response;
 import com.delivery.common.constant.Constant;
 import com.delivery.common.dao.OrderDao;
 import com.delivery.common.dao.OrderLogDao;
+import com.delivery.common.dao.UserDao;
 import com.delivery.common.entity.OrderEntity;
 import com.delivery.common.entity.OrderLogEntity;
 import com.delivery.common.entity.UserEntity;
@@ -29,7 +30,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.delivery.common.util.Assert;
 
+import javax.validation.constraints.Null;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,8 +62,24 @@ public class OrderController {
     @Autowired
     private EventManager eventManager;
 
+
+    @Autowired
+    private UserDao userDao;
     @Autowired
     private Timer timer;
+
+    @GetMapping
+    @Authorization
+    public Response findCanAccept(
+            @CurrentUser UserEntity user
+    ){
+        List<UserEntity> users = userDao.findBySchoolNameAndSex(user.getSchoolName(),user.getSex());
+        List<OrderEntity> orders = new ArrayList<>();
+        for (UserEntity entity : users) {
+            orders.addAll(orderDao.findByRecipientId(entity.getUid()));
+        }
+        return Response.ok(orders);
+    }
 
     /**
      * 返回订单列表
@@ -102,10 +121,10 @@ public class OrderController {
             @RequestParam String pickup_address,
             @RequestParam String delivery_address,
             @RequestParam Timestamp delivery_time,
-            @RequestParam(required = false) String express_code,
-            @RequestParam(required = false) String pickup_code,
+            @RequestParam(required = false,defaultValue = "") String express_code,
+            @RequestParam(required = false,defaultValue = "") String pickup_code,
             @RequestParam Timestamp pickup_time,
-            @RequestParam(required = false) String remark,
+            @RequestParam(required = false,defaultValue = "") String remark,
             @RequestParam double price
     ) {
         Assert.isTrue(orderUtil.canCreate(user), "user can not create an order");
@@ -117,9 +136,21 @@ public class OrderController {
         order.setPickupAddress(pickup_address);
         order.setDeliveryAddress(delivery_address);
         order.setDeliveryTime(delivery_time);
-        order.setExpressCode(express_code);
-        order.setPickupCode(pickup_code);
-        order.setRemark(remark);
+
+        if ("".equals(express_code)) {
+            order.setExpressCode(null);
+        } else order.setExpressCode(express_code);
+
+        if ("".equals(pickup_code)) {
+            order.setPickupCode(null);
+        } else order.setPickupCode(pickup_code);
+
+        if ("".equals(remark)) {
+            order.setRemark(null);
+        } else {
+            order.setRemark(remark);
+        }
+
         order.setPrice(price);
 
         order.setCreateTime(Util.now());
@@ -139,6 +170,16 @@ public class OrderController {
         );
         return Response.ok(order);
     }
+
+
+    @GetMapping("/{order_id}")
+    @Authorization
+    @Transactional(rollbackFor = Exception.class)
+    public Response findOrderState(
+            @PathVariable String order_id) {
+        return Response.ok(orderDao.findById(order_id));
+    }
+
 
     @PutMapping("/{order_id}")
     @AdminAuthorization

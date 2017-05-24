@@ -1,10 +1,14 @@
 package com.delivery.rest.user;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.delivery.common.Response;
 import com.delivery.common.dao.OrderDao;
 import com.delivery.common.dao.ReviewDao;
 import com.delivery.common.dao.UserDao;
 import com.delivery.common.entity.ComplaintEntity;
+import com.delivery.common.entity.OrderEntity;
 import com.delivery.common.entity.ReviewEntity;
 import com.delivery.common.entity.UserEntity;
 import com.delivery.common.util.Assert;
@@ -16,11 +20,17 @@ import com.delivery.config.annotation.EnumParam;
 import com.delivery.event.Event;
 import com.delivery.event.EventManager;
 import com.delivery.event.context.UserUpgradeEventContext;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.LongSerializationPolicy;
+import com.google.gson.internal.LinkedTreeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.delivery.common.constant.HttpStatus.*;
@@ -92,7 +102,7 @@ public class ReviewController {
             @RequestParam String remark,
             @CurrentUser UserEntity admin
     ) {
-        Assert.isTrue(!result.equals(ReviewEntity.ReviewState.WAIT_HANDLE),WRONG_AUGUMENT,"result must be success(1) or fail(2)");
+        Assert.isTrue(!result.equals(ReviewEntity.ReviewState.WAIT_HANDLE), WRONG_AUGUMENT, "result must be success(1) or fail(2)");
 
         ReviewEntity review = reviewDao.findById(review_id);
         review.setState(result);
@@ -150,6 +160,4 @@ public class ReviewController {
         Assert.isTrue(orderDao.findByReplacementId(user.getUid()).size() == 0, 403, "user have uncompleted order");
         return Response.ok();
     }
-
-
 }

@@ -1,0 +1,16 @@
+package com.delivery.web;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ * @author finderlo
+ * @date 24/05/2017
+ */
+@Controller
+public class HelloController {
+    @RequestMapping("/")
+    public String hello(){
+        return "hello";
+    }
+}

@@ -17,14 +17,18 @@ import java.util.List;
 public class UserDao extends AbstractDao<UserEntity> {
 
     public UserEntity findByPhone(String value) {
-        List<UserEntity> usersEntities =  super.findBy("phone", value);
-        if (usersEntities.size()==0){
+        List<UserEntity> usersEntities = super.findBy("phone", value);
+        if (usersEntities.size() == 0) {
             return null;
         }
         return usersEntities.get(0);
     }
 
-    public String newUsersId(){
+    public List<UserEntity> findBySchoolNameAndSex(String schoolName, String sex) {
+        return findBy(new String[]{"schoolName", "sex"}, new String[]{schoolName, sex}, false);
+    }
+
+    public String newUsersId() {
         Session session = sessionFactory.getCurrentSession();
         SQLQuery l = session.createSQLQuery("SELECT MAX(user_ID) FROM users");
         String id = (String) l.list().get(0);

@@ -81,7 +81,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         super.postHandle(request, response, handler, modelAndView);
         logger.info("postHandle request: " + request.getRequestURI() + "  " + request.getMethod());
-        logger.info("postHandle response: " + modelAndView.getModel().toString());
+        logger.info("postHandle response: " + response);
 
     }
 }
