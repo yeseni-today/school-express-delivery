@@ -76,7 +76,12 @@ public class OrderController {
         List<UserEntity> users = userDao.findBySchoolNameAndSex(user.getSchoolName(),user.getSex());
         List<OrderEntity> orders = new ArrayList<>();
         for (UserEntity entity : users) {
-            orders.addAll(orderDao.findByRecipientId(entity.getUid()));
+            List<OrderEntity> ordersall = orderDao.findByRecipientId(entity.getUid());
+            for (OrderEntity orderEntity : ordersall) {
+                if (orderEntity.getState().equals(OrderEntity.OrderState.WAIT_ACCEPT)){
+                    orders.add(orderEntity);
+                }
+            }
         }
         return Response.ok(orders);
     }
@@ -230,7 +235,7 @@ public class OrderController {
         if (!order.getState().equals(OrderEntity.OrderState.WAIT_ACCEPT)) {
             Assert.isTrue(user.getUid().equals(order.getRecipientId())
                             || user.getUid().equals(order.getReplacementId()),
-                    "user only can modify your participate order");
+                    "user only can modify your participate order ");
         }
 
 
