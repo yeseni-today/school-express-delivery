@@ -4,7 +4,7 @@
 $(document).ready(function () {
     var $table = $("#reviewList").find("tbody");
     var tablecolor='myTable-operation-info';
-    alert(GLOBAL.token);
+    // alert(GLOBAL.token);
 
     $.ajax({
         url: "/reviews",

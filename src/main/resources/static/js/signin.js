@@ -2,7 +2,7 @@
  * Created by 22340 on 2016/11/27.
  */
 
-var GLOBAL = {};
+// var GLOBAL = {};
 
 window.onload = function () {
     document.body.style.fontSize = screen.width * 0.01 + "px";
