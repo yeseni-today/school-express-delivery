@@ -96,10 +96,10 @@ function addCompany() {
 function searchItem(operation) {
     var values = $("#query_input_info").serialize();
     var $table = $("#query_item_result").find("tbody");
-    var tablecolor='myTable-operation-info';
+    var tablecolor = 'myTable-operation-info';
 
-    if(operation=="icon-plus"){
-        tablecolor="myTable-operation";
+    if (operation == "icon-plus") {
+        tablecolor = "myTable-operation";
     }
     $.ajax({
         url: "/query/searchItem",
@@ -114,7 +114,7 @@ function searchItem(operation) {
                     "<td>" + item.itemName + "</td>" +
                     "<td>" + item.categoryEntity.categoryName + "</td>" +
                     "<td>" + item.itemCount + "</td>" +
-                    "<td class='"+tablecolor+" " + operation + "' " +
+                    "<td class='" + tablecolor + " " + operation + "' " +
                     "onclick=\"openPop_select(\'" + item.itemCode + "\',\'" + item.itemName + "\',\'" + operation + "\')\"></td>" +
                     "</tr>";
                 $table.append(itemhtml);
@@ -1130,3 +1130,29 @@ function getDate(ms) {
     var date = d.getDate();
     return year + "-" + month + "-" + date;
 }
+
+//设置cookies
+function setCookie(c_name, value, expiredays) {
+    var exdate = new Date();
+    exdate.setDate(exdate.getDate() + expiredays);
+    document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+}
+
+//读取cookies
+function getCookie(name) {
+    var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    if (arr = document.cookie.match(reg))
+        return (arr[2]);
+    else
+        return null;
+}
+
+//删除cookies
+function delCookie(name) {
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    var cval = getCookie(name);
+    if (cval != null)
+        document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+}
+

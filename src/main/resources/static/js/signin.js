@@ -29,7 +29,8 @@ function sign() {
                 showLoading();
                 setTimeout(function () {
                     if (json.status === 200) {
-                        GLOBAL.token = json.data.token;
+                        // GLOBAL.token = json.data.token;
+                        setCookie("token",json.data.token,10);
                         // todo
                         location = "/manage/examine";        //跳转
                     } else {
