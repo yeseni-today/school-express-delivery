@@ -22,6 +22,10 @@
         <div class="navBar-content">
             <nav>
                 <ul class="nav">
+                    <!--<dd><a href="#" th:href="@{/manage/examine}">审核</a></dd>-->
+                    <li th:classappend="${page == 'home' ? 'active' : ''}">
+                        <a href="#" th:href="@{/manage/examine}">审核</a>
+                    </li>
                     <li th:classappend="${page == 'home' ? 'active' : ''}">
                         <a href="#" th:href="@{/query}">查询</a>
                     </li>
@@ -32,15 +36,9 @@
                         <a href="#" th:href="@{/apply}">申请</a>
                         <!--onclick="jumpTo('applyajax')"-->
                     </li>
-                    <!--<li th:classappend="${page == 'tasks' ? 'active' : ''}">-->
-                    <!--<a href="#" th:href="@{/borrow}">借用</a>-->
-                    <!--</li>-->
+
                     <li th:classappend="${page == 'tasks' ? 'active' : ''}">
                         <a href="#" th:href="@{/message}">消息</a>
-                        <!--<span class="arrow"></span>-->
-                        <!--<dl>-->
-                        <!--<dd><a href="#" th:href="@{/message}">我的消息</a></dd>-->
-                        <!--</dl>-->
                     </li>
                     <li th:classappend="${page == 'tasks' ? 'active' : ''}" sec:authorize="hasRole('ROLE_ADMIN')">
                         <a href="#" th:href="@{/log}">日志</a>
@@ -57,7 +55,6 @@
                         <a href="#">管理</a>
                         <span class="arrow"></span>
                         <dl>
-                            <dd><a href="#" th:href="@{/manage/examine}">审核</a></dd>
                             <dd><a href="#" th:href="@{/manage/outStorage}">出库</a></dd>
                             <dd><a href="#" th:href="@{/newMessage}">新建消息</a></dd>
                             <dd><a href="#" th:href="@{/manage/itemindate}">有效期管理</a></dd>

@@ -3,7 +3,7 @@
       xmlns:tiles="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title >登陆</title>
+    <title>登陆</title>
 
     <link href="../../static/css/loginPage.css" rel="stylesheet" type="text/css"
           th:href="@{/css/loginPage.css}"/>
@@ -23,23 +23,12 @@
 <div id="load" class="load">
     <img id="loadGif" th:src="@{/picture/loading.gif}"/>
 </div>
-
-<div id="header">
-    <div th:replace="fragments/header :: header">
-    </div>
-</div>
+<div id="header" th:replace="fragments/header :: header"></div>
 
 
-<div tiles:fragment="content" style="background-size: cover;background-image: url('/picture/sed.png');background-color:#fdf5db;height:100%">
-
-    <!--云团效果-->
-    <!--<script src="../../static/js/clouds/all.js" th:src="@{/js/clouds/all.js}"></script>-->
-
-    <!--<div class="login-title">-->
-        <!--欢迎，这里是仓库管理系统-->
-    <!--</div>-->
-
-    <form class="login myInput"  method="post">
+<div tiles:fragment="content"
+     style="background-size: cover;background-image: url('/picture/sed.png');background-color:#fdf5db;height:100%">
+    <form class="login myInput" method="post">
         <div class="name">
             <input type='text' name='uid' placeholder="请输入账号"/>
             <div class="icon-after-user"></div>
@@ -53,10 +42,8 @@
 </div>
 
 
-<div id="footer">
-    <div th:replace="fragments/footer :: footer">
-    </div>
-</div>
+<div id="footer" th:replace="fragments/footer :: footer"></div>
+
 
 </body>
 </html>

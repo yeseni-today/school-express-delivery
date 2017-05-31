@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:tiles="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title  tiles:fragment="title">管理</title>
+    <title>管理</title>
 
-    <link href="../../static/css/all.css" rel="stylesheet" type="text/css"/>
-    <script src="../../static/js/jquery-3.1.1.js"></script>
-    <script src="../../static/js/main.js"></script>
+    <link href="../../static/css/all.css" rel="stylesheet" type="text/css"
+          th:src="@{/css/all.css}"/>
+    <script src="../../static/js/main.js" th:src="@{/js/main.js}"></script>
+    <script src="../../static/js/jquery-3.1.1.js"
+            th:src="@{/js/jquery-3.1.1.js}"></script>
+    <script src="../../static/js/signin.js"
+            th:src="@{/js/signin.js}"></script>
 </head>
 <body>
 
-<div class="content" tiles:fragment="content">
+<div/>
+
+<!--加载图标-->
+<div id="load" class="load">
+    <img id="loadGif" th:src="@{/picture/loading.gif}"/>
+</div>
+<div id="header" th:replace="fragments/header :: header"></div>
+
+
+<div class="content">
     <header>
         <h2>审核</h2>
     </header>
@@ -24,23 +37,23 @@
                     <th>申请日期</th>
                     <th>操作</th>
                 </tr>
-                <tr th:if="${history==null||history.isEmpty()}">
-                    <td colspan="4">没有未审核的申请单</td>
-                </tr>
-                <tr th:each="itemApplicationOperation:${history}"
-                    th:id="${itemApplicationOperation.applicationId}">
-                    <!--/*@thymesVar id="itemApplicationOperation" type="com.repository.entity.ItemApplicationOperationEntity"*/-->
-                    <td th:text="${itemApplicationOperation.applicationId}"></td>
-                    <td th:text="${itemApplicationOperation.usersId}"></td>
-                    <td th:text="${itemApplicationOperation.applicationTime}"></td>
-                    <td class="myTable-operation icon-list-bulleted"
-                        th:onclick="'getNeedExamineByID(\''+${itemApplicationOperation.applicationId}+'\')'">
-                    </td>
-                </tr>
+                <!--<tr th:if="${history==null||history.isEmpty()}">-->
+                <!--<td colspan="4">没有未审核的申请单</td>-->
+                <!--</tr>-->
+                <!--<tr th:each="itemApplicationOperation:${history}"-->
+                <!--th:id="${itemApplicationOperation.applicationId}">-->
+                <!--&lt;!&ndash;/*@thymesVar id="itemApplicationOperation" type="com.repository.entity.ItemApplicationOperationEntity"*/&ndash;&gt;-->
+                <!--<td th:text="${itemApplicationOperation.applicationId}"></td>-->
+                <!--<td th:text="${itemApplicationOperation.usersId}"></td>-->
+                <!--<td th:text="${itemApplicationOperation.applicationTime}"></td>-->
+                <!--<td class="myTable-operation icon-list-bulleted"-->
+                <!--th:onclick="'getNeedExamineByID(\''+${itemApplicationOperation.applicationId}+'\')'">-->
+                <!--</td>-->
+                <!--</tr>-->
             </table>
-
         </div>
     </section>
+
     <div class="pop-bg">
         <div class="pop myTable" style="top: 5em;width: 65em;padding: 5em;height: 30em;">
             <div class="pop-close">
@@ -88,5 +101,7 @@
     </div>
 </div>
 
+
+<div id="footer" th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

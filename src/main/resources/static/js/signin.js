@@ -31,7 +31,7 @@ function sign() {
                     if (json.status === 200) {
                         GLOBAL.token = json.data.token;
                         // todo
-                        location = json.content;        //跳转
+                        location = "";        //跳转
                     } else {
                         $("#loginButton").val("登陆失败请重试");
                     }
