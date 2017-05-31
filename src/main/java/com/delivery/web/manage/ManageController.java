@@ -27,7 +27,6 @@ public class ManageController {
         return "manage/examine";
     }
 
-
 }
 
 
