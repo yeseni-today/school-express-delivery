@@ -22,7 +22,7 @@ function sign() {
         $.ajax({
             type: "post",
             url: "/tokens",             //向springboot请求数据的url
-            data: {"username": uid, "password": password},
+            data: {"uid": uid, "password": password},
             success: function (json) {
                 $("#loginButton").val("正在登陆");
                 showLoading();
