@@ -29,43 +29,29 @@
     </header>
     <section>
         <div class="content-result myTable">
-            <table id = "reviewList">
+            <table id="reviewList">
                 <thead>
                 <tr>
-                    <th>申请单编号</th>
-                    <th>申请人ID</th>
-                    <th>申请日期</th>
+                    <th>审核单编号</th>
+                    <th>用户</th>
+                    <th>创建日期</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <!--<tr>-->
-                    <!--<td>1</td>-->
-                    <!--<td>1</td>-->
-                    <!--<td>1</td>-->
-                    <!--<td onclick="alert('1234')">1</td>-->
-                <!--</tr>-->
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td onclick="openPop()">1</td>
+                </tr>
                 </tbody>
-
-                <!--<tr th:if="${history==null||history.isEmpty()}">-->
-                <!--<td colspan="4">没有未审核的申请单</td>-->
-                <!--</tr>-->
-                <!--<tr th:each="itemApplicationOperation:${history}"-->
-                <!--th:id="${itemApplicationOperation.applicationId}">-->
-                <!--&lt;!&ndash;/*@thymesVar id="itemApplicationOperation" type="com.repository.entity.ItemApplicationOperationEntity"*/&ndash;&gt;-->
-                <!--<td th:text="${itemApplicationOperation.applicationId}"></td>-->
-                <!--<td th:text="${itemApplicationOperation.usersId}"></td>-->
-                <!--<td th:text="${itemApplicationOperation.applicationTime}"></td>-->
-                <!--<td class="myTable-operation icon-list-bulleted"-->
-                <!--th:onclick="'getNeedExamineByID(\''+${itemApplicationOperation.applicationId}+'\')'">-->
-                <!--</td>-->
-                <!--</tr>-->
             </table>
         </div>
     </section>
 
     <div class="pop-bg">
-        <div class="pop myTable" style="top: 5em;width: 65em;padding: 5em;height: 30em;">
+        <div class="pop myTable" style="top: 5em;width: 30em;padding: 5em;height: 30em;">
             <div class="pop-close">
                 <div class="close_button" onclick="closePop()">
                     <div class="close_button-icon"></div>
@@ -73,23 +59,33 @@
             </div>
 
             <section style="text-align: center">
-                <label style="float: left">申请单编号:"<span id="applyFromID"></span></label>
-                <label>申请人ID:<span id="usersId"></span></label>
-                <label style="float: right">申请日期:<span id="applyTime"></span></label>
+                <label style="float: left">审核单编号:<span id="applyFromID"></span></label>
+                <label style="float: right">创建日期:<span id="applyTime"></span></label>
             </section>
-            <div>
-                <table>
+            <div style="height: 22em;overflow-x:hidden;overflow-y: scroll;width: 30em;margin-top: 5em">
+
+                <table id="reviewFrom">
+
                     <tr>
-                        <th>物品条形码</th>
-                        <th>申请数量</th>
-                        <th>申请类型</th>
-                        <th>申请备注</th>
+                        <td>用户姓名：</td>
+                        <td id="username">
                     </tr>
-                </table>
-            </div>
-            <div style="height: 27em;overflow-x:hidden;overflow-y: scroll;width: 66em">
-                <table id="applyFormTable">
-                    <tbody></tbody>
+                    <tr>
+                        <td>身份证号：</td>
+                        <td id="userIdCard">
+                    </tr>
+                    <tr>
+                        <td>身份证照片：</td>
+                        <td style="height: 7em" id="userImage">
+                    </tr>
+                    <tr>
+                        <td>信用值：</td>
+                        <td style="height: 7em" id="creditValue">
+                    </tr>
+                    <tr>
+                        <td>审核备注：</td>
+                        <td style="height: 7em" id="remark">
+                    </tr>
                 </table>
             </div>
             <div>
