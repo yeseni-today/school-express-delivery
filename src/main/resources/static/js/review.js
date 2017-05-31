@@ -21,7 +21,7 @@ $(document).ready(function () {
                     "<td>" + item.user.name + "</td>" +
                     "<td>" + item.time + "</td>" +
                     "<td class='" + tablecolor + "icon-search" +
-                    "onclick=\"openPop_select(\'" + item.itemCode + "\',\'" + item.itemName + "\',\'icon-search\')\"></td>" +
+                    " onclick=\"openPop_select(\'" + item.itemCode + "\',\'" + item.itemName + "\',\'icon-search\')\"></td>" +
                     "</tr>";
                 $table.append(itemhtml);
             };
