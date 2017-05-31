@@ -1,9 +1,5 @@
 package com.delivery.web.login;
 
-import com.repository.base.BaseController;
-import com.repository.entity.UsersEntity;
-import com.repository.model.SimpleRes;
-
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,13 +9,14 @@ import java.security.Principal;
 
 import javax.servlet.http.HttpSession;
 
-import static com.repository.common.Constants.*;
+import static com.delivery.web.Constants.HTML_LOGIN_SIGNIN;
+
 
 /**
  * Created by Finderlo on 2016/11/5.
  */
 @Controller
-public class LoginController extends BaseController {
+public class LoginController {
 
 //    /**
 //     * @return findBy html view
@@ -32,7 +29,7 @@ public class LoginController extends BaseController {
     /**
      * @return login html view
      */
-    @RequestMapping(URL_SIGNIN)
+    @RequestMapping("/")
     public String login() {
         return HTML_LOGIN_SIGNIN;
     }
