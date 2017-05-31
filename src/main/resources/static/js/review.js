@@ -17,7 +17,7 @@ $(document).ready(function () {
                     "<td>" + item.user.name + "</td>" +
                     "<td>" + item.time + "</td>" +
                     "<td class='myTable-operation-info icon-search' " +
-                    " onclick=\"openPop_review(\'" + item.toJSON() + "\')\"></td>" +
+                    " onclick=\"openPop_review(\'" + JSON.stringify(item) + "\')\"></td>" +
                     "</tr>";
                 $table.append(itemhtml);
                 console.log("display:" + itemhtml)
@@ -34,7 +34,8 @@ $(document).ready(function () {
 });
 
 
-function openPop_review(review) {
+function openPop_review(reviewString) {
+    var review = JSON.parse(reviewString);
     console.log(review);
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
