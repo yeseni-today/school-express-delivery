@@ -9,8 +9,11 @@
     <script src="../../static/js/main.js" th:src="@{/js/main.js}"></script>
     <script src="../../static/js/jquery-3.1.1.js"
             th:src="@{/js/jquery-3.1.1.js}"></script>
-    <script src="../../static/js/signin.js"
-            th:src="@{/js/signin.js}"></script>
+
+    <script th:src="@{/js/review}"/>
+    <!--<script src="../../static/js/signin.js"-->
+            <!--th:src="@{/js/signin.js}"></script>-->
+
 </head>
 <body>
 
@@ -29,7 +32,7 @@
     </header>
     <section>
         <div class="content-result myTable">
-            <table>
+            <table id = "reviewList">
                 <tr>
                     <th>申请单编号</th>
                     <th>申请人ID</th>
