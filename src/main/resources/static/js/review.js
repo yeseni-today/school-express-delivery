@@ -36,6 +36,8 @@ $(document).ready(function () {
 
 function openPop_review(review) {
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
+
+    $("#reviewId").val(review.id);
     $("#username").val(review.user.name);
     $("#userIdCard").val(review.user.idCard);
     // todo
@@ -57,4 +59,33 @@ function openPop_review(review) {
             alert("ajax请求发送失败");
         }
     });
+}
+
+
+function isAllowReview(isAllow) {
+    if(isAllow===true){
+        isAllow=1;
+    }else if (isAllow===false){
+        isAllow=2;
+    }
+    var reviewId = $("#reviewId").val();
+    $.ajax({
+        url:"/review/"+reviewId,
+        type:"post",
+        data:{
+            "result": isAllow,
+            "remark": $("#remark").val(),
+            "token": getCookie("token")
+        },
+        success: function (result) {
+            if (result.state===200) {
+                closePop();
+            } else {
+                alert("出错");
+            }
+        },
+        error: function () {
+            alert("review isAllow ajax请求发送失败");
+        }
+    })
 }
