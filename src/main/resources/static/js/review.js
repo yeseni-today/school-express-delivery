@@ -35,6 +35,7 @@ $(document).ready(function () {
 
 
 function openPop_review(review) {
+    console.log(review);
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
     $("#reviewId").val(review.id);
