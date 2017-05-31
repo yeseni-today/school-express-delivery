@@ -1,0 +1,75 @@
+@import "init.css";
+@import "layout.css";
+@import "navBar.css";
+@import "myInput.css";
+@import "icon-demo.css";
+
+body {
+    overflow-y: hidden;
+}
+
+/*登陆*/
+.login-title {
+    position: absolute;
+    font-size: 3em;
+    top: 2em;
+    left: 0.5em;
+}
+
+.login {
+    font-size: 1.2em;
+    position: absolute;
+    top: 30%;
+    right: 10%;
+    width: 25em;
+    padding: 2em 0;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 0.4em;
+    line-height: 5em;
+    text-align: center;
+}
+.login .name, .password {
+    font-size: inherit;
+    position: relative;
+    width: 80%;
+    height: 5em;
+    padding: 0 1em;
+    margin: auto;
+    line-height: 5em;
+}
+
+/*覆盖 input*/
+.login input {
+    font-size: inherit;
+    width: 100%;
+    height: 2.7em;
+    margin-left: -1.2em;
+    border-radius: 0.5em;
+    border: 0.2em solid rgba(234, 237, 237, 0);
+    background: #ffffff;
+}
+
+.login input[type="submit"], input[type="button"] {
+    margin-left: 0;
+    width: 10em;
+    color: white;
+    background: #1abc9c;
+}
+
+.login input:focus + .icon-after-user {
+    color: #1abc9c;
+}
+
+.login input:focus + .icon-after-lock {
+    color: #1abc9c;
+}
+
+.icon-after-user, .icon-after-lock {
+    font-size: 1.4em;
+    position: absolute;
+    top: 0;
+    right: 0.3em;
+    color: #bfc9ca;
+    transition: color 0.3s;
+}
+

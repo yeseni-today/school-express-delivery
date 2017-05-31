@@ -1,0 +1,86 @@
+.myTable table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/*.myTable tbody{*/
+    /*min-height: 10em;*/
+/*}*/
+
+
+.myTable caption {
+    text-align: left;
+}
+
+.myTable tr {
+    height: 2.7em;
+}
+
+
+
+.myTable tr:nth-child(2n) {
+    background: rgb(249, 249, 249);
+}
+
+.myTable tr:nth-child(2n+1) {
+    background: rgba(249, 249, 249, 0);
+}
+
+.myTable td, th {
+    text-align: center;
+}
+
+.myTable th {
+    color: #f4f4f4;
+    font-size: 1.1em;
+    font-weight: normal;
+    background: #16A085;
+    cursor: pointer;
+}
+
+.myTable-operation {
+    color: #16A085;
+    transition: background linear 0.3s;
+}
+
+.myTable-operation:hover {
+    color: white;
+    background: #16A085;
+    font-size: 1.5em;
+}
+
+.myTable-operation-danger {
+    color: #16A085;
+    transition: background linear 0.3s;
+}
+
+.myTable-operation-danger:hover {
+
+    color: white;
+    background: #e74c3c;
+    font-size: 1.5em;
+}
+
+.myTable-operation-info {
+    color: #16A085;
+    transition: background linear 0.3s;
+}
+
+.myTable-operation-info:hover {
+    color: white;
+    background: #3498db;
+    font-size: 1.5em;
+}
+.myTable-operation-warning {
+    color: #16A085;
+    transition: background linear 0.3s;
+}
+
+.myTable-operation-warning:hover {
+    color: white;
+    background: #f1c40f;
+    font-size: 1.5em;
+}
+
+

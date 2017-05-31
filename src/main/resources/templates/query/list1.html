@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:tiles="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title tiles:fragment="title">查询物品</title>
+
+    <script>
+        var viewmodel = avalon.define({
+            //id必须和页面上定义的ms-controller名字相同，否则无法控制页面
+            $id: "viewmodel",
+            datalist: {},
+            text: "请求数据",
+            request: function () {
+                $.ajax({
+                    type: "get",
+                    url: "/queryItemRes",    //向springboot请求数据的url
+                    data: {},
+                    success: function (data) {
+                        viewmodel.datalist = data;
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+
+<body ms-controller="viewmodel">
+<div th:replace="header::header">
+</div>
+<div tiles:fragment="content" class="content">
+    <div class="title">
+    </div>
+    <div class="myInput query">
+        <!---->
+        <!--/*@thymesVar id="searchItem" type="com.repository.web.query.QueryController"*/-->
+        <!--/*@thymesVar id="do" type=""*/-->
+        <form action="queryItem" th:action="@{/queryItem}" method="get">
+            <label>
+                物品条码：
+                <input type="text" name="itemCode" id="itemCode" th:name="itemCode" value=""/>
+            </label>
+            <label>
+                物品名称：
+                <input type="text" name="itemName" id="itemName" th:name="itemName" value=""/>
+            </label>
+            <label>
+                物品类别：
+                <select name="itemCategoryId">
+                    <!--/*@thymesVar id="category" type="com.repository.entity.CategoryEntity"*/-->
+                    <option th:if="${categories == null || categories.empty}"
+                            th:text="没有找到分类，请刷新重试" value=" "></option>
+                    <option value=""
+                            th:each="category : ${categories}"
+                            th:value="${category.categoryId}"
+                            th:text="${category.categoryName}">类别1
+                    </option>
+                </select>
+            </label>
+            <input type="button" id="submit" value="查询" ms-click="@request"/>
+        </form>
+    </div>
+
+    <div class="result">
+        <table class="myTable">
+            <tr>
+                <th>条码</th>
+                <th>名称</th>
+                <th>类别</th>
+                <th>数量</th>
+                <th>操作</th>
+            </tr>
+            <tr th:if="${items == null || items.empty}">
+                <td colspan="5">No messages</td>
+            </tr>
+            <tr th:each="item : ${items} " ms-for="el in @datalist">
+                <!--/*@thymesVar id="item" type="com.repository.entity.ItemEntity"*/-->
+                <td th:text="${item.itemCode}">{{el.itemCode}}</td>
+                <td th:text="${item.itemName}">{{el.itemName}}</td>
+                <td th:text="${item.categoryEntity.getCategoryName()}">
+                    {{el.categoryEntity.categoryName}}
+                </td>
+                <td th:text="${item.itemCount}">{{el.itemCount}}</td>
+                <td></td>
+            </tr>
+            <tr ms-for="el in @datalist">
+                <!--/*@thymesVar id="item" type="com.repository.entity.ItemEntity"*/-->
+                <td>{{el.itemCode}}</td>
+                <td>{{el.itemName}}</td>
+                <td>
+                    {{el.categoryEntity.categoryName}}
+                </td>
+                <td>{{el.itemCount}}</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+.pop {
+    position: relative;
+    z-index: 900;
+    width: 30em;
+    padding-top: 3em;
+    background: #f1f1f1;
+    top: 10em;
+    margin: auto;
+    border-radius: 1em;
+    border: 0.3em solid #1abc9c;
+    transform: scale(0, 0);
+    transition: transform 0.5s ease-out;
+
+}
+
+.pop-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 899;
+    width: 100%;
+    height: 60em;
+    background: rgba(181, 181, 181, 0);
+    transition: background 0.5s;
+}
+
+.pop-close {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    width: 2em;
+    height: 2em;
+}
+
+.pop-details {
+    top: 5em;
+    padding-top: 1em;
+}

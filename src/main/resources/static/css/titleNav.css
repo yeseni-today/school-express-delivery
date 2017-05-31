@@ -1,0 +1,49 @@
+.titleNav {
+    height: 2.5em;
+    margin-bottom: 1em;
+}
+
+.titleNav a {
+    /*float: left;*/
+    font-size: 1.25em;
+    padding: 0 0.5em;
+    color: #ececec;
+    line-height: 2em;
+    text-decoration: none;
+}
+
+.titleNav .title_nav {
+    float: left;
+    height: 2.5em;
+    background: #212121;
+}
+
+.titleNav .title_nav:hover {
+
+}
+
+.titleNav .title_nav_previous {
+    text-align: center;
+    min-width: 6em;
+    border-right: 0.1em solid #a8a8a8;
+}
+
+.titleNav .title_nav_Now {
+    text-align: center;
+    min-width: 6em;
+    border-radius: 0 0.5em 0.5em 0;
+}
+
+.titleNav .title_nav_previous:before {
+    float: left;
+    content: '';
+    width: 1em;
+    height: 1em;
+    margin: 0.75em;
+    background: url("../picture/previous.png");
+    background-size: 100%;
+}
+
+.title_nav_previous:hover{
+    background-color: #17a88b;
+}
