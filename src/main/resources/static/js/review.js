@@ -11,7 +11,7 @@ $(document).ready(function () {
         type: "get",
         data: {"token":getCookie("token")},
         success: function (result) {
-            $table.find("tr").remove();
+            var tr = $table.find("tr").remove();
 
             var items = result.data;
             //加载特效
