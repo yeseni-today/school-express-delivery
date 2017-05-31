@@ -9,7 +9,7 @@ $(document).ready(function () {
     $.ajax({
         url: "/reviews",
         type: "get",
-        data: {"token":getCookie("token")},
+        data: {"token":getCookie("token"),"state":0},
         success: function (result) {
             var tr = $table.find("tr").remove();
 

@@ -74,7 +74,7 @@ public class ReviewController {
         if (!uid.equals("")) {
             reviews.addAll(reviewDao.findByUserId(uid));
         }
-        if (state != -1 && state < ComplaintEntity.ComplaintType.values().length) {
+        if (state != -1 && state < ComplaintEntity.ComplaintState.values().length) {
             reviews.addAll(reviewDao.findByState(state));
         }
         return Response.ok(reviews);
