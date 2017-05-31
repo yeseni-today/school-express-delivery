@@ -16,7 +16,7 @@ $(document).ready(function () {
             var items = result.data;
             //加载特效
             var _display = function (item) {
-                var itemhtml =
+                var itemhtml ="<tr style='display: none' id='tr" + item.id + "'>" +
                     "<td>" + item.id + "</td>" +
                     "<td>" + item.user.name + "</td>" +
                     "<td>" + item.time + "</td>" +
@@ -26,7 +26,7 @@ $(document).ready(function () {
                 $table.append(itemhtml);
             };
             var _afterdisplay = function (item) {
-                $("#tr" + item.itemCode).fadeIn(500);
+                $("#tr" + item.id).fadeIn(500);
             };
             beautifyDisplay(_display, _afterdisplay, items, "reviewList");
         },
