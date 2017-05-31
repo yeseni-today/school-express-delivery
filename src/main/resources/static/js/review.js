@@ -3,8 +3,6 @@
  */
 $(document).ready(function () {
     var $table = $("#reviewList").find("tbody");
-    var tablecolor = '';
-    // alert(GLOBAL.token);
 
     $.ajax({
         url: "/reviews",
