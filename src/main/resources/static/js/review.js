@@ -29,7 +29,7 @@ $(document).ready(function () {
             var _afterdisplay = function (item) {
                 $("#tr" + item.id).fadeIn(500);
             };
-            beautifyDisplay(_display, _afterdisplay, items, "reviewList");
+            beautifyDisplay(_display, _afterdisplay, items, "reviewsList");
         },
         error: function () {
             alert("ajax请求发送失败");

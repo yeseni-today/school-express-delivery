@@ -238,6 +238,7 @@ function beautifyDisplay(display, afterdisplay, items, id) {
         var item = items[itemindex];
         //显示数据
         display(item);
+
         //回调数据
         afterdisplay(item);
         if (itemindex < items.length - 1) {
