@@ -18,7 +18,7 @@ $(document).ready(function () {
 
             //加载特效
             var _display = function (item) {
-                var itemhtml ="<tr style='display: block' id='tr" + item.id + "'>" +
+                var itemhtml ="<tr style='display: none' id='tr" + item.id + "'>" +
                     "<td>" + item.id + "</td>" +
                     "<td>" + item.user.name + "</td>" +
                     "<td>" + item.time + "</td>" +
@@ -29,9 +29,9 @@ $(document).ready(function () {
                 console.log("display:"+itemhtml)
             };
 
-            for(var  i = 0;i < items.length;i++){
-                _display(items[i])
-            }
+            // for(var  i = 0;i < items.length;i++){
+            //     _display(items[i])
+            // }
 
             var _afterdisplay = function (item) {
                 $("#tr" + item.id).fadeIn(500);
