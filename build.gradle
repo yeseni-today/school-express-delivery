@@ -50,11 +50,6 @@ dependencies {
 
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
-//    compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE');
-    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-//    compile('org.thymeleaf.extras:thymeleaf-extras-tiles2-spring4:2.1.1.RELEASE')
-//    compile('org.apache.tiles:tiles-core:2.2.2')
-//    compile('org.apache.tiles:tiles-template:2.2.2')
 
     compile('org.springframework.boot:spring-boot-starter-data-redis')
     compile('org.springframework.boot:spring-boot-starter-aop')
