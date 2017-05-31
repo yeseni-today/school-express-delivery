@@ -24,6 +24,7 @@ $(document).ready(function () {
                     " onclick=\"openPop_select(\'" + item.id + "\',\'" + item.user.name + "\',\'icon-search\')\"></td>" +
                     "</tr>";
                 $table.append(itemhtml);
+                console.log("display:"+itemhtml)
             };
             var _afterdisplay = function (item) {
                 $("#tr" + item.id).fadeIn(500);
