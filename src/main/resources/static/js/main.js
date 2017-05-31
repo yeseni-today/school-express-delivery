@@ -38,7 +38,7 @@ $(document).ready(function () {
 });
 
 //加载消息
-$(document).ready(msg_findTypeOf('inform'));
+// $(document).ready(msg_findTypeOf('inform'));
 
 //入库 选择分类 input隐藏
 function setVisible(bool) {
@@ -296,7 +296,7 @@ function msg_findBy(url, type) {
             // }
         },
         error: function () {
-            alert("ajax请求发送失败");
+            alert("msg  ajax请求发送失败");
         }
     });
 }
