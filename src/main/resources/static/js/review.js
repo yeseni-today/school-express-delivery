@@ -2,7 +2,8 @@
  * Created by 22340 on 2017/5/31.
  */
 $(document).ready(function () {
-    var $table = $("#reviewList").find("tbody");
+    var $table = $("#reviewList");
+        // reviewList.find("tbody");tbody
     var tablecolor = 'myTable-operation-info';
     // alert(GLOBAL.token);
 
