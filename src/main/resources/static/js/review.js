@@ -3,13 +3,13 @@
  */
 $(document).ready(function () {
     var $table = $("#reviewList").find("tbody");
-    var tablecolor='myTable-operation-info';
+    var tablecolor = 'myTable-operation-info';
     // alert(GLOBAL.token);
 
     $.ajax({
         url: "/reviews",
         type: "get",
-        data: {"token":getCookie("token"),"state":0},
+        data: {"token": getCookie("token"), "state": 0},
         success: function (result) {
             var tr = $table.find("tr").remove();
 
@@ -20,7 +20,7 @@ $(document).ready(function () {
                     "<td>" + item.id + "</td>" +
                     "<td>" + item.user.name + "</td>" +
                     "<td>" + item.time + "</td>" +
-                    "<td class='"+tablecolor+" " + operation + "' " +
+                    "<td class='" + tablecolor + "icon-search" +
                     "onclick=\"openPop_select(\'" + item.itemCode + "\',\'" + item.itemName + "\',\'" + operation + "\')\"></td>" +
                     "</tr>";
                 $table.append(itemhtml);
