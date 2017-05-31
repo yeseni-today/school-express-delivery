@@ -21,13 +21,13 @@ import static com.repository.common.Constants.*;
 @Controller
 public class LoginController extends BaseController {
 
-    /**
-     * @return findBy html view
-     */
-    @RequestMapping(URL_INDEX)
-    public String greeting() {
-        return TILES_PREFIX + HTML_QUERY_LIST;
-    }
+//    /**
+//     * @return findBy html view
+//     */
+//    @RequestMapping(URL_INDEX)
+//    public String greeting() {
+//        return TILES_PREFIX + HTML_QUERY_LIST;
+//    }
 
     /**
      * @return login html view
@@ -45,28 +45,28 @@ public class LoginController extends BaseController {
      * @param principal .
      * @return
      */
-    @RequestMapping(URL_SIGNIN_SUCCESS)
-    @ResponseBody
-    public SimpleRes signindo(HttpSession session, Principal principal) {
-        SimpleRes responseBody = new SimpleRes();
-        responseBody.setStatus(200);
-        responseBody.setMessage("success");
-        responseBody.setContent(URL_QUERY);
-        UsersEntity usersEntity = usersDao.findById(principal.getName());
-//        logger.info("signinSuccess: " + "登陆成功，用户Id:'" + principal.getName() + "';用户名称:'" + usersEntity.getUsersName() + "'");
-        session.setAttribute(SESSION_USER, usersEntity);
-        return responseBody;
-    }
+//    @RequestMapping(URL_SIGNIN_SUCCESS)
+//    @ResponseBody
+//    public SimpleRes signindo(HttpSession session, Principal principal) {
+//        SimpleRes responseBody = new SimpleRes();
+//        responseBody.setStatus(200);
+//        responseBody.setMessage("success");
+//        responseBody.setContent(URL_QUERY);
+//        UsersEntity usersEntity = usersDao.findById(principal.getName());
+////        logger.info("signinSuccess: " + "登陆成功，用户Id:'" + principal.getName() + "';用户名称:'" + usersEntity.getUsersName() + "'");
+//        session.setAttribute(SESSION_USER, usersEntity);
+//        return responseBody;
+//    }
 
     /**
      * 登陆失败
      *
      * @return sign html view
      */
-    @RequestMapping(URL_SIGNIN_FAIL)
-    public String signinFail() {
-        return REDIRECT + URL_SIGNIN;
-    }
+//    @RequestMapping(URL_SIGNIN_FAIL)
+//    public String signinFail() {
+//        return REDIRECT + URL_SIGNIN;
+//    }
 
 
 }
