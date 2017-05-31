@@ -17,7 +17,7 @@ $(document).ready(function () {
                     "<td>" + item.user.name + "</td>" +
                     "<td>" + item.time + "</td>" +
                     "<td class='myTable-operation-info icon-search' " +
-                    " onclick=\"openPop_review(\'" + item + "\')\"></td>" +
+                    " onclick=\"openPop_review(\'" + item.toString() + "\')\"></td>" +
                     "</tr>";
                 $table.append(itemhtml);
                 console.log("display:" + itemhtml)
