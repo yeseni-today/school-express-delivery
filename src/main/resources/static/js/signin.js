@@ -24,11 +24,13 @@ function sign() {
             url: "/tokens",             //向springboot请求数据的url
             data: {"uid": uid, "password": password},
             success: function (json) {
+                console.log(json);
                 $("#loginButton").val("正在登陆");
                 showLoading();
                 setTimeout(function () {
+
                     if (json.message === ("success")) {
-                        console.log(json);
+                        // console.log(json);
 
                         GLOBAL.token = json.response.data.token;
                         // todo
