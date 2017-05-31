@@ -29,7 +29,7 @@ function sign() {
                 showLoading();
                 setTimeout(function () {
                     if (json.status === 200) {
-                        GLOBAL.token = json.response.data.token;
+                        GLOBAL.token = json.data.token;
                         // todo
                         location = json.content;        //跳转
                     } else {
