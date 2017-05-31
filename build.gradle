@@ -16,7 +16,6 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'idea'
 
 group = 'com.delivery'
-version = '0.01'
 description = 'campus delivery'
 
 springBoot {
