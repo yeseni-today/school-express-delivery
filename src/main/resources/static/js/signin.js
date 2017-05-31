@@ -28,10 +28,7 @@ function sign() {
                 $("#loginButton").val("正在登陆");
                 showLoading();
                 setTimeout(function () {
-
-                    if (json.message === ("success")) {
-                        // console.log(json);
-
+                    if (json.status === 200) {
                         GLOBAL.token = json.response.data.token;
                         // todo
                         location = json.content;        //跳转
