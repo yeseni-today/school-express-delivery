@@ -36,7 +36,7 @@ $(document).ready(function () {
 
 function openPop_review(reviewString) {
     var review = JSON.parse(reviewString);
-    console.log(review);
+    console.log("review:"+review);
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
     $("#reviewId").val(review.id);
