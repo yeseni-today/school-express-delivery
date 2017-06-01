@@ -58,7 +58,7 @@ function openPop_review(reviewString) {
         data: {"token": getCookie("token")},
         success: function (result) {
             console.log(JSON.stringify(result));
-            if (result.state===200) {
+            if (result.status===200) {
                 openPop();
                 $("#creditValue").val(result.data.credit_value);
             } else {
