@@ -44,11 +44,12 @@ function openPop_review(reviewString) {
     // var review = JSON.parse(reviewString);
     var review = reviewString;
     console.log(review);
-    console.log(review.user.name);
+
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
     $("#reviewId").val(review.id);
-    $("#username").val(review.user.name);
+    $("#username").val("123");
+    console.log(review.user.name);
     $("#userIdCard").val(review.user.idCard);
     // todo
     $("#userImage").val(review.user.photo);
