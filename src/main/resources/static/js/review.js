@@ -12,13 +12,20 @@ $(document).ready(function () {
             $table.find("tr").remove();
             //加载特效
             var _display = function (item) {
-                var itemhtml = "<tr style='display: none' id='tr" + item.id + "'>" +
-                    "<td>" + item.id + "</td>" +
-                    "<td>" + item.user.name + "</td>" +
-                    "<td>" + item.time + "</td>" +
-                    "<td class='myTable-operation-info icon-search' " +
-                    " onclick=\"openPop_review(\'" + JSON.stringify(item) + "\')\"></td>" +
-                    "</tr>";
+                var itemhtml = '<tr style="display: none" id="tr' + item.id + '">' +
+                    '<td>' + item.id + '</td>' +
+                    '<td>' + item.user.name + '</td>' +
+                    '<td>' + item.time + '</td>' +
+                    '<td class="myTable-operation-info icon-search" ' +
+                    ' onclick="openPop_review(' + JSON.stringify(item) + ')"></td>' +
+                    '</tr>';
+                // var itemhtml = "<tr style='display: none' id='tr" + item.id + "'>" +
+                //     "<td>" + item.id + "</td>" +
+                //     "<td>" + item.user.name + "</td>" +
+                //     "<td>" + item.time + "</td>" +
+                //     "<td class='myTable-operation-info icon-search' " +
+                //     " onclick=\"openPop_review(\'" + JSON.stringify(item) + "\')\"></td>" +
+                //     "</tr>";
                 $table.append(itemhtml);
                 console.log("display:" + itemhtml)
             };
