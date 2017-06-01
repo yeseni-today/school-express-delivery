@@ -27,7 +27,6 @@ $(document).ready(function () {
                 //     " onclick=\"openPop_review(\'" + JSON.stringify(item) + "\')\"></td>" +
                 //     "</tr>";
                 $table.append(itemhtml);
-                console.log("display:" + itemhtml)
             };
             var _afterdisplay = function (item) {
                 $("#tr" + item.id).fadeIn(500);
@@ -44,6 +43,8 @@ $(document).ready(function () {
 function openPop_review(reviewString) {
     // var review = JSON.parse(reviewString);
     var review = reviewString;
+    console.log(review);
+    console.log(review.id);
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
     $("#reviewId").val(review.id);
