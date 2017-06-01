@@ -17,7 +17,7 @@ $(document).ready(function () {
                     '<td>' + item.user.name + '</td>' +
                     '<td>' + item.time + '</td>' +
                     '<td class="myTable-operation-info icon-search" ' +
-                    ' onclick="openPop_review(' + JSON.stringify(item) + ')"></td>' +
+                    ' onclick=\'openPop_review(' + JSON.stringify(item) + ')\'></td>' +
                     '</tr>';
                 // var itemhtml = "<tr style='display: none' id='tr" + item.id + "'>" +
                 //     "<td>" + item.id + "</td>" +
