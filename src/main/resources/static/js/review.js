@@ -48,12 +48,13 @@ function openPop_review(reviewString) {
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
     $("#reviewId").val(review.id);
-    $("#username").val("123");
+    $("#reviewId").text(review.id);
+    $("#username").text(review.user.name);
     console.log(review.user.name);
-    $("#userIdCard").val(review.user.idCard);
+    $("#userIdCard").text(review.user.idCard);
     // todo
-    $("#userImage").val(review.user.photo);
-    $("#remark").val(review.remark);
+    $("#userImage").text(review.user.photo);
+    $("#remark").text(review.remark);
     $.ajax({
         url: "/credits/" + review.userId,
         type: "get",
@@ -62,7 +63,7 @@ function openPop_review(reviewString) {
             console.log(JSON.stringify(result));
             if (result.status===200) {
                 openPop();
-                $("#creditValue").val(result.data.credit_value);
+                $("#creditValue").text(result.data.credit_value);
             } else {
                 alert("查询详情出错");
             }
