@@ -2,4 +2,5 @@
 git add .
 git commit -m a
 git push
-echo ok
+echo push ok
+ssh root@ticknick.me ./sed_deploy
