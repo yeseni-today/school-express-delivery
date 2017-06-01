@@ -44,7 +44,6 @@ $(document).ready(function () {
 function openPop_review(reviewString) {
     // var review = JSON.parse(reviewString);
     var review = reviewString;
-    console.log("review:"+review);
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
     $("#reviewId").val(review.id);
@@ -58,6 +57,7 @@ function openPop_review(reviewString) {
         type: "get",
         data: {"token": getCookie("token")},
         success: function (result) {
+            console.log(result);
             if (result.state===200) {
                 openPop();
                 $("#creditValue").val(result.data.credit_value);
