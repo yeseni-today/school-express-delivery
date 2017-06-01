@@ -1157,3 +1157,7 @@ function delCookie(name) {
         document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
 
+function log(json) {
+    console.log(JSON.stringify(json));
+}
+

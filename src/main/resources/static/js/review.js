@@ -19,13 +19,6 @@ $(document).ready(function () {
                     '<td class="myTable-operation-info icon-search" ' +
                     ' onclick=\'openPop_review(' + JSON.stringify(item) + ')\'></td>' +
                     '</tr>';
-                // var itemhtml = "<tr style='display: none' id='tr" + item.id + "'>" +
-                //     "<td>" + item.id + "</td>" +
-                //     "<td>" + item.user.name + "</td>" +
-                //     "<td>" + item.time + "</td>" +
-                //     "<td class='myTable-operation-info icon-search' " +
-                //     " onclick=\"openPop_review(\'" + JSON.stringify(item) + "\')\"></td>" +
-                //     "</tr>";
                 $table.append(itemhtml);
             };
             var _afterdisplay = function (item) {
@@ -91,6 +84,7 @@ function isAllowReview(isAllow) {
             "token": getCookie("token")
         },
         success: function (result) {
+            log(result);
             if (result.state===200) {
                 closePop();
             } else {
