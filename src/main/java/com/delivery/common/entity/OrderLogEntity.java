@@ -18,7 +18,7 @@ public class OrderLogEntity {
     private OrderEntity order;
 
 
-    @OneToOne(cascade = CascadeType.MERGE,targetEntity = OrderEntity.class)
+    @OneToOne(cascade = CascadeType.DETACH,targetEntity = OrderEntity.class)
     @JoinColumn(name = "orders_ID",insertable = false,updatable = false)
     public OrderEntity getOrder() {
         return order;
