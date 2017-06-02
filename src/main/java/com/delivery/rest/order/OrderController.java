@@ -338,6 +338,8 @@ public class OrderController {
      * @author Ticknick Hou
      */
     private Response commentOrder(UserEntity user, OrderEntity order, String grade) {
+        Assert.notNull(grade,WRONG_AUGUMENT,"gradle must be not null");
+
         order.setGrade(grade);
         order.setState(OrderEntity.OrderState.COMPLETED);
         orderDao.update(order);
