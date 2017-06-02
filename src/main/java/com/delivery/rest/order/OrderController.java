@@ -374,10 +374,13 @@ public class OrderController {
         if (order.getState().equals(OrderEntity.OrderState.WAIT_PAY)) {
             order.setState(OrderEntity.OrderState.CANCELED);
             orderDao.update(order);
+            saveOrderLog(order.getId(), OrderEntity.OrderState.CANCELED,logDao);
             return Response.ok(order);
         } else if (order.getState().equals(OrderEntity.OrderState.WAIT_ACCEPT)) {
             order.setState(OrderEntity.OrderState.CANCELED);
             orderDao.update(order);
+            saveOrderLog(order.getId(), OrderEntity.OrderState.CANCELED,logDao);
+
             //todo 执行退款
             return Response.ok(order);
         }
@@ -392,6 +395,7 @@ public class OrderController {
             UserEntity replace = order.getRecipient();
             order.setReplacementId(null);
             orderDao.update(order);
+            saveOrderLog(order.getId(), OrderEntity.OrderState.CANCELED,logDao);
 
             OrderReplacementCancelEventContext context = new OrderReplacementCancelEventContext(order, replace);
             eventManager.publish(Event.OrderReplacementCancelEvent, context);
