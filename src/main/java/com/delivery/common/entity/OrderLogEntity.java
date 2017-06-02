@@ -60,6 +60,7 @@ public class OrderLogEntity {
 
     @Id
     @Column(name = "orders_log_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
