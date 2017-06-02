@@ -40,7 +40,7 @@ public class CreditController {
      * @date 02/05/2017
      */
     @GetMapping("/{user_id}")
-    @AdminAuthorization
+    @Authorization
     public Response userCreditValueAdmin(
             @PathVariable String user_id) {
         List<CreditRecordEntity> records = creditRecordDao.findByUserId(user_id);
