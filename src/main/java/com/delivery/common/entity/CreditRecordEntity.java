@@ -68,6 +68,7 @@ public class CreditRecordEntity {
 
     @Id
     @Column(name = "credit_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

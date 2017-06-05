@@ -56,6 +56,7 @@ public class Util {
             orderLogDao.save(log);
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new SedException(ORDER_OPERATION_LOG_PUBLISH_ERROR);
         }
     }
