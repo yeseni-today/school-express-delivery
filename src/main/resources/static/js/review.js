@@ -58,7 +58,7 @@ function openPop_review(reviewString) {
         data: {"token": getCookie("token")},
         success: function (result) {
             console.log(JSON.stringify(result));
-            if (result.status===200) {
+            if (result.status === 200) {
                 openPop();
                 $("#creditValue").text(result.data.credit_value);
             } else {
@@ -73,23 +73,23 @@ function openPop_review(reviewString) {
 
 
 function isAllowReview(isAllow) {
-    if(isAllow===true){
-        isAllow=1;
-    }else if (isAllow===false){
-        isAllow=2;
+    if (isAllow === true) {
+        isAllow = 1;
+    } else if (isAllow === false) {
+        isAllow = 2;
     }
     var reviewId = $("#reviewId").val();
     $.ajax({
-        url:"/review/"+reviewId,
-        type:"put",
-        data:{
+        url: "/reviews/" + reviewId,
+        type: "put",
+        data: {
             "result": isAllow,
             "remark": $("#remark").val(),
             "token": getCookie("token")
         },
         success: function (result) {
             log(result);
-            if (result.state===200) {
+            if (result.status === 200) {
                 closePop();
             } else {
                 alert("出错");
