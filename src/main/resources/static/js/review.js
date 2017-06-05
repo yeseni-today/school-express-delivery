@@ -80,7 +80,7 @@ function isAllowReview(isAllow) {
     }
     var reviewId = $("#reviewId").val();
     $.ajax({
-        url:"/review/"+reviewId,
+        url:"/reviews/"+reviewId,
         type:"put",
         data:{
             "result": isAllow,
