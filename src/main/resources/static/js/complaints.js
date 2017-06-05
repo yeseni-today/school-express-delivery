@@ -76,7 +76,7 @@ function popInfo(id) {
     $("#type").text(complaint.type);
     $("#description").text(complaint.description);
 
-    $("#commitBtn").click();
+    $("#commitBtn").click(commitComplaint(id));
 
     openPop();
 }
