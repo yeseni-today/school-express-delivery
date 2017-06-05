@@ -86,7 +86,7 @@ ul.listNav {
     height: 3em;
     line-height: 2.6em;
     padding: 0 1em;
-    border: 0.2em solid rgba(26, 188, 156, 0.49);
+    border-bottom: 0.2em solid rgba(26, 188, 156, 0.49);
     background: #ffffff;
 }
 

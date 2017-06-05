@@ -22,9 +22,9 @@ import static com.delivery.web.ManageContants.URL_MANAGE_PASSEXAMINE;
 public class ManageController {
 
 
-    @RequestMapping("/manage/examine")
+    @RequestMapping("/sed/examine")
     public String hello() {
-        return "manage/examine";
+        return "sed/examine";
     }
 
 }

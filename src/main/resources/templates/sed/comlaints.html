@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:tiles="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>complaints</title>
+
+    <link href="../../static/css/all.css" rel="stylesheet" type="text/css"
+          th:href="@{/css/all.css}"/>
+    <script src="../../static/js/jquery-3.1.1.js"
+            th:src="@{/js/jquery-3.1.1.js}"></script>
+    <script src="../../static/js/main.js" th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/complaints.js}"></script>
+</head>
+
+<body>
+
+<!--加载图标-->
+<div id="load" class="load">
+    <img id="loadGif" th:src="@{/picture/loading.gif}"/>
+</div>
+<div id="header" th:replace="fragments/header :: header"></div>
+
+<div class="content">
+    <div style="width: 100%;position: relative">
+
+        <div class="content-left">
+            <div class="listNav-title">
+                <span>申述</span>
+            </div>
+            <ul class="listNav">
+                <li><a href="#overTime" onclick="complaints_TypeOf(0)">超时</a></li>
+                <li><a href="#notSend" onclick="complaints_TypeOf(1)">未送达</a></li>
+                <li><a href="#infoError" onclick="complaints_TypeOf(2)">信息错误</a></li>
+                <li><a href="#sizeError" onclick="complaints_TypeOf(3)">大小件判定</a></li>
+                <li><a href="#other" onclick="complaints_TypeOf(4)">其他</a></li>
+            </ul>
+        </div>
+        <div class="content-right">
+            <div class="message-type">超时</div>
+
+            <div id="complaints">
+                <div class="message effect4" id="">
+                    <span class="message-title"><strong></strong></span>
+                    <span class="message-date"></span>
+                    <div class="message-content">没有消息</div>
+                    <div class="message-operation">
+                        <span onclick="msg_hide('messageID')"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="footer" th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
