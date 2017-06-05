@@ -76,7 +76,9 @@ function popInfo(id) {
     $("#type").text(complaint.type);
     $("#description").text(complaint.description);
 
-    $("#commitBtn").click(commitComplaint(id));
+    $("#commitBtn").click(function () {
+        commitComplaint(id);
+    });
 
     openPop();
 }
@@ -87,9 +89,9 @@ function commitComplaint(complaintId) {
         type: "put",
         data: {"token": getCookie("token"), "result": $("#result").val(), "credit_value": 0, "order_state": 6},
         success: function (result) {
-            if(result.status===200){
+            if (result.status === 200) {
                 alert("提交成功");
-            }else {
+            } else {
                 alert("提交失败");
             }
         },
