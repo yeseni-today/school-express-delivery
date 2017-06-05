@@ -35,8 +35,7 @@ function complaints_TypeOf(type) {
         data: {"token": getCookie("token"), "state": type},
         success: function (result) {
             complaints = result.data;
-            console.log(JSON.stringify(complaints));
-
+            // console.log(JSON.stringify(complaints));
             if (result.data.length === 0) {
                 $complaints.append($emptyComplaint);
                 return;
@@ -68,6 +67,7 @@ function complaints_TypeOf(type) {
 function popInfo(id) {
     if(id===null) return;
     var complaint = findComplaintsById(id);
+    console.log(JSON.stringify(complaint));
     alert(JSON.stringify("complaint"+complaint));
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
@@ -76,7 +76,6 @@ function popInfo(id) {
 
 function findComplaintsById(id) {
     for(var i=0;i<complaints.length;i++){
-        console.log(complaints[i].id);
         if(complaints[i].id==id){
             return complaints[i];
         }
