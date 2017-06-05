@@ -76,7 +76,7 @@ function popInfo(id) {
 
 function findComplaintsById(id) {
     for(var i=0;i<complaints.length;i++){
-        console.log(item.id);
+        console.log(complaints[i].id);
         if(complaints[i].id==id){
             return complaints[i];
         }
