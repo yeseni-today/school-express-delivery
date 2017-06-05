@@ -5,12 +5,12 @@ $(document).ready(function () {
     $complaints = $("#complaints");
     $emptyComplaint = $(".message");
 
-
 });
 
 
 function complaints_TypeOf(type) {
-    $title = $(".listNav-title").find("span");
+    var $title = $(".message-type");
+    $complaints.empty();
     switch (type) {
         case 0:
             $title.text("超时");
@@ -37,9 +37,10 @@ function complaints_TypeOf(type) {
             complaints = result.data;
 
             if (result.data.length === 0) {
+                $complaints.append($emptyComplaint);
                 return;
             }
-            $complaints.empty();
+
             //加载特效
             var _display = function (item) {
                 var itemhtml =
@@ -50,7 +51,7 @@ function complaints_TypeOf(type) {
                     '<span onclick="popInfo('+item.id+')">操作</span>' +
                     '</div>' +
                     '</div>';
-                $table.append(itemhtml);
+                $complaints.append(itemhtml);
             };
             var _afterdisplay = function (item) {
                 $("#tr" + item.id).fadeIn(500);
@@ -64,7 +65,20 @@ function complaints_TypeOf(type) {
 }
 
 function popInfo(id) {
+    var complaint = findComplaintsById(id);
+    alert(JSON.stringify(complaint));
+    $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
+    openPop();
+}
+
+function findComplaintsById(id) {
+    for(var item in complaints){
+        if(item.id===id){
+            return item;
+        }
+    }
+    return null;
 }
 
 

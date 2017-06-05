@@ -50,6 +50,59 @@
             </div>
         </div>
     </div>
+
+    <div class="pop-bg">
+        <div class="pop myTable" style="top: 5em;width: 30em;padding: 5em;height: 30em;">
+            <div class="pop-close">
+                <div class="close_button" onclick="closePop()">
+                    <div class="close_button-icon"></div>
+                </div>
+            </div>
+            <section style="text-align: center;display: none">
+                <label style="float: left">审核单编号:<span id="reviewId"></span></label>
+            </section>
+
+            <div style="height: 28em;overflow-x:hidden;overflow-y: scroll;width: 30em;margin-top: 2em">
+                <table id="reviewFrom">
+                    <tr>
+                        <td>用户姓名：</td>
+                        <td id="username"></td>
+                    </tr>
+                    <tr>
+                        <td>身份证号：</td>
+                        <td id="userIdCard"></td>
+                    </tr>
+                    <tr>
+                        <td>身份证照片：</td>
+                        <td style="height: 7em" id="userImage"></td>
+                    </tr>
+                    <tr>
+                        <td>信用值：</td>
+                        <td id="creditValue"></td>
+                    </tr>
+                </table>
+                <form style="margin-top: 2em;margin-left: 5em">
+                    <label>审核备注：<textarea style="height: 7em; width: 20em" id="remark"></textarea></label>
+                </form>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button onclick="isAllowReview(true)">通过</button>
+                        </td>
+                        <td></td>
+                        <td>
+                            <button onclick="isAllowReview(false)">不通过</button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
