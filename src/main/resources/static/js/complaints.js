@@ -48,7 +48,7 @@ function complaints_TypeOf(type) {
                     '<span class="message-title">申述单id: <strong>' + item.id + '</strong></span>' +
                     '<div class="message-content">提交者Id:' + item.userId + '</div>' +
                     '<div class="message-operation">' +
-                    '<span onclick="popInfo(\''+item.id+'\')">操作</span>' +
+                    '<span onclick="popInfo(\'' + item.id + '\')">操作</span>' +
                     '</div>' +
                     '</div>';
                 $complaints.append(itemhtml);
@@ -65,7 +65,7 @@ function complaints_TypeOf(type) {
 }
 
 function popInfo(id) {
-    if(id===null) return;
+    if (id === null) return;
     var complaint = findComplaintsById(id);
     console.log(JSON.stringify(complaint));
     // alert(JSON.stringify("complaint"+complaint));
@@ -76,12 +76,32 @@ function popInfo(id) {
     $("#type").text(complaint.type);
     $("#description").text(complaint.description);
 
+    $("#commitBtn").click();
+
     openPop();
 }
 
+function commitComplaint(complaintId) {
+    $.ajax({
+        url: "/complaints/" + complaintId,
+        type: "put",
+        data: {"token": getCookie("token"), "result": $("#result").val(), "credit_value": 0, "order_state": 6},
+        success: function (result) {
+            if(result.status===200){
+                alert("提交成功");
+            }else {
+                alert("提交失败");
+            }
+        },
+        error: function () {
+            alert("commit complaints ajax请求发送失败");
+        }
+    });
+}
+
 function findComplaintsById(id) {
-    for(var i=0;i<complaints.length;i++){
-        if(complaints[i].id==id){
+    for (var i = 0; i < complaints.length; i++) {
+        if (complaints[i].id == id) {
             return complaints[i];
         }
     }
