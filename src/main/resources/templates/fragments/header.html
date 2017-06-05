@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:tiles="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
@@ -22,36 +21,22 @@
         <div class="navBar-content">
             <nav>
                 <ul class="nav">
-                    <!--<dd><a href="#" th:href="@{/manage/examine}">审核</a></dd>-->
                     <li th:classappend="${page == 'home' ? 'active' : ''}">
-                        <a href="#" th:href="@{/manage/examine}">审核</a>
+                        <a href="#" th:href="@{/sed/examine}">审核</a>
                     </li>
 
                     <li th:classappend="${page == 'messages' ? 'active' : ''}" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a href="#" th:href="@{/storage}">申诉</a>
+                        <a href="#" th:href="@{/sed/complaints}">申诉</a>
                     </li>
+
                     <li th:classappend="${page == 'home' ? 'active' : ''}">
                         <a href="#" th:href="@{/query}">查询</a>
                     </li>
-                    <!--<li th:classappend="${page == 'tasks' ? 'active' : ''}">-->
-                        <!--<a href="#" th:href="@{/apply}">申请</a>-->
-                        <!--&lt;!&ndash;onclick="jumpTo('applyajax')"&ndash;&gt;-->
-                    <!--</li>-->
 
                     <li th:classappend="${page == 'tasks' ? 'active' : ''}">
                         <a href="#" th:href="@{/message}">消息</a>
                     </li>
-                    <!--<li th:classappend="${page == 'tasks' ? 'active' : ''}" sec:authorize="hasRole('ROLE_ADMIN')">-->
-                        <!--<a href="#" th:href="@{/log}">日志</a>-->
-                        <!--&lt;!&ndash;<span class="arrow"></span>-->
-                        <!--<dl>-->
-                            <!--<dd><a href="#">系统日志</a></dd>-->
-                            <!--<dd><a href="#">入库日志</a></dd>-->
-                            <!--<dd><a href="#">出库日志</a></dd>-->
-                            <!--<dd><a href="#">申请日志</a></dd>-->
-                            <!--<dd><a href="#">物品维护日志</a></dd>-->
-                        <!--</dl>&ndash;&gt;-->
-                    <!--</li>-->
+
                     <li th:classappend="${page == 'tasks' ? 'active' : ''}" sec:authorize="hasRole('ROLE_ADMIN')">
                         <a href="#">管理</a>
                         <span class="arrow"></span>

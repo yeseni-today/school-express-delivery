@@ -3,6 +3,7 @@
  */
 $(document).ready(function () {
     var $table = $("#reviewList").find("tbody");
+    $table.find("tr").remove();
 
     showLoading("正在加载数据");
 
@@ -11,7 +12,6 @@ $(document).ready(function () {
         type: "get",
         data: {"token": getCookie("token"), "state": 0},
         success: function (result) {
-            $table.find("tr").remove();
             //加载特效
             var _display = function (item) {
                 var itemhtml = '<tr style="display: none" id="tr' + item.id + '">' +
