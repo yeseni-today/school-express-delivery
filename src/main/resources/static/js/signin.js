@@ -32,7 +32,7 @@ function sign() {
                         // GLOBAL.token = json.data.token;
                         setCookie("token",json.data.token,10);
                         // todo
-                        location = "/manage/examine";        //跳转
+                        location = "/sed/examine";        //跳转
                     } else {
                         $("#loginButton").val("登陆失败请重试");
                     }
