@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:tiles="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8"/>
@@ -8,8 +7,7 @@
 
     <link href="../../static/css/all.css" rel="stylesheet" type="text/css"
           th:href="@{/css/all.css}"/>
-    <script src="../../static/js/jquery-3.1.1.js"
-            th:src="@{/js/jquery-3.1.1.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script src="../../static/js/main.js" th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/complaints.js}"></script>
 </head>
@@ -42,11 +40,11 @@
 
             <div id="complaints">
                 <div class="message effect4" id="">
-                    <span class="message-title"><strong></strong></span>
-                    <span class="message-date"></span>
-                    <div class="message-content">没有消息</div>
+                    <span class="message-title">申述单id: <strong>2017051700000</strong></span>
+                    <!--<span class="message-date"></span>-->
+                    <div class="message-content">提交者Id:213124124</div>
                     <div class="message-operation">
-                        <span onclick="msg_hide('messageID')"></span>
+                        <span onclick="msg_hide('messageID')">操作</span>
                     </div>
                 </div>
             </div>

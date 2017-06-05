@@ -657,27 +657,27 @@ function msg_send() {
  * 这里直接调用删除信息ajax
  * */
 
-//todo test
-function msg_hide(messageID) {
-    var $messageBox = $("#" + messageID);
-    $.ajax({
-        url: "/message/delete",
-        data: {"messageID": messageID},
-        success: function (result) {
-            if (result.message == "success") {
-                //设为不再显示
-                $messageBox.css("min-height", "auto");
-                $messageBox.slideUp(500);
-                $("#" + messageID).slideUp(500);
-            } else {
-                alert("不再显示执行失败，错误信息为：" + result.message)
-            }
-        },
-        error: function () {
-            alert("你的网络有问题，请稍后重试");
-        }
-    })
-}
+// //todo test
+// function msg_hide(messageID) {
+//     var $messageBox = $("#" + messageID);
+//     $.ajax({
+//         url: "/message/delete",
+//         data: {"messageID": messageID},
+//         success: function (result) {
+//             if (result.message == "success") {
+//                 //设为不再显示
+//                 $messageBox.css("min-height", "auto");
+//                 $messageBox.slideUp(500);
+//                 $("#" + messageID).slideUp(500);
+//             } else {
+//                 alert("不再显示执行失败，错误信息为：" + result.message)
+//             }
+//         },
+//         error: function () {
+//             alert("你的网络有问题，请稍后重试");
+//         }
+//     })
+// }
 /**
  * 已读一条消息
  * */
