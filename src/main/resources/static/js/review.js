@@ -4,6 +4,8 @@
 $(document).ready(function () {
     var $table = $("#reviewList").find("tbody");
 
+    showLoading("正在加载数据");
+
     $.ajax({
         url: "/reviews",
         type: "get",
@@ -25,9 +27,11 @@ $(document).ready(function () {
                 $("#tr" + item.id).fadeIn(500);
             };
             beautifyDisplay(_display, _afterdisplay, result.data, "reviewsList");
+            hideLoading();
         },
         error: function () {
             alert("ajax请求发送失败");
+            hideLoading();
         }
     })
 });

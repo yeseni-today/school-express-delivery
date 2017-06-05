@@ -524,10 +524,17 @@ function openPop_storageInfo(storageFormId) {
  }*/
 
 
+
 //加载图标
-function showLoading() {
+function showLoading(message) {
     $("#load").css("display", "block");
 }
+
+
+// //加载图标
+// function showLoading() {
+//     $("#load").css("display", "block");
+// }
 
 function hideLoading() {
     $("#load").css("display", "none");
