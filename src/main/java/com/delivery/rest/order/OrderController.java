@@ -239,6 +239,8 @@ public class OrderController {
         }
 
 
+
+
         switch (state) {
             case ACCEPTED:
                 return acceptOrder(user, order, state);
@@ -246,7 +248,7 @@ public class OrderController {
                 return deliveryOrder(user, order, state);
             //评价订单
             case COMPLETED:
-                commentOrder(user, order, grade);
+                return commentOrder(user, order, grade);
                 //确认订单，
             case WAIT_COMMENT:
                 return affirmOrder(user, order);
@@ -257,6 +259,7 @@ public class OrderController {
             default:
                 return Response.error(400, "the param state is not support");
         }
+
     }
 
     /**
