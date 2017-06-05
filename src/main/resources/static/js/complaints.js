@@ -35,6 +35,7 @@ function complaints_TypeOf(type) {
         data: {"token": getCookie("token"), "state": type},
         success: function (result) {
             complaints = result.data;
+            console.log(JSON.stringify(complaints));
 
             if (result.data.length === 0) {
                 $complaints.append($emptyComplaint);
