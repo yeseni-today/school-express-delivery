@@ -75,10 +75,10 @@ function popInfo(id) {
 }
 
 function findComplaintsById(id) {
-    for(var item in complaints){
+    for(var i=0;i<complaints.length;i++){
         console.log(item.id);
-        if(item.id==id){
-            return item;
+        if(complaints[i].id==id){
+            return complaints[i];
         }
     }
     return null;
