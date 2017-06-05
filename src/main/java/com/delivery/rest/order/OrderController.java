@@ -343,14 +343,15 @@ public class OrderController {
         order.setGrade(grade);
         order.setState(OrderEntity.OrderState.COMPLETED);
         orderDao.update(order);
-        logger.debug("MonmonBefore",order.getState());
+        System.out.println("MonmonBefore"+order.getState());
         //发布操作日志
         saveOrderLog(order.getId(), OrderEntity.OrderState.COMPLETED, logDao);
 
         OrderEventContext context = new OrderEventContext(order);
         eventManager.publish(Event.OrderCommentSuccessEvent, context);
         eventManager.publish(Event.OrderCompleteSuccessEvent, context);
-        logger.debug("MonmonAfter",order.getState());
+        System.out.println("MonmonAfter"+order.getState());
+
         return Response.ok(order);
     }
 
