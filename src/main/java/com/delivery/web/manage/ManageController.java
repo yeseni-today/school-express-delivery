@@ -27,6 +27,11 @@ public class ManageController {
         return "sed/examine";
     }
 
+    @RequestMapping("/sed/complaints")
+    public String hello2() {
+        return "sed/complaints";
+    }
+
 }
 
 
