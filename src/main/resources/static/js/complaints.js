@@ -65,6 +65,7 @@ function complaints_TypeOf(type) {
 }
 
 function popInfo(id) {
+    if(id===null) return;
     var complaint = findComplaintsById(id);
     alert(JSON.stringify(complaint));
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
