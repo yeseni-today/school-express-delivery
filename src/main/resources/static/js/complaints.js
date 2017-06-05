@@ -4,7 +4,7 @@
 $(document).ready(function () {
     $complaints = $("#complaints");
     $emptyComplaint = $(".message");
-
+    complaints_TypeOf(0);
 });
 
 
@@ -49,7 +49,7 @@ function complaints_TypeOf(type) {
                     '<span class="message-title">申述单id: <strong>' + item.id + '</strong></span>' +
                     '<div class="message-content">提交者Id:' + item.userId + '</div>' +
                     '<div class="message-operation">' +
-                    '<span onclick="popInfo('+item.id+')">操作</span>' +
+                    '<span onclick="popInfo(\''+item.id+'\')">操作</span>' +
                     '</div>' +
                     '</div>';
                 $complaints.append(itemhtml);
