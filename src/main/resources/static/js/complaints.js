@@ -68,7 +68,7 @@ function complaints_TypeOf(type) {
 function popInfo(id) {
     if(id===null) return;
     var complaint = findComplaintsById(id);
-    alert(JSON.stringify(complaint));
+    alert(JSON.stringify("complaint"+complaint));
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
     openPop();
@@ -76,8 +76,8 @@ function popInfo(id) {
 
 function findComplaintsById(id) {
     for(var item in complaints){
+        console.log(itme.id);
         if(item.id==id){
-            console.log(itme.id);
             return item;
         }
     }
