@@ -239,6 +239,8 @@ public class OrderController {
         }
 
 
+        logger.info("order-state",state.name());
+
 
 
         switch (state) {
