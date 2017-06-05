@@ -68,8 +68,13 @@ function popInfo(id) {
     if(id===null) return;
     var complaint = findComplaintsById(id);
     console.log(JSON.stringify(complaint));
-    alert(JSON.stringify("complaint"+complaint));
+    // alert(JSON.stringify("complaint"+complaint));
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
+
+    $("#complaintId").text(id);
+    $("#userId").text(complaint.userId);
+    $("#type").text(complaint.type);
+    $("#description").text(complaint.description);
 
     openPop();
 }
