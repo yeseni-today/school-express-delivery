@@ -50,7 +50,7 @@ function openPop_review(reviewString) {
     $("#remark").text(review.remark);
     $.ajax({
         url: "/credits/" + review.userId,
-        type: "get",
+        type: "put",
         data: {"token": getCookie("token")},
         success: function (result) {
             console.log(JSON.stringify(result));
