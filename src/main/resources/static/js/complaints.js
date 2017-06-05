@@ -91,6 +91,7 @@ function commitComplaint(complaintId) {
         success: function (result) {
             if (result.status === 200) {
                 alert("提交成功");
+                closePop();
             } else {
                 alert("提交失败");
             }
