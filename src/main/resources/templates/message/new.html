@@ -11,7 +11,14 @@
     <script src="../../static/js/main.js" th:src="@{/js/main.js}"></script>
 </head>
 <body>
-<div class="content">
+
+<!--加载图标-->
+<div id="load" class="load">
+    <img id="loadGif" th:src="@{/picture/loading.gif}"/>
+</div>
+<div id="header" th:replace="fragments/header :: header"></div>
+
+<div class="content current">
     <div style="width: 100%;position: relative">
         <div class="content-left">
             <div class="listNav-title icon-paper-plane">
@@ -69,6 +76,11 @@
                 </ul>
             </form>
         </div>
+    </div>
+</div>
+
+<div id="footer">
+    <div th:replace="fragments/footer :: footer">
     </div>
 </div>
 </body>
