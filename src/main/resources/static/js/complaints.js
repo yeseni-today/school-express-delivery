@@ -87,6 +87,7 @@ function popInfo(id) {
     $(".pop li").css({"min-height": "3em", "line-height": "3em"});  //todo 弹出窗口样式
 
     $("#complaintId").text(id);
+    $("#orderId").text(complaint.orderId);
     $("#userId").text(complaint.userId);
     $("#type").text(complaint.type);
     $("#description").text(complaint.description);
