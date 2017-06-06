@@ -5,7 +5,7 @@ margin: 5em;
 #orderInfoFrom>section{
     border-radius: 0.5em;
     width: 50em;
-    background: rgba(31, 239, 202, 0.71);
+    background: rgba(26, 188, 156, 0.67);
     margin: 1em auto;
 }
 
@@ -19,7 +19,8 @@ margin: 5em;
 }
 
 #orderInfoFrom p:hover{
-    background: rgba(26, 188, 156, 0.67);
+
+    background: rgba(31, 239, 202, 0.71);
 }
 
 #orderInfoFrom span{

@@ -24,6 +24,8 @@ function showOrder(order) {
     console.log(JSON.stringify(order));
     if(order===null) return;
 
+    $("#orderInfoFrom").fadeIn(500);
+
     $("#id").text(order.id);
     $("#createTime").text(order.createTime);
     $("#price").text(order.price);
