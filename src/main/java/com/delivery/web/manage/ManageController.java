@@ -31,6 +31,10 @@ public class ManageController {
     public String hello2() {
         return "sed/complaints";
     }
+    @RequestMapping("/message/new")
+    public String hello3() {
+        return "message/new";
+    }
 
 }
 

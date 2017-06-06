@@ -4,13 +4,14 @@
 $(document).ready(function () {
     $complaints = $("#complaints");
     $emptyComplaint = $(".message");
-    complaints_TypeOf(0);
+    getComplaints();
 });
 
 
 function complaints_TypeOf(type) {
     var $title = $(".message-type");
     $complaints.empty();
+
     switch (type) {
         case 0:
             $title.text("超时");
@@ -29,34 +30,47 @@ function complaints_TypeOf(type) {
             break;
     }
 
+    var complaintsOfType=[];
+    for(var i=0;i<complaints.length;i++){
+        if(complaints[i].type===type){
+            complaintsOfType.add(complaints[i]);
+        }
+    }
+
+    if (complaintsOfType.length === 0) {
+        $complaints.append($emptyComplaint);
+        return;
+    }
+
+    //加载特效
+    var _display = function (item) {
+        var itemhtml =
+            '<div class="message effect4" id="' + '#tr' + item.id + '">' +
+            '<span class="message-title">申述单id: <strong>' + item.id + '</strong></span>' +
+            '<div class="message-content">提交者Id:' + item.userId + '</div>' +
+            '<div class="message-operation">' +
+            '<span onclick="popInfo(\'' + item.id + '\')">操作</span>' +
+            '</div>' +
+            '</div>';
+        $complaints.append(itemhtml);
+    };
+    var _afterdisplay = function (item) {
+        $("#tr" + item.id).fadeIn(500);
+    };
+    beautifyDisplay(_display, _afterdisplay, complaintsOfType, "complaints");
+}
+
+function getComplaints() {
     $.ajax({
         url: "/complaints",
         type: "get",
-        data: {"token": getCookie("token"), "state": type},
+        data: {"token": getCookie("token"), "state": 0},
         success: function (result) {
-            complaints = result.data;
-            // console.log(JSON.stringify(complaints));
-            if (result.data.length === 0) {
-                $complaints.append($emptyComplaint);
-                return;
+            if(result.status===200){
+                complaints = result.data;
+            }else {
+                alert("出错");
             }
-
-            //加载特效
-            var _display = function (item) {
-                var itemhtml =
-                    '<div class="message effect4" id="' + '#tr' + item.id + '">' +
-                    '<span class="message-title">申述单id: <strong>' + item.id + '</strong></span>' +
-                    '<div class="message-content">提交者Id:' + item.userId + '</div>' +
-                    '<div class="message-operation">' +
-                    '<span onclick="popInfo(\'' + item.id + '\')">操作</span>' +
-                    '</div>' +
-                    '</div>';
-                $complaints.append(itemhtml);
-            };
-            var _afterdisplay = function (item) {
-                $("#tr" + item.id).fadeIn(500);
-            };
-            beautifyDisplay(_display, _afterdisplay, result.data, "reviewsList");
         },
         error: function () {
             alert("complaints ajax请求发送失败");
