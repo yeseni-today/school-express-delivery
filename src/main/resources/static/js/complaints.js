@@ -33,7 +33,7 @@ function complaints_TypeOf(type) {
     var complaintsOfType=[];
     for(var i=0;i<complaints.length;i++){
         if(complaints[i].type===type){
-            complaintsOfType.add(complaints[i]);
+            complaintsOfType.push(complaints[i]);
         }
     }
 
