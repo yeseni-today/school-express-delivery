@@ -37,9 +37,11 @@ function showOrder(order) {
     $("#pickupTime").text(order.pickupTime);
     $("#pickupAddress").text(order.pickupAddress);
     $("#expressCode").text(order.expressCode);
-    $("#replacementUid").text(order.replacement.uid);
-    $("#replacementName").text(order.replacement.name);
-    $("#replacementPhone").text(order.replacement.phone);
+    if(order.replacement!==null){
+        $("#replacementUid").text(order.replacement.uid);
+        $("#replacementName").text(order.replacement.name);
+        $("#replacementPhone").text(order.replacement.phone);
+    }
 
     $("#deliveryTime").text(order.deliveryTime);
     $("#deliveryAddress").text(order.deliveryAddress);
