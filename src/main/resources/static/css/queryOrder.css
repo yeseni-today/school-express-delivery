@@ -4,9 +4,9 @@ margin: 5em;
 }
 
 #orderInfoFrom>section{
-    border-radius: 0.5em;
+    /*border-radius: 0.5em;*/
     width: 50em;
-    background: rgba(26, 188, 156, 0.67);
+    background: rgba(214, 211, 212, 0.67);
     margin: 1em auto;
 }
 
@@ -16,12 +16,16 @@ margin: 5em;
     display: block;
     padding:0 1em;
     line-height: 2em;
-    background: #d8d8d8;
+    background: #0aae7f;
+}
+
+#orderInfoFrom p{
+    display: block;
+    height: 2em;
 }
 
 #orderInfoFrom p:hover{
-
-    background: rgba(31, 239, 202, 0.71);
+    background: rgba(255, 252, 253, 0.67);
 }
 
 #orderInfoFrom span{

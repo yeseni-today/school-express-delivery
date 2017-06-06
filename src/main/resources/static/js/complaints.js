@@ -5,7 +5,6 @@ $(document).ready(function () {
     $complaints = $("#complaints");
     $emptyComplaint = $(".message");
     getComplaints();
-    showComplaints_TypeOf(0);
 });
 
 
@@ -70,6 +69,7 @@ function getComplaints() {
             if(result.status===200){
                 complaints = result.data;
                 console.log(JSON.stringify(complaints));
+                showComplaints_TypeOf(0);
             }else {
                 alert("出错");
             }
