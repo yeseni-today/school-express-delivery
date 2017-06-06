@@ -1,0 +1,32 @@
+#orderInfoFrom{
+margin: 5em;
+}
+
+#orderInfoFrom>section{
+    border-radius: 0.5em;
+    width: 50em;
+    background: rgba(57, 171, 246, 0.71);
+    margin: 1em auto;
+}
+
+#orderInfoFrom title{
+    height: 2em;
+    font-size: 1.5em;
+    display: block;
+    padding:0 1em;
+    line-height: 2em;
+    background: #d8d8d8;
+}
+
+#orderInfoFrom p:hover{
+    background: rgba(30, 158, 255, 0.67);
+}
+
+#orderInfoFrom span{
+    display: inline-block;
+    width: 10em;
+    padding: 0 1em;
+    font-size: 1.3em;
+    line-height: 1.5em;
+    height: 1.5em;
+}
