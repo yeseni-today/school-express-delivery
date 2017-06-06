@@ -92,7 +92,9 @@ function isAllowReview(isAllow) {
             log(result);
             if (result.status === 200) {
                 alert("成功");
-                $("#tr"+reviewId).slideDown(500);
+                $review = $("#tr"+reviewId);
+                $review.fadeOut(500);
+                $review.remove();
                 closePop();
             } else {
                 alert("出错");

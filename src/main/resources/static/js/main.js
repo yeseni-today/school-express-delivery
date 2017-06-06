@@ -1171,5 +1171,5 @@ function log(json) {
 
 function formDate(date) {
     var dates = new Date(date);
-    return dates.getYear()+"-"+(dates.getMonth()+1)+"-"+dates.getDay();
+    return (dates.getYear()+1900)+"-"+(dates.getMonth()+1)+"-"+dates.getDay();
 }
