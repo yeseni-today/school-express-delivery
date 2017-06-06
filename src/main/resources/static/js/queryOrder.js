@@ -9,7 +9,7 @@ function queryOrder() {
         data: {"token": getCookie("token")},
         success: function (result) {
             if(result.status===200){
-                showOrder(order);
+                showOrder(result.data);
             }else {
                 alert("出错");
             }
