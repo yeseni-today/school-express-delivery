@@ -22,7 +22,7 @@ function queryOrder() {
 }
 
 function showOrder(order) {
-    if(order==null){
+    if(order===[]){
         $("#orderInfoFrom").fadeOut(500);
         return;
     }
