@@ -22,7 +22,10 @@ function queryOrder() {
 
 function showOrder(order) {
     console.log(JSON.stringify(order));
-    if(order===null) return;
+    if(order===null){
+        $("#orderInfoFrom").fadeOut(500);
+        return;
+    }
 
     $("#orderInfoFrom").fadeIn(500);
 
