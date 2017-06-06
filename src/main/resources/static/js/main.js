@@ -1168,3 +1168,8 @@ function log(json) {
     console.log(JSON.stringify(json));
 }
 
+
+function formDate(date) {
+    var dates = new Date(date);
+    return dates.getYear()+"-"+(dates.getMonth()+1)+"-"+dates.getDay();
+}

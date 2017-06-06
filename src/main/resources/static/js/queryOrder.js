@@ -31,11 +31,11 @@ function showOrder(order) {
     $("#orderInfoFrom").fadeIn(500);
 
     $("#id").text(order.id);
-    $("#createTime").text(order.createTime);
+    $("#createTime").text(formDate(order.createTime));
     $("#price").text(order.price);
 
     $("#expressName").text(order.expressName);
-    $("#pickupTime").text(order.pickupTime);
+    $("#pickupTime").text(formDate(order.pickupTime));
     $("#pickupAddress").text(order.pickupAddress);
     $("#expressCode").text(order.expressCode);
     if(order.replacement!==null){
@@ -44,7 +44,7 @@ function showOrder(order) {
         $("#replacementPhone").text(order.replacement.phone);
     }
 
-    $("#deliveryTime").text(order.deliveryTime);
+    $("#deliveryTime").text(formDate(order.deliveryTime));
     $("#deliveryAddress").text(order.deliveryAddress);
     $("#recipientUid").text(order.recipient.uid);
     $("#recipientName").text(order.recipient.name);
