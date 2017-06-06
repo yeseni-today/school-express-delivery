@@ -6,7 +6,7 @@ margin: 5em;
 #orderInfoFrom>section{
     /*border-radius: 0.5em;*/
     width: 50em;
-    background: rgba(214, 211, 212, 0.67);
+    background: rgba(227, 224, 225, 0.67);
     margin: 1em auto;
 }
 
@@ -21,7 +21,7 @@ margin: 5em;
 
 #orderInfoFrom p{
     display: block;
-    height: 2em;
+    height: 2.5em;
 }
 
 #orderInfoFrom p:hover{

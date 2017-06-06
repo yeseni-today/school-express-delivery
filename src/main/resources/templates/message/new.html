@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:tiles="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8"/>
@@ -8,11 +7,12 @@
 
     <link href="../../static/css/all.css" rel="stylesheet" type="text/css"
           th:href="@{css/all.css}"/>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script src="../../static/js/main.js"
             th:href="@{css/main.js}"></script>
 </head>
 <body>
-<div class="content" tiles:fragment="content">
+<div class="content">
     <div style="width: 100%;position: relative">
         <div class="content-left">
             <div class="listNav-title icon-paper-plane">
