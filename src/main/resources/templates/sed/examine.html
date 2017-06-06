@@ -22,7 +22,7 @@
 <div id="header" th:replace="fragments/header :: header"></div>
 
 
-<div class="content">
+<div class="content current">
     <header>
         <h2>审核</h2>
     </header>
@@ -102,7 +102,10 @@
     </div>
 </div>
 
-
-<div id="footer" th:replace="fragments/footer :: footer"></div>
+<div id="footer">
+    <div th:replace="fragments/footer :: footer">
+    </div>
+</div>
+<!--<div id="footer" th:replace="fragments/footer :: footer"></div>-->
 </body>
 </html>
