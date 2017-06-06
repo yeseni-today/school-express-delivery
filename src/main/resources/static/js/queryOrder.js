@@ -9,7 +9,7 @@ function queryOrder() {
         data: {"token": getCookie("token")},
         success: function (result) {
             if(result.status===200){
-                console.log(JSON.stringify(result.data));
+
                 showOrder(result.data);
             }else {
                 alert("出错");
@@ -22,7 +22,8 @@ function queryOrder() {
 }
 
 function showOrder(order) {
-    if(order===[]){
+    console.log(JSON.stringify(order));
+    if(JSON.stringify(order)=="[]"){
         $("#orderInfoFrom").fadeOut(500);
         return;
     }
