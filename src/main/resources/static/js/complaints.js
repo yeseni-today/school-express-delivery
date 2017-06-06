@@ -68,6 +68,7 @@ function getComplaints() {
         success: function (result) {
             if(result.status===200){
                 complaints = result.data;
+                console.log(JSON.stringify(complaints));
             }else {
                 alert("出错");
             }
