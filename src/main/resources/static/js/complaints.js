@@ -5,10 +5,11 @@ $(document).ready(function () {
     $complaints = $("#complaints");
     $emptyComplaint = $(".message");
     getComplaints();
+    showComplaints_TypeOf(0);
 });
 
 
-function complaints_TypeOf(type) {
+function showComplaints_TypeOf(type) {
     var $title = $(".message-type");
     $complaints.empty();
 
