@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
 <head>
     <meta charset="UTF-8"/>
     <title tiles:replace="title">模板</title>
@@ -13,10 +13,13 @@
             th:src="@{/resources/js/main.js}"></script>
     <script src="../../../resources/js/pageSwitch.js"
             th:src="@{/resources/js/pageSwitch.js}"></script>
-
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script>
-        $(document).ready(function(){
 
+        $(document).ready(function(){
+            var a = "[]";
+            var b= JSON.parse(a);
+            alert(JSON.stringify(b)=="[]");
         });
     </script>
 </head>

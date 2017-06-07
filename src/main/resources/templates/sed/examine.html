@@ -6,8 +6,7 @@
 
     <link href="../../static/css/all.css" rel="stylesheet" type="text/css"
           th:href="@{/css/all.css}"/>
-    <script src="../../static/js/jquery-3.1.1.js"
-            th:src="@{/js/jquery-3.1.1.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script src="../../static/js/main.js" th:src="@{/js/main.js}"></script>
     <script src="../../static/js/review.js" th:src="@{/js/review.js}"></script>
 
@@ -23,32 +22,34 @@
 <div id="header" th:replace="fragments/header :: header"></div>
 
 
-<div class="content">
-    <header>
-        <h2>审核</h2>
-    </header>
-    <section>
-        <div class="content-result myTable">
-            <table id="reviewList">
-                <thead>
-                <tr>
-                    <th>审核单编号</th>
-                    <th>用户</th>
-                    <th>创建日期</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td onclick="openPop()">1</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+<div class="content current">
+    <div style="width: 65em;margin: auto">
+        <header>
+            <h2>审核</h2>
+        </header>
+        <section>
+            <div class="content-result myTable">
+                <table id="reviewList">
+                    <thead>
+                    <tr>
+                        <th>审核单编号</th>
+                        <th>用户</th>
+                        <th>创建日期</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td onclick="openPop()">1</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
 
     <div class="pop-bg">
         <div class="pop myTable" style="top: 5em;width: 30em;padding: 5em;height: 30em;">
@@ -103,7 +104,10 @@
     </div>
 </div>
 
-
-<div id="footer" th:replace="fragments/footer :: footer"></div>
+<div id="footer">
+    <div th:replace="fragments/footer :: footer">
+    </div>
+</div>
+<!--<div id="footer" th:replace="fragments/footer :: footer"></div>-->
 </body>
 </html>

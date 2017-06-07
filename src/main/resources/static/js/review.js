@@ -17,7 +17,7 @@ $(document).ready(function () {
                 var itemhtml = '<tr style="display: none" id="tr' + item.id + '">' +
                     '<td>' + item.id + '</td>' +
                     '<td>' + item.user.name + '</td>' +
-                    '<td>' + item.time + '</td>' +
+                    '<td>' + formDate(item.time) + '</td>' +
                     '<td class="myTable-operation-info icon-search" ' +
                     ' onclick=\'openPop_review(' + JSON.stringify(item) + ')\'></td>' +
                     '</tr>';
@@ -35,6 +35,7 @@ $(document).ready(function () {
         }
     })
 });
+
 
 
 function openPop_review(reviewString) {
@@ -90,6 +91,10 @@ function isAllowReview(isAllow) {
         success: function (result) {
             log(result);
             if (result.status === 200) {
+                alert("成功");
+                $review = $("#tr"+reviewId);
+                $review.fadeOut(500);
+                $review.remove();
                 closePop();
             } else {
                 alert("出错");

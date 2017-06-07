@@ -1,0 +1,38 @@
+#orderInfoFrom{
+margin: 5em;
+    padding-bottom: 5em;
+}
+
+#orderInfoFrom>section{
+    /*border-radius: 0.5em;*/
+    width: 50em;
+    background: rgba(227, 224, 225, 0.67);
+    margin: 1em auto;
+}
+
+#orderInfoFrom title{
+    height: 2em;
+    font-size: 1.5em;
+    display: block;
+    padding:0 1em;
+    line-height: 2em;
+    background: #0aae7f;
+}
+
+#orderInfoFrom p{
+    display: block;
+    height: 2.5em;
+}
+
+#orderInfoFrom p:hover{
+    background: rgba(255, 252, 253, 0.67);
+}
+
+#orderInfoFrom span{
+    display: inline-block;
+    width: 10em;
+    padding: 0 1em;
+    font-size: 1.3em;
+    line-height: 1.5em;
+    height: 1.5em;
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>complaints</title>
+
+    <link href="../../static/css/all.css" rel="stylesheet" type="text/css"
+          th:href="@{/css/all.css}"/>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script src="../../static/js/main.js" th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/complaints.js}"></script>
+</head>
+
+<body>
+
+<!--加载图标-->
+<div id="load" class="load">
+    <img id="loadGif" th:src="@{/picture/loading.gif}"/>
+</div>
+<div id="header" th:replace="fragments/header :: header"></div>
+
+<div class="content current">
+    <div style="width: 65%;position: relative;margin: auto">
+
+        <div class="content-left">
+            <div class="listNav-title icon-credit-card">
+                <span>申述</span>
+            </div>
+            <ul class="listNav ">
+                <li><a href="#overTime" onclick="showComplaints_TypeOf(0)">超时</a></li>
+                <li><a href="#notSend" onclick="showComplaints_TypeOf(1)">未送达</a></li>
+                <li><a href="#infoError" onclick="showComplaints_TypeOf(2)">信息错误</a></li>
+                <li><a href="#sizeError" onclick="showComplaints_TypeOf(3)">大小件判定</a></li>
+                <li><a href="#other" onclick="showComplaints_TypeOf(4)">其他</a></li>
+            </ul>
+        </div>
+        <div class="content-right">
+            <div class="message-type">超时</div>
+
+            <div id="complaints">
+                <div class="message effect4" id="">
+                    <span class="message-title"><strong></strong></span>
+                    <!--<span class="message-date"></span>-->
+                    <div class="message-content">没有申述单</div>
+                    <div class="message-operation">
+                        <span onclick=""></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop-bg">
+        <div class="pop myTable" style="top: 5em;width: 30em;padding: 5em;height: 30em;">
+            <div class="pop-close">
+                <div class="close_button" onclick="closePop()">
+                    <div class="close_button-icon"></div>
+                </div>
+            </div>
+            <section style="text-align: center">
+                <label style="float: left">审核单编号:<span id="complaintId"></span></label>
+            </section>
+
+            <div style="height: 28em;overflow-x:hidden;overflow-y: scroll;width: 30em;margin-top: 2em">
+                <table id="reviewFrom">
+                    <tr>
+                        <td>订单id：</td>
+                        <td id="orderId"></td>
+                    </tr>
+                    <tr>
+                        <td>提交者id：</td>
+                        <td id="userId"></td>
+                    </tr>
+                    <tr>
+                        <td>申诉类型：</td>
+                        <td id="type"></td>
+                    </tr>
+                    <tr>
+                        <td>申诉描述：</td>
+                        <td style="height: 7em" id="description"></td>
+                    </tr>
+                </table>
+                <form style="margin-top: 2em;margin-left: 5em">
+                    <label>申诉结果：<textarea style="height: 7em; width: 20em" id="result"></textarea></label>
+                </form>
+            </div>
+            <div style="width:30em;">
+                <button id="commitBtn" style="margin: 0 35%">提交</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="footer">
+    <div th:replace="fragments/footer :: footer">
+    </div>
+</div>
+<!--<div id="footer" th:replace="fragments/footer :: footer"></div>-->
+</body>
+</html>

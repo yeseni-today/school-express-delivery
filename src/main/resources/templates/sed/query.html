@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>订单查询</title>
+
+    <link href="../../static/css/all.css" rel="stylesheet" type="text/css"
+          th:href="@{/css/all.css}"/>
+    <link href="../../static/css/queryOrder.css" rel="stylesheet" type="text/css"
+          th:href="@{/css/queryOrder.css}"/>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script src="../../static/js/main.js" th:src="@{/js/main.js}"></script>
+    <script src="../../static/js/queryOrder.js" th:src="@{/js/queryOrder.js}"></script>
+</head>
+<body>
+<!--加载图标-->
+<div id="load" class="load">
+    <img id="loadGif" th:src="@{/picture/loading.gif}"/>
+</div>
+<div id="header" th:replace="fragments/header :: header"></div>
+
+
+<div class="content current">
+    <div class="content-query myInput " style="margin: auto">
+        <form action="#" id="storageQueryForm">
+            <div class="content-query-left" id="applyQuery">
+                <label>
+                    申请单Id：
+                    <input type="text" name="orderId" style="width: 10em" id="orderId"/>
+                </label>
+            </div>
+            <div class="content-query-right">
+                <input type="button" onclick="queryOrder()" value="查询"/>
+            </div>
+        </form>
+    </div>
+    <section id="orderInfoFrom" style="display: none">
+        <section>
+            <title>订单详情</title>
+            <p><span>订单id</span><span id="id"> 无</span></p>
+            <p><span>创建时间</span><span id="createTime"> 无</span></p>
+            <p><span>订单金额</span><span id="price"> 无</span></p>
+        </section>
+        <section>
+            <title>取件信息</title>
+            <p><span>快递名称</span><span id="expressName"> 无</span></p>
+            <p><span>取件时间</span><span id="pickupTime"> 无</span></p>
+            <p><span>取件地点</span><span id="pickupAddress"> 无</span></p>
+            <p><span>快递单号</span><span id="expressCode"> 无</span></p>
+            <p><span>代取人id</span><span id="replacementUid"> 无</span></p>
+            <p><span>代取人姓名</span><span id="replacementName"> 无</span></p>
+            <p><span>代取人手机</span><span id="replacementPhone"> 无</span></p>
+
+        </section>
+        <section>
+            <title>送件信息</title>
+            <p><span>期望送达时间</span><span id="deliveryTime"> 无</span></p>
+            <p><span>送件地点</span><span id="deliveryAddress"> 无</span></p>
+            <p><span>收件人id</span><span id="recipientUid"> 无</span></p>
+            <p><span>收件人姓名</span><span id="recipientName"> 无</span></p>
+            <p><span>收件人手机</span><span id="recipientPhone"> 无</span></p>
+        </section>
+        <section>
+            <title>备注</title>
+            <span id="remark"> 无</span>
+        </section>
+    </section>
+</div>
+
+<!--<div id="footer" th:replace="fragments/footer :: footer"></div>-->
+<div id="footer">
+    <div th:replace="fragments/footer :: footer">
+    </div>
+</div>
+
+</body>
+</html>
