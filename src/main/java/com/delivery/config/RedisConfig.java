@@ -7,12 +7,16 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.Column;
 
 /**
  * @author finderlo
  * @date 15/05/2017
  */
 @Configuration
+@Component
 public class RedisConfig  {
 
     @Bean
