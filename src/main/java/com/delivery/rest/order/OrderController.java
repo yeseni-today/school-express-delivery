@@ -68,6 +68,11 @@ public class OrderController {
     @Autowired
     private Timer timer;
 
+    /**
+     * 用户查询可以接受的订单
+     * @author Ticknick Hou
+     * @date 06/06/2017
+     */
     @GetMapping
     @Authorization
     public Response findCanAccept(
