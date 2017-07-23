@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = WebMvcConfig.class)
+@EnableAutoConfiguration()
 @ComponentScan("com")
 public class Application {
     //lx5548
